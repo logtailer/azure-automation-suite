@@ -1,0 +1,92 @@
+name: Deploy Azure Component
+run-name: Deploy ${{ inputs.component }} in ${{ inputs.environment }} environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+        default: 'dev'
+      location:
+        description: 'The location to deploy to'
+        required: true
+        type: choice
+        options:
+          - eastus
+          - japaneast
+          - centralindia
+        default: 'centralindia'
+      component:
+        description: 'The component to deploy'
+        required: true
+        type: choice
+        options:
+          - 02-networking
+          - 03-security
+          - 04-aks
+          - 05-observability
+          - 06-cicd
+          - 07-idp
+        default: '02-networking'
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+jobs:
+  foundation:
+    name: Deploy Foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: echo 'awk '
+
+      - name: Deploy Foundation
+        id: foundation
+        working-directory: terraform/01-foundation
+        run: |
+          echo "Initializing and deploying foundation..."
+          terraform init
+          terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
+          terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
+          echo "Foundation deployment completed successfully"
+
+  component:
+    name: Deploy ${{ github.event.inputs.component }}
+    needs: foundation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Deploy Component
+        id: component
+        working-directory: terraform/${{ github.event.inputs.component }}
+        run: |
+          echo "Initializing and deploying ${{ github.event.inputs.component }}..."
+          terraform init
+          terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
+          terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
+          echo "${{ github.event.inputs.component }} deployment completed successfully"
