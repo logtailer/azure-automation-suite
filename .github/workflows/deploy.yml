@@ -40,11 +40,17 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  # Backend configuration
+  TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
+  TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
 
 jobs:
   foundation:
     name: Deploy Foundation
     runs-on: ubuntu-latest
+    outputs:
+      storage_account: ${{ steps.foundation.outputs.storage_account }}
+      resource_group: ${{ steps.foundation.outputs.resource_group }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -54,14 +60,58 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: echo 'awk '
+          terraform_version: 1.6.6
 
-      - name: Deploy Foundation
+      - name: Check if backend exists
+        id: check_backend
+        working-directory: terraform/01-foundation
+        run: |
+          # Check if the storage account exists first
+          if az storage account show --name "$TF_STATE_STORAGE_ACCOUNT" --resource-group "$TF_STATE_RESOURCE_GROUP" >/dev/null 2>&1; then
+            echo "backend_exists=true" >> $GITHUB_OUTPUT
+            echo "Backend storage account exists"
+          else
+            echo "backend_exists=false" >> $GITHUB_OUTPUT
+            echo "Backend storage account doesn't exist, will bootstrap"
+          fi
+
+      - name: Bootstrap Foundation (No Backend)
+        if: steps.check_backend.outputs.backend_exists == 'false'
+        working-directory: terraform/01-foundation
+        run: |
+          echo "Bootstrapping foundation without backend..."
+          terraform init
+          terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
+          
+          # Get outputs for backend configuration
+          STORAGE_ACCOUNT=$(terraform output -raw tfstate_storage_account_name)
+          RESOURCE_GROUP=$(terraform output -raw tfstate_resource_group_name)
+          
+          echo "storage_account=$STORAGE_ACCOUNT" >> $GITHUB_OUTPUT
+          echo "resource_group=$RESOURCE_GROUP" >> $GITHUB_OUTPUT
+          
+          # Now migrate to remote backend
+          echo "Migrating to remote backend..."
+          terraform init \
+            -backend-config="storage_account_name=$STORAGE_ACCOUNT" \
+            -backend-config="container_name=foundation" \
+            -backend-config="key=foundation.tfstate" \
+            -backend-config="resource_group_name=$RESOURCE_GROUP" \
+            -backend-config="use_azuread_auth=true" \
+            -migrate-state
+
+      - name: Deploy Foundation (With Backend)
+        if: steps.check_backend.outputs.backend_exists == 'true'
         id: foundation
         working-directory: terraform/01-foundation
         run: |
-          echo "Initializing and deploying foundation..."
-          terraform init
+          echo "Deploying foundation with existing backend..."
+          terraform init \
+            -backend-config="storage_account_name=$TF_STATE_STORAGE_ACCOUNT" \
+            -backend-config="container_name=foundation" \
+            -backend-config="key=foundation.tfstate" \
+            -backend-config="resource_group_name=$TF_STATE_RESOURCE_GROUP" \
+            -backend-config="use_azuread_auth=true"
           terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
           terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
           echo "Foundation deployment completed successfully"
@@ -86,7 +136,20 @@ jobs:
         working-directory: terraform/${{ github.event.inputs.component }}
         run: |
           echo "Initializing and deploying ${{ github.event.inputs.component }}..."
-          terraform init
+          
+          # Check if backend.hcl exists for this component, if not create it
+          if [ ! -f "backend.hcl" ]; then
+            echo "Creating backend.hcl for ${{ github.event.inputs.component }}..."
+            cat > backend.hcl << EOF
+          container_name       = "${{ github.event.inputs.component }}"
+          key                  = "${{ github.event.inputs.component }}.tfstate"
+          storage_account_name = "$TF_STATE_STORAGE_ACCOUNT"
+          resource_group_name  = "$TF_STATE_RESOURCE_GROUP"
+          use_azuread_auth     = true
+          EOF
+          fi
+          
+          terraform init -backend-config="backend.hcl"
           terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
           terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
           echo "${{ github.event.inputs.component }} deployment completed successfully"

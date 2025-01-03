@@ -78,6 +78,26 @@ variable "maintenance_window_node_os_not_allowed_end" { type = string }
 variable "image_cleaner_enabled" { type = bool }
 variable "image_cleaner_interval_hours" { type = number }
 
+# Bastion variables
+variable "bastion_subnet_id" {
+  description = "The subnet ID for Azure Bastion. Should be a subnet named 'AzureBastionSubnet' in your VNet."
+  type        = string
+}
+
+# Second User Node Pool variables
+variable "usr_node_pool_2_name" { type = string }
+variable "usr_node_pool_2_vm_size" { type = string }
+variable "usr_node_pool_2_max_pods" { type = number }
+variable "usr_node_pool_2_scaling" { type = bool }
+variable "usr_node_pool_2_max_count" { type = number }
+variable "usr_node_pool_2_min_count" { type = number }
+variable "usr_node_pool_2_count" { type = number }
+variable "usr_node_pool_2_public_ip_enabled" { type = bool }
+variable "usr_node_pool_2_scale_down_mode" { type = string }
+variable "usr_node_pool_2_os_disk_size_gb" { type = number }
+variable "usr_node_pool_2_os_sku" { type = string }
+variable "usr_node_pool_2_os_type" { type = string }
+
 # User Node Pool variables
 variable "usr_node_pool_name" { type = string }
 variable "usr_node_pool_vm_size" { type = string }

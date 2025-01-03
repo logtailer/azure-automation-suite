@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  description = "Name of the resource group for storage account"
+  description = "Name of the resource group for component resources"
   type        = string
 }
 
@@ -8,17 +8,23 @@ variable "location" {
   type        = string
 }
 
-variable "storage_account_name" {
-  description = "Name of the Azure Storage Account"
+variable "tfstate_resource_group_name" {
+  description = "Name of the resource group for terraform state storage"
   type        = string
 }
 
-variable "storage_account_resource_group" {
-  description = "Resource group where the storage account exists"
+variable "tfstate_storage_account_name" {
+  description = "Name of the Azure Storage Account for terraform state"
   type        = string
 }
 
-variable "container_name" {
-  description = "Name of the container for the component"
+variable "component_name" {
+  description = "Name of the component (used for container name)"
   type        = string
+}
+
+variable "tags" {
+  description = "Common tags to apply to all resources"
+  type        = map(string)
+  default     = {}
 }
