@@ -1,13 +1,13 @@
 resource "azurerm_kubernetes_cluster" "cluster" {
-  name                = var.cluster_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  dns_prefix          = var.cluster_dns_prefix
-  kubernetes_version  = var.kubernetes_version
-  sku_tier            = var.aks_sku_tier
+  name                      = var.cluster_name
+  location                  = var.location
+  resource_group_name       = var.resource_group_name
+  dns_prefix                = var.cluster_dns_prefix
+  kubernetes_version        = var.kubernetes_version
+  sku_tier                  = var.aks_sku_tier
   automatic_upgrade_channel = var.automatic_upgrade_channel
   cost_analysis_enabled     = var.cost_analysis_enabled
-  tags = var.tags
+  tags                      = var.tags
 
   identity {
     type = "SystemAssigned"
@@ -17,26 +17,26 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   node_resource_group     = var.aks_node_resource_group_name
 
   default_node_pool {
-    name                       = var.sys_node_pool_name
-    vm_size                    = var.vm_size
-    kubelet_disk_type          = var.kubelet_disk_type
-    os_disk_type               = var.os_disk_type
-    max_pods                   = var.node_pool_max_pods
-    auto_scaling_enabled       = var.node_pool_scaling
-    type                       = "VirtualMachineScaleSets"
-    max_count                  = var.node_pool_max_count
-    min_count                  = var.node_pool_min_count
-    node_count                 = var.node_pool_count
-    node_public_ip_enabled     = var.node_public_ip_enabled
-    scale_down_mode            = var.node_pool_scale_down_mode
+    name                         = var.sys_node_pool_name
+    vm_size                      = var.vm_size
+    kubelet_disk_type            = var.kubelet_disk_type
+    os_disk_type                 = var.os_disk_type
+    max_pods                     = var.node_pool_max_pods
+    auto_scaling_enabled         = var.node_pool_scaling
+    type                         = "VirtualMachineScaleSets"
+    max_count                    = var.node_pool_max_count
+    min_count                    = var.node_pool_min_count
+    node_count                   = var.node_pool_count
+    node_public_ip_enabled       = var.node_public_ip_enabled
+    scale_down_mode              = var.node_pool_scale_down_mode
     only_critical_addons_enabled = var.default_node_pool_only_critical_addons
-    os_disk_size_gb            = var.node_pool_os_disk_size_gb
-    os_sku                     = var.node_pool_os_sku
-    vnet_subnet_id             = var.vnet_subnet_id
+    os_disk_size_gb              = var.node_pool_os_disk_size_gb
+    os_sku                       = var.node_pool_os_sku
+    vnet_subnet_id               = var.vnet_subnet_id
     upgrade_settings {
-      drain_timeout_in_minutes     = var.node_pool_drain_timeout
+      drain_timeout_in_minutes      = var.node_pool_drain_timeout
       node_soak_duration_in_minutes = var.node_pool_soak_duration
-      max_surge                    = var.node_pool_max_surge
+      max_surge                     = var.node_pool_max_surge
     }
   }
 
@@ -50,10 +50,10 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   support_plan = var.support_plan
 
   auto_scaler_profile {
-    max_graceful_termination_sec = var.autoscaler_max_graceful_termination_sec
-    max_node_provisioning_time   = var.autoscaler_max_node_provisioning_time
-    max_unready_nodes            = var.autoscaler_max_unready_nodes
-    scale_down_delay_after_add   = var.autoscaler_scale_down_delay_after_add
+    max_graceful_termination_sec  = var.autoscaler_max_graceful_termination_sec
+    max_node_provisioning_time    = var.autoscaler_max_node_provisioning_time
+    max_unready_nodes             = var.autoscaler_max_unready_nodes
+    scale_down_delay_after_add    = var.autoscaler_scale_down_delay_after_add
     skip_nodes_with_local_storage = var.autoscaler_skip_nodes_with_local_storage
     skip_nodes_with_system_pods   = var.autoscaler_skip_nodes_with_system_pods
   }
@@ -63,15 +63,15 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
 
   network_profile {
-    network_plugin        = var.network_plugin
-    network_policy        = var.network_policy
-    network_plugin_mode   = var.network_plugin_mode
-    outbound_type         = var.outbound_type
-    pod_cidr              = var.pod_cidr
-    service_cidr          = var.service_cidr
-    dns_service_ip        = var.dns_service_ip
-    ip_versions           = var.ip_versions
-    load_balancer_sku     = var.load_balancer_sku
+    network_plugin      = var.network_plugin
+    network_policy      = var.network_policy
+    network_plugin_mode = var.network_plugin_mode
+    outbound_type       = var.outbound_type
+    pod_cidr            = var.pod_cidr
+    service_cidr        = var.service_cidr
+    dns_service_ip      = var.dns_service_ip
+    ip_versions         = var.ip_versions
+    load_balancer_sku   = var.load_balancer_sku
   }
   private_cluster_enabled           = var.private_cluster_enabled
   role_based_access_control_enabled = var.role_based_access_control_enabled

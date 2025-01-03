@@ -40,3 +40,21 @@ jobs:
             terraform -chdir="$dir" init -backend=false
             terraform -chdir="$dir" validate
           done < tf_dirs.txt
+        - name: Terraform init & validate (all modules, ignore outputs)
+          env:
+            ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+            ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+            ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+            ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          run: |
+            while read dir; do
+              echo "Initializing and validating $dir (ignoring outputs.tf)"
+              if [ -f "$dir/outputs.tf" ]; then
+                mv "$dir/outputs.tf" "$dir/outputs.tf.bak"
+              fi
+              terraform -chdir="$dir" init -backend=false
+              terraform -chdir="$dir" validate
+              if [ -f "$dir/outputs.tf.bak" ]; then
+                mv "$dir/outputs.tf.bak" "$dir/outputs.tf"
+              fi
+            done < tf_dirs.txt
