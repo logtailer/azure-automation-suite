@@ -1,5 +1,11 @@
 #!/bin/zsh
 
+# Automatically export variables from .env if it exists
+if [ -f "../../.env" ]; then
+  export $(grep -v '^#' ../../.env | xargs)
+  echo "Loaded environment variables from .env"
+fi
+
 # Usage: ./deploy.sh <component>.tfvars
 
 if [ $# -ne 1 ]; then
