@@ -1,2 +1,2 @@
 resource_group_name = "rg-networking-dev"
-container_name = "networking"
+container_name      = "networking"

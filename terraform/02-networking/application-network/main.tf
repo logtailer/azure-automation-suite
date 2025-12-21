@@ -24,7 +24,7 @@ resource "azurerm_resource_group" "network" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -38,7 +38,7 @@ resource "azurerm_virtual_network" "core_vpc" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -89,7 +89,7 @@ resource "azurerm_public_ip" "nat_gateway" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -103,7 +103,7 @@ resource "azurerm_nat_gateway" "main" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -158,7 +158,7 @@ resource "azurerm_network_security_group" "public" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -183,7 +183,7 @@ resource "azurerm_network_security_group" "private" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -220,7 +220,7 @@ resource "azurerm_public_ip" "vm_ip" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
 
@@ -240,6 +240,6 @@ resource "azurerm_network_interface" "vm_interface" {
   tags = {
     Environment = var.environment
     # Project     = var.project_name
-    Component   = "networking"
+    Component = "networking"
   }
 }
