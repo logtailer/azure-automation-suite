@@ -1,0 +1,42 @@
+name: Terraform Verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform-verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Find all Terraform directories
+        id: find_dirs
+        run: |
+          find . -type f -name 'main.tf' -exec dirname {} \; | sort -u > tf_dirs.txt
+
+      - name: Terraform fmt check (all modules)
+        run: |
+          while read dir; do
+            echo "Checking format in $dir"
+            terraform -chdir="$dir" fmt -check -recursive
+          done < tf_dirs.txt
+
+      - name: Terraform init & validate (all modules)
+        run: |
+          while read dir; do
+            echo "Initializing and validating $dir"
+            terraform -chdir="$dir" init -backend=false
+            terraform -chdir="$dir" validate
+          done < tf_dirs.txt
