@@ -7,3 +7,44 @@ variable "location" {
   description = "Azure region for the resource group"
   type        = string
 }
+
+variable "log_analytics_workspace_name" {
+  description = "Name of the Log Analytics workspace"
+  type        = string
+  default     = "law-monitoring"
+}
+
+variable "log_analytics_sku" {
+  description = "SKU for Log Analytics workspace"
+  type        = string
+  default     = "PerGB2018"
+}
+
+variable "log_retention_days" {
+  description = "Number of days to retain logs"
+  type        = number
+  default     = 30
+}
+
+variable "application_insights_name" {
+  description = "Name of the Application Insights instance"
+  type        = string
+  default     = "appinsights-monitoring"
+}
+
+variable "action_group_name" {
+  description = "Name of the monitor action group"
+  type        = string
+  default     = "alerts-actiongroup"
+}
+
+variable "admin_email" {
+  description = "Admin email for alerts"
+  type        = string
+}
+
+variable "tags" {
+  description = "Tags to apply to resources"
+  type        = map(string)
+  default     = {}
+}
