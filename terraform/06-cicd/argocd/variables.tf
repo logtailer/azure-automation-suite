@@ -1,9 +1,16 @@
-variable "resource_group_name" {
-  description = "Name of the resource group for this component"
+variable "argocd_domain" {
+  description = "Domain name for ArgoCD server"
+  type        = string
+  default     = "argocd.local"
+}
+
+variable "git_repository_url" {
+  description = "Git repository URL for GitOps"
   type        = string
 }
 
-variable "location" {
-  description = "Azure region for the resource group"
+variable "environment" {
+  description = "Environment name (dev/staging/prod)"
   type        = string
+  default     = "production"
 }

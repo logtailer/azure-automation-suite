@@ -1,0 +1,62 @@
+# GitOps Application Manifests
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-applications
+  namespace: argocd
+spec:
+  project: production
+  source:
+    repoURL: https://github.com/your-org/platform-manifests
+    targetRevision: HEAD
+    path: applications/production
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: environment-apps
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - env: production
+        namespace: production
+      - env: staging  
+        namespace: staging
+      - env: development
+        namespace: development
+  template:
+    metadata:
+      name: '{{env}}-apps'
+    spec:
+      project: '{{env}}'
+      source:
+        repoURL: https://github.com/your-org/platform-manifests
+        targetRevision: HEAD
+        path: 'environments/{{env}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
