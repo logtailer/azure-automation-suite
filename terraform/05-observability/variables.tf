@@ -48,3 +48,21 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "aks_cluster_id" {
+  description = "Resource ID of the AKS cluster to monitor"
+  type        = string
+  default     = ""
+}
+
+variable "storage_account_id" {
+  description = "Resource ID of the storage account to monitor"
+  type        = string
+  default     = ""
+}
+
+variable "grafana_name" {
+  description = "Name of the Grafana dashboard"
+  type        = string
+  default     = "grafana-monitoring"
+}
