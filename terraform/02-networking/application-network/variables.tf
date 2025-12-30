@@ -19,4 +19,14 @@ variable "private_subnet2_name" { type = string }
 variable "private_subnet2_cidr" { type = string }
 # Networking Module Variables
 
+variable "private_endpoint_subnet_cidr" {
+  description = "CIDR block for private endpoints subnet"
+  type        = string
+  default     = "10.0.10.0/24"
+}
 
+variable "tags" {
+  description = "Tags to apply to resources"
+  type        = map(string)
+  default     = {}
+}
