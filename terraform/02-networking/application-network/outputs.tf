@@ -89,3 +89,24 @@ output "vm_network_interface_id" {
   description = "ID of the VM network interface"
   value       = azurerm_network_interface.vm_interface.id
 }
+
+# Private Endpoint Outputs
+output "private_endpoint_subnet_id" {
+  description = "ID of the private endpoints subnet"
+  value       = azurerm_subnet.private_endpoints.id
+}
+
+output "storage_private_dns_zone_id" {
+  description = "ID of the storage private DNS zone"
+  value       = azurerm_private_dns_zone.storage.id
+}
+
+output "keyvault_private_dns_zone_id" {
+  description = "ID of the Key Vault private DNS zone"
+  value       = azurerm_private_dns_zone.keyvault.id
+}
+
+output "acr_private_dns_zone_id" {
+  description = "ID of the ACR private DNS zone"  
+  value       = azurerm_private_dns_zone.acr.id
+}
