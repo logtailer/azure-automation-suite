@@ -1,0 +1,77 @@
+app:
+  title: Platform Engineering Portal
+  baseUrl: http://localhost:3000
+
+organization:
+  name: Platform Engineering Team
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+    host: 0.0.0.0
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: pg
+    connection:
+      host: ${postgres_host}
+      port: ${postgres_port}
+      user: ${postgres_user}
+      password: ${postgres_user}
+      database: ${postgres_db}
+
+integrations:
+  github:
+    - host: github.com
+      token: ${github_token}
+
+proxy:
+  '/test':
+    target: 'https://example.com'
+    changeOrigin: true
+
+techdocs:
+  builder: 'local'
+  generator:
+    runIn: 'docker'
+  publisher:
+    type: 'local'
+
+auth:
+  environment: development
+  providers:
+    github:
+      development:
+        clientId: ${auth_github_id}
+        clientSecret: ${auth_github_secret}
+
+scaffolder:
+  defaultAuthor:
+    name: Platform Engineering Team
+    email: platform@company.com
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, Resource, Location]
+  locations:
+    - type: github-discovery
+      target: https://github.com/${github_org}/*/blob/-/catalog-info.yaml
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - url: https://aks-cluster.eastus.cloudapp.azure.com
+          name: production
+          authProvider: 'serviceAccount'
+          skipTLSVerify: false

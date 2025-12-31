@@ -1,0 +1,57 @@
+backstage:
+  image:
+    registry: ghcr.io
+    repository: backstage/backstage
+    tag: latest
+
+  backstageConfig:
+    configMapRef:
+      name: ${config_map_name}
+
+  postgresql:
+    enabled: false
+
+  externalPostgresql:
+    existingSecret: ${db_secret_name}
+    
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 7007
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: backstage.platform.local
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: backstage-tls
+        hosts:
+          - backstage.platform.local
+
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"  
+      cpu: "500m"
+
+  replicaCount: 2
+
+  nodeSelector: {}
+  
+  tolerations: []
+  
+  affinity: {}
+
+  env:
+    - name: NODE_ENV
+      value: "production"
+    - name: LOG_LEVEL
+      value: "info"
