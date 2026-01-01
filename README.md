@@ -1,8 +1,30 @@
 [![Terraform Verify](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml/badge.svg)](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml)
 
-# Azure Automation Suite
+# 🚀 Azure Platform Engineering Suite
 
-> **Enterprise-grade Azure DevOps platform built with Terraform, featuring modular infrastructure, automated deployments, and comprehensive monitoring.**
+[![Terraform Verify](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml/badge.svg)](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml)
+
+A production-ready, enterprise-grade Azure infrastructure platform built with modern DevOps and Platform Engineering principles.
+
+## 🏗️ Platform Architecture
+
+This platform implements a comprehensive **Internal Developer Platform (IDP)** that provides:
+- **Self-Service Infrastructure** via Backstage portal
+- **GitOps Deployments** with monitoring and alerting
+- **Zero-Trust Security** with private networking  
+- **Scalable Kubernetes** with AKS and auto-scaling
+
+### 📐 Infrastructure Layers
+
+```
+07-IDP           → Backstage Developer Portal + PostgreSQL
+06-CI/CD         → Container Registry + Build Agents + Artifacts  
+05-Observability → Log Analytics + App Insights + Alerting
+04-AKS           → Kubernetes Cluster + Node Pools + Bastion
+03-Security      → Key Vault + Secrets + RBAC Policies
+02-Networking    → VNet + Private Subnets + Private Endpoints
+01-Foundation    → Resource Groups + Storage + Core Infrastructure
+```
 
 ## 🚀 Quick Start
 
