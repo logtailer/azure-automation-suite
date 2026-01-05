@@ -27,3 +27,25 @@ output "component_container_name" {
   description = "Name of the component's state container"
   value       = azurerm_storage_container.component_state.name
 }
+
+# Cost monitoring outputs
+output "platform_budget_id" {
+  description = "ID of the platform-wide budget"
+  value       = azurerm_consumption_budget_subscription.platform_budget.id
+}
+
+output "budget_amount" {
+  description = "Monthly budget amount configured"
+  value       = var.monthly_budget_amount
+}
+
+output "cost_alert_emails" {
+  description = "Email addresses configured for cost alerts"
+  value       = var.cost_alert_emails
+  sensitive   = true
+}
+
+output "anomaly_detection_enabled" {
+  description = "Whether anomaly detection is enabled for this component"
+  value       = var.component_name == "foundation"
+}
