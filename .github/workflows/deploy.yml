@@ -90,6 +90,12 @@ jobs:
           echo "storage_account=$STORAGE_ACCOUNT" >> $GITHUB_OUTPUT
           echo "resource_group=$RESOURCE_GROUP" >> $GITHUB_OUTPUT
           
+          # Display cost monitoring information
+          echo "## 💰 Cost Monitoring Configured" >> $GITHUB_STEP_SUMMARY
+          echo "- Monthly Budget: \$$(terraform output -raw budget_amount)" >> $GITHUB_STEP_SUMMARY
+          echo "- Resource Group: $(terraform output -raw component_resource_group_name)" >> $GITHUB_STEP_SUMMARY
+          echo "- Platform Budget ID: $(terraform output -raw platform_budget_id)" >> $GITHUB_STEP_SUMMARY
+          
           # Now migrate to remote backend
           echo "Migrating to remote backend..."
           terraform init \
@@ -115,6 +121,12 @@ jobs:
           terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
           terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
           echo "Foundation deployment completed successfully"
+          
+          # Display cost monitoring information
+          echo "## 💰 Cost Monitoring Configured" >> $GITHUB_STEP_SUMMARY
+          echo "- Monthly Budget: \$$(terraform output -raw budget_amount)" >> $GITHUB_STEP_SUMMARY
+          echo "- Resource Group: $(terraform output -raw component_resource_group_name)" >> $GITHUB_STEP_SUMMARY
+          echo "- Platform Budget ID: $(terraform output -raw platform_budget_id)" >> $GITHUB_STEP_SUMMARY
 
   component:
     name: Deploy ${{ github.event.inputs.component }}
