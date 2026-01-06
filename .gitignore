@@ -40,5 +40,5 @@ override.tf.json
 # Ignore environment file
 **/.env
 
-# Project planning and roadmap files
+# Ignore .md Files
 **/*.md
