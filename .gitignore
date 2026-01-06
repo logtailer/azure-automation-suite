@@ -37,8 +37,19 @@ override.tf.json
 **/.terraformrc
 **/terraform.rc
 
-# Ignore environment file
+# Ignore environment files with credentials
 **/.env
+**/.env.*
+!**/.env.template
+
+# Ignore Terraform outputs
+**/outputs.json
+
+# Ignore Terraform plan files
+**/tfplan
+**/*.tfplan
 
 # Ignore .md Files
 **/*.md
+!CREDENTIALS_GUIDE.md
+!README.md
