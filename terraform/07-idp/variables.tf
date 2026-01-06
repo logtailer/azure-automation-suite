@@ -8,6 +8,17 @@ variable "location" {
   type        = string
 }
 
+variable "environment" {
+  description = "Environment name (dev, test, prod)"
+  type        = string
+  default     = "dev"
+}
+
+variable "container_registry_name" {
+  description = "Name of the Azure Container Registry"
+  type        = string
+}
+
 variable "tfstate_resource_group" {
   description = "Resource group containing Terraform state"
   type        = string
@@ -97,10 +108,4 @@ variable "viewer_group_name" {
   description = "Name of the viewer group"
   type        = string
   default     = "Platform Viewers"
-}
-
-variable "tags" {
-  description = "Tags to apply to resources"
-  type        = map(string)
-  default     = {}
 }

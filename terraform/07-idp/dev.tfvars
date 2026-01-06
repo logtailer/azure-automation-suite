@@ -2,6 +2,10 @@
 # Reference foundation outputs for resource group
 resource_group_name = "rg-platform-dev-centralindia"
 location = "centralindia"
+environment = "dev"
+
+# Azure Container Registry for Backstage images
+container_registry_name = "acrbackstagedev001"
 
 # Backend configuration - matches foundation
 tfstate_resource_group = "rg-tfstate-dev-centralindia"

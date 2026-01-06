@@ -1,12 +1,17 @@
 # Outputs for Internal Developer Platform (IDP) module
-output "backstage_namespace" {
-  description = "Kubernetes namespace for Backstage"
-  value       = kubernetes_namespace.backstage.metadata[0].name
+output "backstage_url" {
+  description = "URL for accessing Backstage"
+  value       = "http://${azurerm_container_group.backstage.fqdn}:7007"
 }
 
-output "backstage_service_url" {
-  description = "URL for accessing Backstage service"
-  value       = "http://backstage.platform.local"
+output "container_registry_name" {
+  description = "Name of the Azure Container Registry"
+  value       = azurerm_container_registry.backstage.name
+}
+
+output "container_registry_login_server" {
+  description = "Login server of the Azure Container Registry"
+  value       = azurerm_container_registry.backstage.login_server
 }
 
 output "postgresql_server_name" {
@@ -20,9 +25,14 @@ output "postgresql_server_fqdn" {
   sensitive   = true
 }
 
-output "backstage_helm_release_status" {
-  description = "Status of the Backstage Helm release"
-  value       = helm_release.backstage.status
+output "container_group_name" {
+  description = "Name of the Azure Container Instance"
+  value       = azurerm_container_group.backstage.name
+}
+
+output "managed_identity_id" {
+  description = "ID of the user-assigned managed identity"
+  value       = azurerm_user_assigned_identity.backstage.id
 }
 
 output "application_name" {
