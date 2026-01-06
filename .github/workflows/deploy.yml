@@ -193,10 +193,9 @@ jobs:
             echo "- NAT Gateway: $(terraform output -raw nat_gateway_name)" >> $GITHUB_STEP_SUMMARY
           elif [ "${{ github.event.inputs.component }}" = "07-idp" ]; then
             echo "## 🏗️ Internal Developer Platform Deployed" >> $GITHUB_STEP_SUMMARY
-            echo "- Backstage Namespace: backstage" >> $GITHUB_STEP_SUMMARY
+            echo "- Backstage URL: $(terraform output -raw backstage_url)" >> $GITHUB_STEP_SUMMARY
+            echo "- Container Registry: $(terraform output -raw container_registry_name)" >> $GITHUB_STEP_SUMMARY
             echo "- PostgreSQL Server: $(terraform output -raw postgresql_server_name)" >> $GITHUB_STEP_SUMMARY
-            echo "- Azure AD App: $(terraform output -raw application_name)" >> $GITHUB_STEP_SUMMARY
-            echo "- Platform Admin Group: $(terraform output -raw admin_group_name)" >> $GITHUB_STEP_SUMMARY
-            echo "- Developer Group: $(terraform output -raw developer_group_name)" >> $GITHUB_STEP_SUMMARY
-            echo "- Viewer Group: $(terraform output -raw viewer_group_name)" >> $GITHUB_STEP_SUMMARY
+            echo "- Container Group: $(terraform output -raw container_group_name)" >> $GITHUB_STEP_SUMMARY
+            echo "- Managed Identity: $(terraform output -raw managed_identity_id)" >> $GITHUB_STEP_SUMMARY
           fi
