@@ -41,6 +41,4 @@ override.tf.json
 **/.env
 
 # Project planning and roadmap files
-ENHANCEMENT_ROADMAP.md
-TODO.md
-NOTES.md
+**/*.md
