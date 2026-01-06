@@ -48,9 +48,9 @@ resource "azurerm_user_assigned_identity" "backstage" {
 resource "azurerm_container_registry" "backstage" {
   name                = var.container_registry_name
   resource_group_name = data.azurerm_resource_group.main.name
-  location           = data.azurerm_resource_group.main.location
-  sku                = "Basic"
-  admin_enabled      = true
+  location            = data.azurerm_resource_group.main.location
+  sku                 = "Basic"
+  admin_enabled       = true
 
   tags = var.tags
 }
@@ -59,13 +59,13 @@ resource "azurerm_container_registry" "backstage" {
 resource "azurerm_postgresql_flexible_server" "backstage_db" {
   name                   = var.postgresql_server_name
   resource_group_name    = data.azurerm_resource_group.main.name
-  location              = data.azurerm_resource_group.main.location
-  version               = "13"
+  location               = data.azurerm_resource_group.main.location
+  version                = "13"
   administrator_login    = var.db_admin_username
   administrator_password = var.db_admin_password
-  zone                  = "1"
-  storage_mb            = 32768
-  sku_name              = "B_Standard_B1ms"
+  zone                   = "1"
+  storage_mb             = 32768
+  sku_name               = "B_Standard_B1ms"
 
   tags = var.tags
 }
@@ -117,10 +117,10 @@ resource "azurerm_container_group" "backstage" {
     }
 
     secure_environment_variables = {
-      POSTGRES_PASSWORD      = var.db_admin_password
-      GITHUB_TOKEN          = var.github_token
-      GITHUB_CLIENT_ID      = var.github_client_id
-      GITHUB_CLIENT_SECRET  = var.github_client_secret
+      POSTGRES_PASSWORD    = var.db_admin_password
+      GITHUB_TOKEN         = var.github_token
+      GITHUB_CLIENT_ID     = var.github_client_id
+      GITHUB_CLIENT_SECRET = var.github_client_secret
     }
   }
 
@@ -136,11 +136,11 @@ resource "azurerm_container_group" "backstage" {
 resource "azuread_application" "platform" {
   display_name     = var.application_name
   sign_in_audience = "AzureADMyOrg"
-  
+
   web {
     homepage_url  = var.homepage_url
     redirect_uris = var.redirect_uris
-    
+
     implicit_grant {
       access_token_issuance_enabled = true
       id_token_issuance_enabled     = true
