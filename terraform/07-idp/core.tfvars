@@ -1,8 +1,8 @@
 # Internal Developer Platform (IDP) configuration
-component_name                  = "idp"
-location                        = "Central India"
-tfstate_resource_group_name     = "terraform-state-rg"
-tfstate_storage_account_name    = "sumittfstatestorage"
+component_name               = "idp"
+location                     = "Central India"
+tfstate_resource_group_name  = "terraform-state-rg"
+tfstate_storage_account_name = "sumittfstatestorage"
 
 # PostgreSQL Configuration
 postgresql_server_name = "psql-backstage-platform-001"
