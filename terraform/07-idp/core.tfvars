@@ -43,11 +43,10 @@ redirect_uris = [
 client_secret_end_date = "2027-12-31T23:59:59Z"
 
 tags = {
-  Environment = "Production"
-  Project     = "Platform"
-  Component   = "Internal-Developer-Platform"
-  Tool        = "Backstage"
+  Environment = "dev"
+  Project     = "azure-platform"
   ManagedBy   = "terraform"
+  CostCenter  = "engineering"
 }
 
 admin_group_name     = "Azure Platform Admins"
