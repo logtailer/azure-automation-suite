@@ -43,3 +43,14 @@ output "monitoring_identity_id" {
   description = "ID of the monitoring managed identity"
   value       = var.enable_monitoring_identity ? azurerm_user_assigned_identity.monitoring[0].id : null
 }
+
+# Network Security Outputs
+output "security_nsg_id" {
+  description = "ID of the security network security group"
+  value       = var.enable_network_security ? azurerm_network_security_group.security[0].id : null
+}
+
+output "keyvault_private_endpoint_ip" {
+  description = "Private IP address of Key Vault private endpoint"
+  value       = var.enable_private_endpoint && var.subnet_id != "" ? azurerm_private_endpoint.keyvault[0].private_service_connection[0].private_ip_address : null
+}
