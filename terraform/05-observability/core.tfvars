@@ -7,6 +7,11 @@ application_insights_name    = "appinsights-platform"
 action_group_name            = "alerts-platform-team"
 admin_email                  = "admin@example.com"
 
+# IDP Integration
+enable_idp_monitoring     = true
+enable_prometheus_metrics = true
+environment               = "production"
+
 tags = {
   Environment = "Production"
   Project     = "Platform"
