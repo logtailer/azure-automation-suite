@@ -66,3 +66,22 @@ variable "grafana_name" {
   type        = string
   default     = "grafana-monitoring"
 }
+
+# IDP Integration variables
+variable "enable_idp_monitoring" {
+  description = "Enable monitoring for IDP (Backstage) resources"
+  type        = bool
+  default     = false
+}
+
+variable "tfstate_resource_group_name" {
+  description = "Name of the resource group for terraform state storage"
+  type        = string
+  default     = "terraform-state-rg"
+}
+
+variable "tfstate_storage_account_name" {
+  description = "Name of the Azure Storage Account for terraform state"
+  type        = string
+  default     = "sumittfstatestorage"
+}
