@@ -110,3 +110,13 @@ output "container_ip_address" {
   description = "IP address of the container instance"
   value       = azurerm_container_group.backstage.ip_address
 }
+
+output "resource_group_id" {
+  description = "ID of the resource group containing IDP resources"
+  value       = data.azurerm_resource_group.main.id
+}
+
+output "resource_group_name_output" {
+  description = "Name of the resource group (for cross-module reference)"
+  value       = data.azurerm_resource_group.main.name
+}
