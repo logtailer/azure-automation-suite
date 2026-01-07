@@ -8,8 +8,8 @@ component_name      = "idp"
 container_registry_name = "acrbackstagedev001"
 
 # Backend configuration - matches foundation
-tfstate_resource_group_name     = "terraform-state-rg"
-tfstate_storage_account_name    = "sumittfstatestorage"
+tfstate_resource_group_name  = "terraform-state-rg"
+tfstate_storage_account_name = "sumittfstatestorage"
 
 # PostgreSQL for Backstage
 postgresql_server_name = "psql-backstage-dev-001"
@@ -38,10 +38,10 @@ developer_group_name = "Platform Developers - Dev"
 viewer_group_name    = "Platform Viewers - Dev"
 
 # Cost monitoring configuration
-enable_component_budget  = true
-component_budget_amount  = 20    # $20/month budget for IDP component
-cost_alert_threshold     = 80    # Alert at 80% ($16)
-cost_alert_emails        = ["your-email@example.com"]
+enable_component_budget = true
+component_budget_amount = 20 # $20/month budget for IDP component
+cost_alert_threshold    = 80 # Alert at 80% ($16)
+cost_alert_emails       = ["your-email@example.com"]
 
 tags = {
   Environment = "dev"
