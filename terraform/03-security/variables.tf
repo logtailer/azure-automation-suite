@@ -113,3 +113,57 @@ variable "vnet_id" {
   type        = string
   default     = ""
 }
+
+# Resource Lock Configuration
+variable "enable_resource_locks" {
+  description = "Enable resource locks on critical resources"
+  type        = bool
+  default     = true
+}
+
+variable "enable_rg_lock" {
+  description = "Enable resource lock on security resource group"
+  type        = bool
+  default     = false
+}
+
+variable "lock_level" {
+  description = "Level of resource lock (CanNotDelete or ReadOnly)"
+  type        = string
+  default     = "CanNotDelete"
+  validation {
+    condition     = contains(["CanNotDelete", "ReadOnly"], var.lock_level)
+    error_message = "Lock level must be either CanNotDelete or ReadOnly"
+  }
+}
+
+# Azure Policy Configuration
+variable "enable_tag_policy" {
+  description = "Enable policy to require tags on resources"
+  type        = bool
+  default     = true
+}
+
+variable "enable_https_policy" {
+  description = "Enable policy to require HTTPS for storage"
+  type        = bool
+  default     = true
+}
+
+variable "enable_kv_purge_policy" {
+  description = "Enable policy to audit Key Vaults without purge protection"
+  type        = bool
+  default     = true
+}
+
+variable "enable_defender_policy" {
+  description = "Enable policy to require Azure Defender for Key Vault"
+  type        = bool
+  default     = false
+}
+
+variable "enable_kv_public_block_policy" {
+  description = "Enable policy to block public network access to Key Vault"
+  type        = bool
+  default     = false
+}
