@@ -14,6 +14,7 @@ environment               = "production"
 
 tags = {
   Environment = "Production"
-  Project     = "Platform"
-  Component   = "Observability"
+  Project     = "azure-platform"
+  ManagedBy   = "terraform"
+  CostCenter  = "engineering"
 }
