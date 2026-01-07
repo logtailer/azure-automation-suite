@@ -2,8 +2,8 @@
 resource_group_name = "rg-idp"
 location            = "East US"
 
-tfstate_resource_group  = "terraform-state"
-tfstate_storage_account = "sumittfstatestorage"
+tfstate_resource_group_name     = "terraform-state-rg"
+tfstate_storage_account_name    = "sumittfstatestorage"
 
 # PostgreSQL Configuration
 postgresql_server_name = "psql-backstage-platform-001"

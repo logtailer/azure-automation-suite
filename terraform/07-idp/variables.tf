@@ -19,13 +19,13 @@ variable "container_registry_name" {
   type        = string
 }
 
-variable "tfstate_resource_group" {
-  description = "Resource group containing Terraform state"
+variable "tfstate_resource_group_name" {
+  description = "Name of the resource group for terraform state storage"
   type        = string
 }
 
-variable "tfstate_storage_account" {
-  description = "Storage account containing Terraform state"
+variable "tfstate_storage_account_name" {
+  description = "Name of the Azure Storage Account for terraform state"
   type        = string
 }
 
