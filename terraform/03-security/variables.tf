@@ -205,3 +205,59 @@ variable "tfstate_storage_account_name" {
   type        = string
   default     = "sumittfstatestorage"
 }
+
+# Cost monitoring variables
+variable "enable_component_budget" {
+  description = "Whether to create a budget for this component"
+  type        = bool
+  default     = true
+}
+
+variable "component_budget_amount" {
+  description = "Budget amount for this component in USD"
+  type        = number
+  default     = 10
+}
+
+variable "cost_alert_threshold" {
+  description = "Cost alert threshold percentage"
+  type        = number
+  default     = 80
+}
+
+variable "cost_alert_emails" {
+  description = "List of email addresses for cost alerts"
+  type        = list(string)
+  default     = []
+}
+
+# Enhanced Key Vault configuration
+variable "default_network_action" {
+  description = "Default action for Key Vault network ACLs"
+  type        = string
+  default     = "Allow"
+}
+
+variable "enable_rbac_authorization" {
+  description = "Enable RBAC authorization for Key Vault"
+  type        = bool
+  default     = true
+}
+
+variable "purge_soft_delete_on_destroy" {
+  description = "Purge soft delete on destroy"
+  type        = bool
+  default     = false
+}
+
+variable "recover_soft_deleted_key_vaults" {
+  description = "Recover soft deleted key vaults"
+  type        = bool
+  default     = true
+}
+
+variable "component_name" {
+  description = "Name of the component"
+  type        = string
+  default     = "security"
+}
