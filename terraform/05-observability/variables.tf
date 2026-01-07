@@ -85,3 +85,16 @@ variable "tfstate_storage_account_name" {
   type        = string
   default     = "sumittfstatestorage"
 }
+
+# Prometheus variables
+variable "enable_prometheus_metrics" {
+  description = "Enable Azure Monitor Workspace for Prometheus-compatible metrics"
+  type        = bool
+  default     = false
+}
+
+variable "environment" {
+  description = "Environment name (dev, prod, etc.)"
+  type        = string
+  default     = "production"
+}
