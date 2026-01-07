@@ -1,4 +1,5 @@
-resource_group_name  = "terraform-state"
+resource_group_name  = "terraform-state-rg"
 storage_account_name = "sumittfstatestorage"
 container_name       = "observability"
-key                  = "terraform.tfstate"
+key                  = "observability.tfstate"
+use_azuread_auth     = true
