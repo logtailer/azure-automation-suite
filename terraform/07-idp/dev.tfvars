@@ -40,8 +40,6 @@ viewer_group_name    = "Platform Viewers - Dev"
 tags = {
   Environment = "dev"
   Project     = "azure-platform"
-  Component   = "idp"
-  Tool        = "backstage"
   ManagedBy   = "terraform"
-  CostCenter  = "platform-engineering"
+  CostCenter  = "engineering"
 }
