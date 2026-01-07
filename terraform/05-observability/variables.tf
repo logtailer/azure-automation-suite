@@ -98,3 +98,10 @@ variable "environment" {
   type        = string
   default     = "production"
 }
+
+# Component identification
+variable "component_name" {
+  description = "Name of the component (used for naming)"
+  type        = string
+  default     = "observability"
+}
