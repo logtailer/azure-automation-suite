@@ -25,3 +25,50 @@ data "terraform_remote_state" "idp" {
 # - database-alerts.tf (PostgreSQL monitoring)
 # - Diagnostic settings (log shipping to Log Analytics)
 # - Grafana role assignments (Monitoring Reader access)
+
+# Diagnostic Settings for Container Instance
+# Ships container logs and metrics to Log Analytics workspace
+resource "azurerm_monitor_diagnostic_setting" "aci_diagnostics" {
+  count                      = var.enable_idp_monitoring ? 1 : 0
+  name                       = "aci-backstage-diagnostics"
+  target_resource_id         = data.terraform_remote_state.idp[0].outputs.container_group_name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "ContainerInstanceLog"
+  }
+
+  enabled_log {
+    category = "ContainerEvent"
+  }
+}
+
+# Diagnostic Settings for PostgreSQL
+# Ships database logs and metrics to Log Analytics workspace
+resource "azurerm_monitor_diagnostic_setting" "postgres_diagnostics" {
+  count                      = var.enable_idp_monitoring ? 1 : 0
+  name                       = "postgres-backstage-diagnostics"
+  target_resource_id         = data.terraform_remote_state.idp[0].outputs.postgresql_server_name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "PostgreSQLLogs"
+  }
+}
+
+# Diagnostic Settings for Container Registry
+# Ships ACR events and metrics to Log Analytics workspace
+resource "azurerm_monitor_diagnostic_setting" "acr_diagnostics" {
+  count                      = var.enable_idp_monitoring ? 1 : 0
+  name                       = "acr-backstage-diagnostics"
+  target_resource_id         = data.terraform_remote_state.idp[0].outputs.container_registry_name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "ContainerRegistryRepositoryEvents"
+  }
+
+  enabled_log {
+    category = "ContainerRegistryLoginEvents"
+  }
+}
