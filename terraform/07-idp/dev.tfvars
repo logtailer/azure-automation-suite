@@ -8,8 +8,8 @@ environment         = "dev"
 container_registry_name = "acrbackstagedev001"
 
 # Backend configuration - matches foundation
-tfstate_resource_group  = "rg-tfstate-dev-centralindia"
-tfstate_storage_account = "stterraformdev001"
+tfstate_resource_group_name     = "terraform-state-rg"
+tfstate_storage_account_name    = "sumittfstatestorage"
 
 # PostgreSQL for Backstage
 postgresql_server_name = "psql-backstage-dev-001"
