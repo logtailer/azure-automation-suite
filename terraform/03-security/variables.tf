@@ -167,3 +167,41 @@ variable "enable_kv_public_block_policy" {
   type        = bool
   default     = false
 }
+
+# Audit Logging Configuration
+variable "enable_audit_logging" {
+  description = "Enable audit logging for Key Vault"
+  type        = bool
+  default     = true
+}
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics workspace ID for diagnostic logs"
+  type        = string
+  default     = ""
+}
+
+variable "enable_kv_alerts" {
+  description = "Enable monitoring alerts for Key Vault"
+  type        = bool
+  default     = true
+}
+
+variable "action_group_id" {
+  description = "Action group ID for alert notifications"
+  type        = string
+  default     = ""
+}
+
+# Terraform state configuration (for cross-module references)
+variable "tfstate_resource_group_name" {
+  description = "Name of the resource group for terraform state storage"
+  type        = string
+  default     = "terraform-state-rg"
+}
+
+variable "tfstate_storage_account_name" {
+  description = "Name of the Azure Storage Account for terraform state"
+  type        = string
+  default     = "sumittfstatestorage"
+}
