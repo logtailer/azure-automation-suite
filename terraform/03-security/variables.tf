@@ -41,3 +41,38 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+# Managed Identity Configuration
+variable "enable_aks_identity" {
+  description = "Create managed identity for AKS workloads"
+  type        = bool
+  default     = true
+}
+
+variable "enable_app_identity" {
+  description = "Create managed identity for application workloads"
+  type        = bool
+  default     = true
+}
+
+variable "enable_devops_identity" {
+  description = "Create managed identity for DevOps automation"
+  type        = bool
+  default     = true
+}
+
+variable "enable_monitoring_identity" {
+  description = "Create managed identity for monitoring services"
+  type        = bool
+  default     = true
+}
+
+variable "custom_role_assignments" {
+  description = "Map of custom role assignments for specific workloads"
+  type = map(object({
+    scope        = string
+    role         = string
+    principal_id = string
+  }))
+  default = {}
+}
