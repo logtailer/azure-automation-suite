@@ -5,7 +5,7 @@ resource "azurerm_monitor_metric_alert" "aks_node_health" {
   name                = "aks-node-health-alert"
   resource_group_name = data.azurerm_resource_group.main.name
   scopes              = [var.aks_cluster_id]
-  
+
   criteria {
     metric_namespace = "Microsoft.ContainerService/managedClusters"
     metric_name      = "kube_node_status_condition"
@@ -147,7 +147,7 @@ resource "azurerm_monitor_metric_alert" "response_time" {
     metric_name      = "requests/duration"
     aggregation      = "Average"
     operator         = "GreaterThan"
-    threshold        = 5000  # 5 seconds
+    threshold        = 5000 # 5 seconds
   }
 
   action {
