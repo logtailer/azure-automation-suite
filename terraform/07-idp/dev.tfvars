@@ -1,8 +1,8 @@
 # Internal Developer Platform (IDP) - Development Environment
-# Reference foundation outputs for resource group
-resource_group_name = "rg-platform-dev-centralindia"
-location            = "centralindia"
+resource_group_name = "azure-platform-dev-rg"
+location            = "Central India"
 environment         = "dev"
+component_name      = "idp"
 
 # Azure Container Registry for Backstage images
 container_registry_name = "acrbackstagedev001"

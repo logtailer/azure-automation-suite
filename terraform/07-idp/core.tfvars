@@ -1,7 +1,6 @@
 # Internal Developer Platform (IDP) configuration
-resource_group_name = "rg-idp"
-location            = "East US"
-
+component_name                  = "idp"
+location                        = "Central India"
 tfstate_resource_group_name     = "terraform-state-rg"
 tfstate_storage_account_name    = "sumittfstatestorage"
 
