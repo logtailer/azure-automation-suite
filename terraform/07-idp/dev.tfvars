@@ -37,6 +37,12 @@ admin_group_name     = "Platform Admins - Dev"
 developer_group_name = "Platform Developers - Dev"
 viewer_group_name    = "Platform Viewers - Dev"
 
+# Cost monitoring configuration
+enable_component_budget  = true
+component_budget_amount  = 20    # $20/month budget for IDP component
+cost_alert_threshold     = 80    # Alert at 80% ($16)
+cost_alert_emails        = ["your-email@example.com"]
+
 tags = {
   Environment = "dev"
   Project     = "azure-platform"
