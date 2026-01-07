@@ -18,3 +18,9 @@ tags = {
   ManagedBy   = "terraform"
   CostCenter  = "engineering"
 }
+
+# Cost monitoring
+enable_component_budget = true
+component_budget_amount = 20
+cost_alert_threshold    = 80
+cost_alert_emails       = ["platform-team@example.com"]

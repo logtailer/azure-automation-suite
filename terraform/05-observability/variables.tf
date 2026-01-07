@@ -105,3 +105,28 @@ variable "component_name" {
   type        = string
   default     = "observability"
 }
+
+# Cost monitoring variables
+variable "enable_component_budget" {
+  description = "Whether to create a budget for this component"
+  type        = bool
+  default     = false
+}
+
+variable "component_budget_amount" {
+  description = "Budget amount for this component in USD"
+  type        = number
+  default     = 20
+}
+
+variable "cost_alert_threshold" {
+  description = "Cost alert threshold percentage (e.g., 80 for 80%)"
+  type        = number
+  default     = 80
+}
+
+variable "cost_alert_emails" {
+  description = "List of email addresses to receive cost alerts"
+  type        = list(string)
+  default     = []
+}
