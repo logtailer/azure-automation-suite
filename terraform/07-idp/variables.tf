@@ -14,6 +14,12 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "component_name" {
+  description = "Name of the component (used for container name)"
+  type        = string
+  default     = "idp"
+}
+
 variable "container_registry_name" {
   description = "Name of the Azure Container Registry"
   type        = string
