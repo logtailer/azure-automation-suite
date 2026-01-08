@@ -81,3 +81,55 @@ resource "azurerm_storage_share" "nexus_data" {
 
   depends_on = [azurerm_storage_account.nexus_data]
 }
+
+# Azure Container Instance for Nexus OSS
+resource "azurerm_container_group" "nexus" {
+  name                = "ci-nexus-${var.environment}"
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+  ip_address_type     = "Public"
+  dns_name_label      = "nexus-${var.environment}-${random_id.dns_suffix.hex}"
+  os_type             = "Linux"
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.nexus.id]
+  }
+
+  image_registry_credential {
+    user_assigned_identity_id = azurerm_user_assigned_identity.nexus.id
+    server                    = azurerm_container_registry.nexus.login_server
+  }
+
+  container {
+    name   = "nexus"
+    image  = "${azurerm_container_registry.nexus.login_server}/nexus:${var.nexus_image_tag}"
+    cpu    = var.container_cpu
+    memory = var.container_memory
+
+    ports {
+      port     = 8081
+      protocol = "TCP"
+    }
+
+    environment_variables = {
+      INSTALL4J_ADD_VM_PARAMS = "-Xms2g -Xmx2g -XX:MaxDirectMemorySize=2g"
+    }
+
+    volume {
+      name                 = "nexus-data"
+      mount_path           = "/nexus-data"
+      storage_account_name = azurerm_storage_account.nexus_data.name
+      storage_account_key  = azurerm_storage_account.nexus_data.primary_access_key
+      share_name           = azurerm_storage_share.nexus_data.name
+      read_only            = false
+    }
+  }
+
+  tags = var.tags
+
+  depends_on = [
+    azurerm_role_assignment.acr_pull,
+    azurerm_storage_share.nexus_data
+  ]
+}
