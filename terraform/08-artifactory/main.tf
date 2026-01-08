@@ -58,3 +58,26 @@ resource "azurerm_role_assignment" "acr_pull" {
   role_definition_name = "AcrPull"
   principal_id         = azurerm_user_assigned_identity.nexus.principal_id
 }
+
+# Storage Account for Nexus persistent data
+resource "azurerm_storage_account" "nexus_data" {
+  name                     = "stnexusdata${var.environment}${random_id.storage_suffix.hex}"
+  resource_group_name      = data.azurerm_resource_group.main.name
+  location                 = data.azurerm_resource_group.main.location
+  account_tier             = "Standard"
+  account_replication_type = element(split("_", var.storage_account_sku), 1)
+  min_tls_version          = "TLS1_2"
+  https_traffic_only_enabled = true
+  allow_nested_items_to_be_public = false
+
+  tags = var.tags
+}
+
+# Azure Files share for /nexus-data persistent storage
+resource "azurerm_storage_share" "nexus_data" {
+  name                 = "nexus-data"
+  storage_account_id   = azurerm_storage_account.nexus_data.id
+  quota                = var.file_share_quota
+
+  depends_on = [azurerm_storage_account.nexus_data]
+}
