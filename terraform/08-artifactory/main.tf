@@ -124,6 +124,31 @@ resource "azurerm_container_group" "nexus" {
       share_name           = azurerm_storage_share.nexus_data.name
       read_only            = false
     }
+
+    liveness_probe {
+      http_get {
+        path   = "/service/rest/v1/status"
+        port   = 8081
+        scheme = "Http"
+      }
+      initial_delay_seconds = var.liveness_initial_delay
+      period_seconds        = 30
+      failure_threshold     = 5
+      timeout_seconds       = 10
+    }
+
+    readiness_probe {
+      http_get {
+        path   = "/service/rest/v1/status"
+        port   = 8081
+        scheme = "Http"
+      }
+      initial_delay_seconds = var.readiness_initial_delay
+      period_seconds        = 10
+      failure_threshold     = 3
+      success_threshold     = 1
+      timeout_seconds       = 5
+    }
   }
 
   tags = var.tags
