@@ -51,6 +51,20 @@ resource "azurerm_subnet" "aks" {
   address_prefixes     = var.aks_subnet_address_prefixes
 }
 
+# AKS CI/CD subnet for GitHub runners cluster
+resource "azurerm_subnet" "aks_cicd" {
+  name                 = "snet-aks-cicd"
+  resource_group_name  = data.azurerm_resource_group.foundation.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = var.aks_cicd_subnet_address_prefixes
+
+  # AKS-specific service endpoints
+  service_endpoints = [
+    "Microsoft.ContainerRegistry",
+    "Microsoft.Storage"
+  ]
+}
+
 # Network Security Group for public subnet
 resource "azurerm_network_security_group" "public" {
   name                = "public-nsg"
@@ -151,5 +165,10 @@ resource "azurerm_subnet_nat_gateway_association" "private" {
 
 resource "azurerm_subnet_nat_gateway_association" "aks" {
   subnet_id      = azurerm_subnet.aks.id
+  nat_gateway_id = azurerm_nat_gateway.main.id
+}
+
+resource "azurerm_subnet_nat_gateway_association" "aks_cicd" {
+  subnet_id      = azurerm_subnet.aks_cicd.id
   nat_gateway_id = azurerm_nat_gateway.main.id
 }

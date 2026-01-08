@@ -32,6 +32,12 @@ variable "aks_subnet_address_prefixes" {
   default     = ["10.0.10.0/23"]
 }
 
+variable "aks_cicd_subnet_address_prefixes" {
+  description = "Address prefixes for the AKS CI/CD subnet"
+  type        = list(string)
+  default     = ["10.0.5.0/24"]
+}
+
 variable "tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)

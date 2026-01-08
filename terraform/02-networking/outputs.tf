@@ -23,6 +23,11 @@ output "aks_subnet_id" {
   value       = azurerm_subnet.aks.id
 }
 
+output "aks_cicd_subnet_id" {
+  description = "Subnet ID for CI/CD AKS cluster"
+  value       = azurerm_subnet.aks_cicd.id
+}
+
 output "nat_gateway_id" {
   description = "ID of the NAT gateway"
   value       = azurerm_nat_gateway.main.id
