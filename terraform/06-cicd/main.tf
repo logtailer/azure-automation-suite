@@ -98,7 +98,10 @@ resource "azurerm_kubernetes_cluster" "cicd" {
   tags = var.tags
 }
 
-# Kubernetes provider configuration
+# Kubernetes and Helm provider configuration
+# Note: Providers are configured after AKS cluster creation
+# These will be evaluated during terraform apply phase
+
 provider "kubernetes" {
   host                   = azurerm_kubernetes_cluster.cicd.kube_config.0.host
   client_certificate     = base64decode(azurerm_kubernetes_cluster.cicd.kube_config.0.client_certificate)
@@ -106,7 +109,6 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.cicd.kube_config.0.cluster_ca_certificate)
 }
 
-# Helm provider configuration
 provider "helm" {
   kubernetes {
     host                   = azurerm_kubernetes_cluster.cicd.kube_config.0.host
@@ -114,4 +116,29 @@ provider "helm" {
     client_key             = base64decode(azurerm_kubernetes_cluster.cicd.kube_config.0.client_key)
     cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.cicd.kube_config.0.cluster_ca_certificate)
   }
+}
+
+# Runner node pool (scale-to-zero for cost optimization)
+resource "azurerm_kubernetes_cluster_node_pool" "runners" {
+  name                  = "runners"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.cicd.id
+  vm_size               = var.runner_node_size
+  vnet_subnet_id        = data.terraform_remote_state.networking.outputs.aks_cicd_subnet_id
+
+  # Autoscaling configuration (scale to zero)
+  enable_auto_scaling = true
+  min_count           = var.runner_node_min_count # 0
+  max_count           = var.runner_node_max_count # 5
+  node_count          = null                      # Required when auto-scaling
+
+  # Node labels and taints for runner workloads only
+  node_labels = {
+    "workload" = "github-runners"
+  }
+
+  node_taints = [
+    "workload=github-runners:NoSchedule"
+  ]
+
+  tags = var.tags
 }
