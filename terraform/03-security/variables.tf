@@ -291,3 +291,75 @@ variable "enable_sentinel_alert_rules" {
   type        = bool
   default     = true
 }
+
+# Defender for Cloud configuration
+variable "defender_tier_servers" {
+  description = "Defender tier for Virtual Machines (Free or Standard)"
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_tier_app_service" {
+  description = "Defender tier for App Services"
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_tier_storage" {
+  description = "Defender tier for Storage Accounts"
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_tier_containers" {
+  description = "Defender tier for Containers (AKS)"
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_tier_key_vault" {
+  description = "Defender tier for Key Vault"
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_tier_sql" {
+  description = "Defender tier for SQL Databases"
+  type        = string
+  default     = "Standard"
+}
+
+variable "defender_tier_sql_vms" {
+  description = "Defender tier for SQL Server VMs"
+  type        = string
+  default     = "Standard"
+}
+
+variable "security_contact_email" {
+  description = "Email address for security alerts"
+  type        = string
+}
+
+variable "security_contact_phone" {
+  description = "Phone number for security contact"
+  type        = string
+  default     = ""
+}
+
+variable "alert_notifications_enabled" {
+  description = "Enable alert notifications to security contact"
+  type        = bool
+  default     = true
+}
+
+variable "alerts_to_admins_enabled" {
+  description = "Send alerts to subscription admins"
+  type        = bool
+  default     = true
+}
+
+variable "auto_provision_log_analytics" {
+  description = "Auto-provision Log Analytics agent on VMs"
+  type        = bool
+  default     = true
+}

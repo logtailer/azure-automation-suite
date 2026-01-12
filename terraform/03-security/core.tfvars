@@ -66,3 +66,17 @@ tfstate_storage_account_name = "sumittfstatestorage"
 enable_sentinel_aad_connector = true
 enable_sentinel_asc_connector = true
 enable_sentinel_alert_rules   = true
+
+# Defender for Cloud
+defender_tier_servers     = "Standard"
+defender_tier_app_service = "Standard"
+defender_tier_storage     = "Standard"
+defender_tier_containers  = "Standard"
+defender_tier_key_vault   = "Standard"
+defender_tier_sql         = "Free"
+defender_tier_sql_vms     = "Free"
+
+security_contact_email         = "security@example.com"
+alert_notifications_enabled    = true
+alerts_to_admins_enabled       = true
+auto_provision_log_analytics   = true
