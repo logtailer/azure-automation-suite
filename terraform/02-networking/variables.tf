@@ -38,6 +38,12 @@ variable "aks_cicd_subnet_address_prefixes" {
   default     = ["10.0.5.0/24"]
 }
 
+variable "firewall_subnet_address_prefixes" {
+  description = "Address prefixes for Azure Firewall subnet"
+  type        = list(string)
+  default     = ["10.0.6.0/26"]
+}
+
 variable "tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)

@@ -65,6 +65,14 @@ resource "azurerm_subnet" "aks_cicd" {
   ]
 }
 
+# Azure Firewall subnet (must be named AzureFirewallSubnet)
+resource "azurerm_subnet" "firewall" {
+  name                 = "AzureFirewallSubnet"
+  resource_group_name  = data.azurerm_resource_group.foundation.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = var.firewall_subnet_address_prefixes
+}
+
 # Network Security Group for public subnet
 resource "azurerm_network_security_group" "public" {
   name                = "public-nsg"
