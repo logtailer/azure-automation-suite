@@ -24,3 +24,8 @@ enable_component_budget = true
 component_budget_amount = 20
 cost_alert_threshold    = 80
 cost_alert_emails       = ["platform-team@example.com"]
+
+# On-call integration (set via environment variables)
+# TF_VAR_pagerduty_webhook_url or TF_VAR_opsgenie_webhook_url
+enable_pagerduty_integration = false
+enable_opsgenie_integration  = false

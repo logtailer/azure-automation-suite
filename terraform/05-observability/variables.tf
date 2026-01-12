@@ -130,3 +130,30 @@ variable "cost_alert_emails" {
   type        = list(string)
   default     = []
 }
+
+# PagerDuty/OpsGenie integration
+variable "enable_pagerduty_integration" {
+  description = "Enable PagerDuty integration for alerts"
+  type        = bool
+  default     = false
+}
+
+variable "pagerduty_webhook_url" {
+  description = "PagerDuty webhook URL for alert notifications"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "enable_opsgenie_integration" {
+  description = "Enable OpsGenie integration for alerts"
+  type        = bool
+  default     = false
+}
+
+variable "opsgenie_webhook_url" {
+  description = "OpsGenie webhook URL for alert notifications"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
