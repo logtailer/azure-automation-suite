@@ -261,3 +261,33 @@ variable "component_name" {
   type        = string
   default     = "security"
 }
+
+# Terraform state configuration
+variable "tfstate_resource_group_name" {
+  description = "Resource group containing Terraform state"
+  type        = string
+}
+
+variable "tfstate_storage_account_name" {
+  description = "Storage account for Terraform state"
+  type        = string
+}
+
+# Sentinel configuration
+variable "enable_sentinel_aad_connector" {
+  description = "Enable Azure Active Directory data connector for Sentinel"
+  type        = bool
+  default     = true
+}
+
+variable "enable_sentinel_asc_connector" {
+  description = "Enable Azure Security Center data connector for Sentinel"
+  type        = bool
+  default     = true
+}
+
+variable "enable_sentinel_alert_rules" {
+  description = "Enable pre-configured Sentinel alert rules"
+  type        = bool
+  default     = true
+}

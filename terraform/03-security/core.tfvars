@@ -57,3 +57,12 @@ tags = {
   ManagedBy   = "terraform"
   CostCenter  = "engineering"
 }
+
+# Terraform state
+tfstate_resource_group_name  = "terraform-state-rg"
+tfstate_storage_account_name = "sumittfstatestorage"
+
+# Sentinel configuration
+enable_sentinel_aad_connector = true
+enable_sentinel_asc_connector = true
+enable_sentinel_alert_rules   = true
