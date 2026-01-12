@@ -80,3 +80,9 @@ security_contact_email         = "security@example.com"
 alert_notifications_enabled    = true
 alerts_to_admins_enabled       = true
 auto_provision_log_analytics   = true
+
+# Azure Firewall
+enable_firewall                  = true
+firewall_sku_tier                = "Standard"
+firewall_intrusion_detection_mode = "Alert"
+environment                      = "dev"

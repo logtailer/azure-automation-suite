@@ -363,3 +363,34 @@ variable "auto_provision_log_analytics" {
   type        = bool
   default     = true
 }
+
+# Azure Firewall configuration
+variable "enable_firewall" {
+  description = "Enable Azure Firewall"
+  type        = bool
+  default     = true
+}
+
+variable "firewall_sku_name" {
+  description = "SKU name for Azure Firewall"
+  type        = string
+  default     = "AZFW_VNet"
+}
+
+variable "firewall_sku_tier" {
+  description = "SKU tier for Azure Firewall (Standard or Premium)"
+  type        = string
+  default     = "Standard"
+}
+
+variable "firewall_intrusion_detection_mode" {
+  description = "Intrusion detection mode (Off, Alert, Deny)"
+  type        = string
+  default     = "Alert"
+}
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+  default     = "dev"
+}
