@@ -153,3 +153,69 @@ resource "azurerm_subnet_nat_gateway_association" "aks" {
   subnet_id      = azurerm_subnet.aks.id
   nat_gateway_id = azurerm_nat_gateway.main.id
 }
+
+# Private DNS Zones for Azure Services
+resource "azurerm_private_dns_zone" "keyvault" {
+  name                = "privatelink.vaultcore.azure.net"
+  resource_group_name = data.azurerm_resource_group.foundation.name
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone" "acr" {
+  name                = "privatelink.azurecr.io"
+  resource_group_name = data.azurerm_resource_group.foundation.name
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone" "postgres" {
+  name                = "privatelink.postgres.database.azure.com"
+  resource_group_name = data.azurerm_resource_group.foundation.name
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone" "storage" {
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = data.azurerm_resource_group.foundation.name
+
+  tags = var.tags
+}
+
+# Link Private DNS Zones to VNet
+resource "azurerm_private_dns_zone_virtual_network_link" "keyvault" {
+  name                  = "keyvault-dns-link"
+  resource_group_name   = data.azurerm_resource_group.foundation.name
+  private_dns_zone_name = azurerm_private_dns_zone.keyvault.name
+  virtual_network_id    = azurerm_virtual_network.main.id
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "acr" {
+  name                  = "acr-dns-link"
+  resource_group_name   = data.azurerm_resource_group.foundation.name
+  private_dns_zone_name = azurerm_private_dns_zone.acr.name
+  virtual_network_id    = azurerm_virtual_network.main.id
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
+  name                  = "postgres-dns-link"
+  resource_group_name   = data.azurerm_resource_group.foundation.name
+  private_dns_zone_name = azurerm_private_dns_zone.postgres.name
+  virtual_network_id    = azurerm_virtual_network.main.id
+
+  tags = var.tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "storage" {
+  name                  = "storage-dns-link"
+  resource_group_name   = data.azurerm_resource_group.foundation.name
+  private_dns_zone_name = azurerm_private_dns_zone.storage.name
+  virtual_network_id    = azurerm_virtual_network.main.id
+
+  tags = var.tags
+}
