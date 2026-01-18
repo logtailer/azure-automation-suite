@@ -52,3 +52,33 @@ resource "azurerm_monitor_action_group" "main" {
 
   tags = var.tags
 }
+
+# Azure Dashboard for platform metrics
+resource "azurerm_portal_dashboard" "platform" {
+  name                = "platform-dashboard"
+  resource_group_name = data.azurerm_resource_group.main.name
+  location            = data.azurerm_resource_group.main.location
+
+  dashboard_properties = jsonencode({
+    lenses = {
+      "0" = {
+        order = 0
+        parts = {
+          "0" = {
+            position = {
+              x        = 0
+              y        = 0
+              colSpan  = 6
+              rowSpan  = 4
+            }
+            metadata = {
+              type = "Extension/HubsExtension/PartType/MonitorChartPart"
+            }
+          }
+        }
+      }
+    }
+  })
+
+  tags = var.tags
+}
