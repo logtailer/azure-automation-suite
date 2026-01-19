@@ -61,3 +61,56 @@ resource "azurerm_key_vault_secret" "ssh_public_key" {
 
   tags = var.tags
 }
+
+# Certificate policy for automated certificate management
+resource "azurerm_key_vault_certificate" "ssl_cert" {
+  name         = "ssl-certificate"
+  key_vault_id = azurerm_key_vault.main.id
+
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
+
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
+
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = "CN=platform.local"
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = ["*.platform.local", "platform.local"]
+      }
+    }
+  }
+
+  depends_on = [azurerm_key_vault.main]
+}
