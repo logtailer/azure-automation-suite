@@ -17,13 +17,19 @@ This platform implements a comprehensive **Internal Developer Platform (IDP)** t
 ### 📐 Infrastructure Layers
 
 ```
-07-IDP           → Backstage Developer Portal + PostgreSQL
-06-CI/CD         → Container Registry + Build Agents + Artifacts  
-05-Observability → Log Analytics + App Insights + Alerting
-04-AKS           → Kubernetes Cluster + Node Pools + Bastion
-03-Security      → Key Vault + Secrets + RBAC Policies
-02-Networking    → VNet + Private Subnets + Private Endpoints
-01-Foundation    → Resource Groups + Storage + Core Infrastructure
+13-Traffic-Manager → Multi-region failover + Health monitoring
+12-AppGateway     → Application Gateway + WAF v2
+11-Backup         → Recovery Services Vault + Backup policies
+10-Cost-Mgmt      → Budget alerts + Cost monitoring
+09-Governance     → Azure Policy + Compliance controls
+08-Artifactory    → JFrog Artifactory + Storage
+07-IDP            → Backstage Developer Portal + PostgreSQL
+06-CI/CD          → Container Registry + Build Agents + Artifacts
+05-Observability  → Log Analytics + App Insights + Dashboards
+04-AKS            → Kubernetes Cluster + Node Pools + Bastion
+03-Security       → Key Vault + Certificates + RBAC Policies
+02-Networking     → VNet + Private DNS + Private Endpoints
+01-Foundation     → Resource Groups + Storage + Core Infrastructure
 ```
 
 ## 🚀 Quick Start
@@ -61,12 +67,18 @@ This project implements a **production-ready Azure platform** with:
 ```
 terraform/
 ├── 01-foundation/      # Resource groups, storage accounts, core infra
-├── 02-networking/      # VNets, subnets, NSGs, NAT Gateway  
-├── 03-security/        # Key Vault, RBAC, security policies
+├── 02-networking/      # VNets, subnets, NSGs, Private DNS zones
+├── 03-security/        # Key Vault, certificates, RBAC policies
 ├── 04-aks/            # AKS clusters, node pools, Bastion host
 ├── 05-observability/   # Monitoring, alerting, dashboards
 ├── 06-cicd/           # CI/CD infrastructure, build agents
-└── 07-idp/            # Identity provider integration
+├── 07-idp/            # Backstage IDP integration
+├── 08-artifactory/    # JFrog Artifactory setup
+├── 09-governance/     # Azure Policy assignments
+├── 10-cost-management/# Budgets and cost alerts
+├── 11-backup/         # Recovery Services Vault
+├── 12-appgateway/     # Application Gateway with WAF
+└── 13-traffic-manager/# Multi-region traffic routing
 ```
 
 ## 🛠️ Prerequisites
