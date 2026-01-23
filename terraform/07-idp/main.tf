@@ -13,7 +13,7 @@ terraform {
       version = "~> 3.0"
     }
   }
-  # Backend configuration will be provided via -backend-config during init
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -50,37 +50,24 @@ resource "azurerm_container_registry" "backstage" {
   resource_group_name = data.azurerm_resource_group.main.name
   location            = data.azurerm_resource_group.main.location
   sku                 = "Basic"
-  admin_enabled       = false
+  admin_enabled       = true
 
   tags = var.tags
-}
-
-# Grant the managed identity permission to pull images from ACR
-resource "azurerm_role_assignment" "acr_pull" {
-  scope                = azurerm_container_registry.backstage.id
-  role_definition_name = "AcrPull"
-  principal_id         = azurerm_user_assigned_identity.backstage.principal_id
 }
 
 # PostgreSQL database for Backstage
 resource "azurerm_postgresql_flexible_server" "backstage_db" {
-  name                         = var.postgresql_server_name
-  resource_group_name          = data.azurerm_resource_group.main.name
-  location                     = data.azurerm_resource_group.main.location
-  version                      = "13"
-  administrator_login          = var.db_admin_username
-  administrator_password       = var.db_admin_password
-  zone                         = "1"
-  storage_mb                   = var.postgresql_storage_mb
-  sku_name                     = var.postgresql_sku_name
-  backup_retention_days        = var.postgresql_backup_retention_days
-  geo_redundant_backup_enabled = var.postgresql_geo_redundant_backup
+  name                   = var.postgresql_server_name
+  resource_group_name    = data.azurerm_resource_group.main.name
+  location               = data.azurerm_resource_group.main.location
+  version                = "13"
+  administrator_login    = var.db_admin_username
+  administrator_password = var.db_admin_password
+  zone                   = "1"
+  storage_mb             = 32768
+  sku_name               = "B_Standard_B1ms"
 
   tags = var.tags
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "azurerm_postgresql_flexible_server_database" "backstage" {
@@ -88,31 +75,6 @@ resource "azurerm_postgresql_flexible_server_database" "backstage" {
   server_id = azurerm_postgresql_flexible_server.backstage_db.id
   collation = "en_US.utf8"
   charset   = "utf8"
-}
-
-# PostgreSQL Configuration - SSL enforcement
-resource "azurerm_postgresql_flexible_server_configuration" "ssl_enforcement" {
-  name      = "require_secure_transport"
-  server_id = azurerm_postgresql_flexible_server.backstage_db.id
-  value     = "on"
-}
-
-# Firewall rule to allow Azure Container Instance access
-resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_aci" {
-  name             = "allow-backstage-aci"
-  server_id        = azurerm_postgresql_flexible_server.backstage_db.id
-  start_ip_address = azurerm_container_group.backstage.ip_address
-  end_ip_address   = azurerm_container_group.backstage.ip_address
-
-  depends_on = [azurerm_container_group.backstage]
-}
-
-# Firewall rule to allow Azure services (for deployment and management)
-resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure_services" {
-  name             = "allow-azure-services"
-  server_id        = azurerm_postgresql_flexible_server.backstage_db.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
 }
 
 # Azure Container Instances for Backstage
@@ -130,15 +92,16 @@ resource "azurerm_container_group" "backstage" {
   }
 
   image_registry_credential {
-    user_assigned_identity_id = azurerm_user_assigned_identity.backstage.id
-    server                    = azurerm_container_registry.backstage.login_server
+    username = azurerm_container_registry.backstage.admin_username
+    password = azurerm_container_registry.backstage.admin_password
+    server   = azurerm_container_registry.backstage.login_server
   }
 
   container {
     name   = "backstage"
     image  = "${azurerm_container_registry.backstage.login_server}/backstage:latest"
-    cpu    = var.container_cpu
-    memory = var.container_memory
+    cpu    = "1.0"
+    memory = "2.0"
 
     ports {
       port     = 7007
@@ -159,41 +122,13 @@ resource "azurerm_container_group" "backstage" {
       GITHUB_CLIENT_ID     = var.github_client_id
       GITHUB_CLIENT_SECRET = var.github_client_secret
     }
-
-    # Liveness probe to restart container if unhealthy
-    liveness_probe {
-      http_get {
-        path   = "/healthcheck"
-        port   = 7007
-        scheme = "Http"
-      }
-      initial_delay_seconds = 180
-      period_seconds        = 30
-      failure_threshold     = 3
-      timeout_seconds       = 5
-    }
-
-    # Readiness probe to determine when container is ready
-    readiness_probe {
-      http_get {
-        path   = "/healthcheck"
-        port   = 7007
-        scheme = "Http"
-      }
-      initial_delay_seconds = 30
-      period_seconds        = 10
-      failure_threshold     = 3
-      success_threshold     = 1
-      timeout_seconds       = 5
-    }
   }
 
   tags = var.tags
 
   depends_on = [
     azurerm_postgresql_flexible_server.backstage_db,
-    azurerm_container_registry.backstage,
-    azurerm_role_assignment.acr_pull
+    azurerm_container_registry.backstage
   ]
 }
 
@@ -236,23 +171,23 @@ resource "azuread_application" "platform" {
       type = "Scope"
     }
   }
+
+  tags = var.tags
 }
 
 # Service Principal for the application
 resource "azuread_service_principal" "platform" {
-  client_id = azuread_application.platform.client_id
+  client_id = azuread_application.platform.application_id
   owners    = [data.azuread_client_config.current.object_id]
+
+  tags = var.tags
 }
 
 # Client secret for the application
 resource "azuread_application_password" "platform" {
   application_id = azuread_application.platform.id
   display_name   = "Platform Client Secret"
-  end_date       = var.client_secret_end_date
-
-  lifecycle {
-    ignore_changes = [end_date]
-  }
+  end_date       = timeadd(timestamp(), "8760h") # 1 year from now
 }
 
 # Azure AD Groups for RBAC

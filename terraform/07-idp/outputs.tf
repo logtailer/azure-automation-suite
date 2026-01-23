@@ -40,16 +40,6 @@ output "application_name" {
   value       = azuread_application.platform.display_name
 }
 
-output "application_id" {
-  description = "Application (client) ID of the Azure AD application"
-  value       = azuread_application.platform.client_id
-}
-
-output "tenant_id" {
-  description = "Azure AD tenant ID"
-  value       = data.azuread_client_config.current.tenant_id
-}
-
 output "service_principal_id" {
   description = "Object ID of the service principal"
   value       = azuread_service_principal.platform.object_id
@@ -89,34 +79,4 @@ output "viewer_group_name" {
 output "viewer_group_id" {
   description = "Object ID of the viewer group"
   value       = azuread_group.platform_viewers.object_id
-}
-
-output "acr_login_server" {
-  description = "Login server URL for ACR (for docker login)"
-  value       = azurerm_container_registry.backstage.login_server
-}
-
-output "managed_identity_client_id" {
-  description = "Client ID of the user-assigned managed identity"
-  value       = azurerm_user_assigned_identity.backstage.client_id
-}
-
-output "container_fqdn" {
-  description = "Fully qualified domain name of the container instance"
-  value       = azurerm_container_group.backstage.fqdn
-}
-
-output "container_ip_address" {
-  description = "IP address of the container instance"
-  value       = azurerm_container_group.backstage.ip_address
-}
-
-output "resource_group_id" {
-  description = "ID of the resource group containing IDP resources"
-  value       = data.azurerm_resource_group.main.id
-}
-
-output "resource_group_name_output" {
-  description = "Name of the resource group (for cross-module reference)"
-  value       = data.azurerm_resource_group.main.name
 }

@@ -14,54 +14,24 @@ variable "environment" {
   default     = "dev"
 }
 
-variable "component_name" {
-  description = "Name of the component (used for container name)"
-  type        = string
-  default     = "idp"
-}
-
 variable "container_registry_name" {
   description = "Name of the Azure Container Registry"
   type        = string
 }
 
-variable "tfstate_resource_group_name" {
-  description = "Name of the resource group for terraform state storage"
+variable "tfstate_resource_group" {
+  description = "Resource group containing Terraform state"
   type        = string
 }
 
-variable "tfstate_storage_account_name" {
-  description = "Name of the Azure Storage Account for terraform state"
+variable "tfstate_storage_account" {
+  description = "Storage account containing Terraform state"
   type        = string
 }
 
 variable "postgresql_server_name" {
   description = "Name of the PostgreSQL server for Backstage"
   type        = string
-}
-
-variable "postgresql_storage_mb" {
-  description = "Storage size in MB for PostgreSQL server"
-  type        = number
-  default     = 32768
-}
-
-variable "postgresql_sku_name" {
-  description = "SKU name for PostgreSQL server"
-  type        = string
-  default     = "B_Standard_B1ms"
-}
-
-variable "postgresql_backup_retention_days" {
-  description = "Backup retention days for PostgreSQL"
-  type        = number
-  default     = 7
-}
-
-variable "postgresql_geo_redundant_backup" {
-  description = "Enable geo-redundant backup for PostgreSQL"
-  type        = bool
-  default     = false
 }
 
 variable "db_admin_username" {
@@ -138,47 +108,4 @@ variable "viewer_group_name" {
   description = "Name of the viewer group"
   type        = string
   default     = "Platform Viewers"
-}
-
-variable "container_cpu" {
-  description = "CPU cores for the Backstage container"
-  type        = string
-  default     = "1.0"
-}
-
-variable "container_memory" {
-  description = "Memory in GB for the Backstage container"
-  type        = string
-  default     = "2.0"
-}
-
-variable "client_secret_end_date" {
-  description = "End date for Azure AD client secret (format: YYYY-MM-DDTHH:MM:SSZ)"
-  type        = string
-  default     = "2027-12-31T23:59:59Z"
-}
-
-# Cost monitoring variables
-variable "enable_component_budget" {
-  description = "Whether to create a budget for this component"
-  type        = bool
-  default     = false
-}
-
-variable "component_budget_amount" {
-  description = "Budget amount for this component in USD"
-  type        = number
-  default     = 20
-}
-
-variable "cost_alert_threshold" {
-  description = "Cost alert threshold percentage (e.g., 80 for 80%)"
-  type        = number
-  default     = 80
-}
-
-variable "cost_alert_emails" {
-  description = "List of email addresses to receive cost alerts"
-  type        = list(string)
-  default     = []
 }

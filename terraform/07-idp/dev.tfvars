@@ -1,15 +1,15 @@
 # Internal Developer Platform (IDP) - Development Environment
-resource_group_name = "azure-platform-dev-rg"
-location            = "Central India"
+# Reference foundation outputs for resource group
+resource_group_name = "rg-platform-dev-centralindia"
+location            = "centralindia"
 environment         = "dev"
-component_name      = "idp"
 
 # Azure Container Registry for Backstage images
 container_registry_name = "acrbackstagedev001"
 
 # Backend configuration - matches foundation
-tfstate_resource_group_name  = "terraform-state-rg"
-tfstate_storage_account_name = "sumittfstatestorage"
+tfstate_resource_group  = "rg-tfstate-dev-centralindia"
+tfstate_storage_account = "stterraformdev001"
 
 # PostgreSQL for Backstage
 postgresql_server_name = "psql-backstage-dev-001"
@@ -37,15 +37,11 @@ admin_group_name     = "Platform Admins - Dev"
 developer_group_name = "Platform Developers - Dev"
 viewer_group_name    = "Platform Viewers - Dev"
 
-# Cost monitoring configuration
-enable_component_budget = true
-component_budget_amount = 20 # $20/month budget for IDP component
-cost_alert_threshold    = 80 # Alert at 80% ($16)
-cost_alert_emails       = ["your-email@example.com"]
-
 tags = {
   Environment = "dev"
   Project     = "azure-platform"
+  Component   = "idp"
+  Tool        = "backstage"
   ManagedBy   = "terraform"
-  CostCenter  = "engineering"
+  CostCenter  = "platform-engineering"
 }
