@@ -28,7 +28,7 @@ variable "soft_delete_retention_days" {
 variable "purge_protection_enabled" {
   description = "Enable purge protection"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "ssh_public_key" {
