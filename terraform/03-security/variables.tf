@@ -22,7 +22,7 @@ variable "key_vault_sku" {
 variable "soft_delete_retention_days" {
   description = "Number of days to retain deleted items"
   type        = number
-  default     = 7
+  default     = 90
 }
 
 variable "purge_protection_enabled" {
