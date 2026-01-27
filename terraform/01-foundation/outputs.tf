@@ -8,6 +8,11 @@ output "component_resource_group_id" {
   value       = azurerm_resource_group.component.id
 }
 
+output "component_resource_group_location" {
+  description = "Location of the component resource group"
+  value       = azurerm_resource_group.component.location
+}
+
 output "tfstate_resource_group_name" {
   description = "Name of the terraform state resource group"
   value       = azurerm_resource_group.tfstate.name
