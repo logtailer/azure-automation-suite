@@ -18,6 +18,11 @@ variable "rg_budget_amount" {
 variable "alert_email" {
   description = "Email address for budget alerts"
   type        = string
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.alert_email))
+    error_message = "Must be a valid email address."
+  }
 }
 
 variable "tags" {
