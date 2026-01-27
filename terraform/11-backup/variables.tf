@@ -9,6 +9,12 @@ variable "vault_name" {
   default     = "platform-backup-vault"
 }
 
+variable "vault_sku" {
+  description = "SKU for the Recovery Services Vault"
+  type        = string
+  default     = "Standard"
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
