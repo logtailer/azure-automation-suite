@@ -9,6 +9,12 @@ variable "traffic_manager_name" {
   default     = "platform-tm"
 }
 
+variable "routing_method" {
+  description = "Traffic routing method: Priority, Weighted, Performance, or Geographic"
+  type        = string
+  default     = "Priority"
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
