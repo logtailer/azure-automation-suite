@@ -20,6 +20,17 @@ variable "appgw_name" {
   default     = "platform-appgw"
 }
 
+variable "waf_mode" {
+  description = "WAF mode: Detection or Prevention"
+  type        = string
+  default     = "Prevention"
+
+  validation {
+    condition     = contains(["Detection", "Prevention"], var.waf_mode)
+    error_message = "WAF mode must be either Detection or Prevention."
+  }
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
