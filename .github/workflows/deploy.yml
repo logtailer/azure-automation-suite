@@ -10,7 +10,7 @@ on:
         type: choice
         options:
           - dev
-          - test
+          - staging
           - prod
         default: 'dev'
       location:
@@ -33,6 +33,12 @@ on:
           - 05-observability
           - 06-cicd
           - 07-idp
+          - 08-artifactory
+          - 09-governance
+          - 10-cost-management
+          - 11-backup
+          - 12-appgateway
+          - 13-traffic-manager
         default: '02-networking'
 
 env:
