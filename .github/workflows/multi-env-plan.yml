@@ -1,0 +1,43 @@
+name: Multi-Environment Terraform Plan
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**'
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
+  TF_STATE_RESOURCE_GROUP: ${{ secrets.TF_STATE_RESOURCE_GROUP }}
+
+jobs:
+  plan:
+    name: Plan ${{ matrix.module }} / ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [dev, staging, prod]
+        module:
+          - 02-networking
+          - 03-security
+          - 04-aks
+          - 05-observability
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.6"
+
+      - name: Terraform Init
+        working-directory: terraform/${{ matrix.module }}
+        run: terraform init -backend-config=backend.hcl
+
+      - name: Terraform Plan
+        working-directory: terraform/${{ matrix.module }}
+        run: terraform plan -var-file=${{ matrix.environment }}.tfvars -no-color
