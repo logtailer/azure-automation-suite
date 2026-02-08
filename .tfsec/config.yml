@@ -1,0 +1,6 @@
+severity_overrides:
+  AVD-AZU-0016: WARNING  # Storage account public access
+  AVD-AZU-0028: WARNING  # AKS dashboard enabled
+
+exclude:
+  - AVD-AZU-0048  # Managed disk encryption — handled by platform policy

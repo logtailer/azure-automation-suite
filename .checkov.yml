@@ -1,0 +1,12 @@
+directory:
+  - terraform
+
+framework:
+  - terraform
+
+skip-check:
+  - CKV_AZURE_35   # Storage account public access — dev only
+  - CKV_AZURE_110  # Function app HTTPS only — not in scope
+
+compact: true
+quiet: false
