@@ -32,6 +32,12 @@ variable "aks_subnet_address_prefixes" {
   default     = ["10.0.10.0/23"]
 }
 
+variable "enable_ddos_protection" {
+  description = "Enable Azure DDoS Network Protection plan on the VNet"
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)

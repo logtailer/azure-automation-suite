@@ -8,6 +8,8 @@ public_subnet_address_prefixes  = ["10.2.1.0/24"]
 private_subnet_address_prefixes = ["10.2.2.0/23"]
 aks_subnet_address_prefixes     = ["10.2.10.0/22"]
 
+enable_ddos_protection = true
+
 tags = {
   Environment = "production"
   Project     = "azure-platform"

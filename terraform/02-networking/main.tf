@@ -20,11 +20,27 @@ data "azurerm_resource_group" "foundation" {
 }
 
 # Create VNet for networking
+resource "azurerm_network_ddos_protection_plan" "main" {
+  count               = var.enable_ddos_protection ? 1 : 0
+  name                = "ddos-protection-plan"
+  location            = data.azurerm_resource_group.foundation.location
+  resource_group_name = data.azurerm_resource_group.foundation.name
+  tags                = var.tags
+}
+
 resource "azurerm_virtual_network" "main" {
   name                = var.vnet_name
   address_space       = var.vnet_address_space
   location            = data.azurerm_resource_group.foundation.location
   resource_group_name = data.azurerm_resource_group.foundation.name
+
+  dynamic "ddos_protection_plan" {
+    for_each = var.enable_ddos_protection ? [1] : []
+    content {
+      id     = azurerm_network_ddos_protection_plan.main[0].id
+      enable = true
+    }
+  }
 
   tags = var.tags
 }
