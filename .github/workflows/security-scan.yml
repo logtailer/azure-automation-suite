@@ -1,0 +1,35 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'terraform/**'
+
+jobs:
+  tfsec:
+    name: tfsec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: terraform
+          additional_args: --config-file ../.tfsec/config.yml
+
+  checkov:
+    name: checkov
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform
+          config_file: .checkov.yml
+          output_format: cli
+          soft_fail: false
