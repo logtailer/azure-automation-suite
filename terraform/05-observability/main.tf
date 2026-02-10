@@ -20,6 +20,7 @@ data "azurerm_resource_group" "main" {
 }
 
 # Log Analytics Workspace
+#checkov:skip=CKV_AZURE_84:Customer-managed keys handled by platform Key Vault policy
 resource "azurerm_log_analytics_workspace" "main" {
   name                = var.log_analytics_workspace_name
   location            = data.azurerm_resource_group.main.location
