@@ -81,6 +81,12 @@ variable "maintenance_window_node_os_not_allowed_end" { type = string }
 variable "image_cleaner_enabled" { type = bool }
 variable "image_cleaner_interval_hours" { type = number }
 
+variable "api_server_authorized_ip_ranges" {
+  description = "List of CIDR blocks authorized to access the Kubernetes API server"
+  type        = list(string)
+  default     = []
+}
+
 # Bastion variables
 variable "bastion_subnet_id" {
   description = "The subnet ID for Azure Bastion. Should be a subnet named 'AzureBastionSubnet' in your VNet."

@@ -75,6 +75,13 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
   private_cluster_enabled           = var.private_cluster_enabled
   role_based_access_control_enabled = var.role_based_access_control_enabled
+
+  dynamic "api_server_access_profile" {
+    for_each = !var.private_cluster_enabled && length(var.api_server_authorized_ip_ranges) > 0 ? [1] : []
+    content {
+      authorized_ip_ranges = var.api_server_authorized_ip_ranges
+    }
+  }
   azure_policy_enabled              = var.azure_policy_enabled
   local_account_disabled            = var.local_account_disabled
 
