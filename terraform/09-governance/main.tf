@@ -27,7 +27,7 @@ resource "azurerm_policy_assignment" "require_tags" {
 
   parameters = jsonencode({
     tagNames = {
-      value = ["Environment", "Owner", "Project"]
+      value = ["Environment", "Project", "ManagedBy", "CostCenter"]
     }
   })
 }
