@@ -53,3 +53,4 @@ override.tf.json
 **/*.md
 !CREDENTIALS_GUIDE.md
 !README.md
+!docs/*.md
