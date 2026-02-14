@@ -29,6 +29,17 @@ variable "tags" {
   default     = {}
 }
 
+variable "data_classification" {
+  description = "Data classification level for compliance tagging (public, internal, confidential)"
+  type        = string
+  default     = "internal"
+
+  validation {
+    condition     = contains(["public", "internal", "confidential"], var.data_classification)
+    error_message = "data_classification must be one of: public, internal, confidential."
+  }
+}
+
 # Cost monitoring variables
 variable "monthly_budget_amount" {
   description = "Monthly budget amount in USD for cost monitoring"
