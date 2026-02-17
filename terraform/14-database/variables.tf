@@ -113,3 +113,15 @@ variable "redis_sku_name" {
   type    = string
   default = "Standard"
 }
+
+variable "enable_private_endpoint" {
+  description = "Enable private endpoints for database resources"
+  type        = bool
+  default     = false
+}
+
+variable "private_endpoint_subnet_id" {
+  description = "Subnet ID for private endpoint placement"
+  type        = string
+  default     = ""
+}
