@@ -131,3 +131,18 @@ variable "log_analytics_workspace_id" {
   type        = string
   default     = ""
 }
+
+variable "allow_azure_services" {
+  description = "Allow Azure services to access the PostgreSQL server"
+  type        = bool
+  default     = false
+}
+
+variable "postgresql_allowed_ip_ranges" {
+  description = "Map of named IP ranges allowed to access PostgreSQL (name -> {start, end})"
+  type = map(object({
+    start = string
+    end   = string
+  }))
+  default = {}
+}
