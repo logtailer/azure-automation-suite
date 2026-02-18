@@ -125,3 +125,9 @@ variable "private_endpoint_subnet_id" {
   type        = string
   default     = ""
 }
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics workspace ID for diagnostic settings"
+  type        = string
+  default     = ""
+}
