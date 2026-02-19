@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tf-observability
+  title: Terraform Module: observability
+  description: Azure infrastructure module for observability
+  annotations:
+    github.com/project-slug: logtailer/azure-automation-suite
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - terraform
+    - azure
+    - observability
+spec:
+  type: infrastructure
+  lifecycle: production
+  owner: platform-team
+  system: azure-platform

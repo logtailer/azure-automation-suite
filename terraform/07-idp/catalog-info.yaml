@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tf-idp
+  title: Terraform Module: idp
+  description: Azure infrastructure module for idp
+  annotations:
+    github.com/project-slug: logtailer/azure-automation-suite
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - terraform
+    - azure
+    - idp
+spec:
+  type: infrastructure
+  lifecycle: production
+  owner: platform-team
+  system: azure-platform
