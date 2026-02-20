@@ -1,0 +1,30 @@
+site_name: Azure Platform Engineering Suite
+site_description: Terraform infrastructure modules for Azure platform engineering
+repo_url: https://github.com/logtailer/azure-automation-suite
+
+nav:
+  - Home: index.md
+  - Architecture: docs/architecture.md
+  - Deployment Guide: docs/deployment-guide.md
+  - Tagging Strategy: docs/tagging-strategy.md
+  - Modules:
+      - Foundation: terraform/01-foundation/README.md
+      - Networking: terraform/02-networking/README.md
+      - Security: terraform/03-security/README.md
+      - AKS: terraform/04-aks/README.md
+      - Observability: terraform/05-observability/README.md
+      - CI/CD: terraform/06-cicd/README.md
+      - IDP: terraform/07-idp/README.md
+      - Artifactory: terraform/08-artifactory/README.md
+      - Governance: terraform/09-governance/README.md
+      - Cost Management: terraform/10-cost-management/README.md
+      - Backup: terraform/11-backup/README.md
+      - App Gateway: terraform/12-appgateway/README.md
+      - Traffic Manager: terraform/13-traffic-manager/README.md
+      - Database: terraform/14-database/README.md
+
+plugins:
+  - techdocs-core
+
+theme:
+  name: material
