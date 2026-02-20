@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tf-governance
+  title: Terraform Module: governance
+  description: Azure infrastructure module for governance
+  annotations:
+    github.com/project-slug: logtailer/azure-automation-suite
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - terraform
+    - azure
+    - governance
+spec:
+  type: infrastructure
+  lifecycle: production
+  owner: platform-team
+  system: azure-platform

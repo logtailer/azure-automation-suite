@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tf-artifactory
+  title: Terraform Module: artifactory
+  description: Azure infrastructure module for artifactory
+  annotations:
+    github.com/project-slug: logtailer/azure-automation-suite
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - terraform
+    - azure
+    - artifactory
+spec:
+  type: infrastructure
+  lifecycle: production
+  owner: platform-team
+  system: azure-platform
