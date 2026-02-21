@@ -1,0 +1,60 @@
+name: Reusable Terraform Deploy
+
+on:
+  workflow_call:
+    inputs:
+      module:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      working_directory:
+        required: false
+        type: string
+        default: terraform
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      ARM_TENANT_ID:
+        required: true
+      TF_STATE_STORAGE_ACCOUNT:
+        required: true
+      TF_STATE_RESOURCE_GROUP:
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.module }} to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.6"
+
+      - name: Terraform Init
+        working-directory: ${{ inputs.working_directory }}/${{ inputs.module }}
+        run: terraform init -backend-config=backend.hcl
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: ${{ inputs.working_directory }}/${{ inputs.module }}
+        run: terraform plan -var-file=${{ inputs.environment }}.tfvars -out=tfplan -no-color
+
+      - name: Terraform Apply
+        working-directory: ${{ inputs.working_directory }}/${{ inputs.module }}
+        run: terraform apply -auto-approve tfplan
