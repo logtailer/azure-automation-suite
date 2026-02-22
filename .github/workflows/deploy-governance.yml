@@ -1,0 +1,39 @@
+name: Deploy Governance
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/09-governance/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, staging, prod]
+        default: dev
+
+jobs:
+  deploy-dev:
+    if: github.event_name == 'push' || inputs.environment == 'dev'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 09-governance
+      environment: dev
+    secrets: inherit
+
+  deploy-staging:
+    if: inputs.environment == 'staging'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 09-governance
+      environment: staging
+    secrets: inherit
+
+  deploy-prod:
+    if: inputs.environment == 'prod'
+    needs: [deploy-staging]
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 09-governance
+      environment: prod
+    secrets: inherit

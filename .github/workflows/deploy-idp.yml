@@ -1,0 +1,39 @@
+name: Deploy Idp
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/07-idp/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, staging, prod]
+        default: dev
+
+jobs:
+  deploy-dev:
+    if: github.event_name == 'push' || inputs.environment == 'dev'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 07-idp
+      environment: dev
+    secrets: inherit
+
+  deploy-staging:
+    if: inputs.environment == 'staging'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 07-idp
+      environment: staging
+    secrets: inherit
+
+  deploy-prod:
+    if: inputs.environment == 'prod'
+    needs: [deploy-staging]
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 07-idp
+      environment: prod
+    secrets: inherit
