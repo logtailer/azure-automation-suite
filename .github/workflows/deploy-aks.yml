@@ -1,0 +1,39 @@
+name: Deploy Aks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/04-aks/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, staging, prod]
+        default: dev
+
+jobs:
+  deploy-dev:
+    if: github.event_name == 'push' || inputs.environment == 'dev'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 04-aks
+      environment: dev
+    secrets: inherit
+
+  deploy-staging:
+    if: inputs.environment == 'staging'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 04-aks
+      environment: staging
+    secrets: inherit
+
+  deploy-prod:
+    if: inputs.environment == 'prod'
+    needs: [deploy-staging]
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 04-aks
+      environment: prod
+    secrets: inherit

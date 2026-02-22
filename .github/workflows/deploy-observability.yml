@@ -1,0 +1,39 @@
+name: Deploy Observability
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/05-observability/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [dev, staging, prod]
+        default: dev
+
+jobs:
+  deploy-dev:
+    if: github.event_name == 'push' || inputs.environment == 'dev'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 05-observability
+      environment: dev
+    secrets: inherit
+
+  deploy-staging:
+    if: inputs.environment == 'staging'
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 05-observability
+      environment: staging
+    secrets: inherit
+
+  deploy-prod:
+    if: inputs.environment == 'prod'
+    needs: [deploy-staging]
+    uses: ./.github/workflows/reusable-terraform-deploy.yml
+    with:
+      module: 05-observability
+      environment: prod
+    secrets: inherit
