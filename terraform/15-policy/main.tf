@@ -43,6 +43,15 @@ resource "azurerm_policy_definition" "deny_ssh_rdp_from_internet" {
   policy_rule = file("${path.module}/definitions/deny-ssh-rdp-internet.json")
 }
 
+resource "azurerm_policy_definition" "require_tags" {
+  name         = "require-platform-tags"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Require platform tags on all resources"
+
+  policy_rule = file("${path.module}/definitions/require-tags.json")
+}
+
 resource "azurerm_policy_set_definition" "platform_baseline" {
   name         = "platform-security-baseline"
   policy_type  = "Custom"
@@ -56,6 +65,9 @@ resource "azurerm_policy_set_definition" "platform_baseline" {
   }
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.deny_ssh_rdp_from_internet.id
+  }
+  policy_definition_reference {
+    policy_definition_id = azurerm_policy_definition.require_tags.id
   }
 }
 

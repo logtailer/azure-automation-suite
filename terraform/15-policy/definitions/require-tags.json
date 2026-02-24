@@ -1,0 +1,23 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "notIn": [
+          "Microsoft.Resources/subscriptions",
+          "Microsoft.Resources/subscriptions/resourceGroups"
+        ]
+      },
+      {
+        "anyOf": [
+          { "field": "tags['Environment']", "exists": "false" },
+          { "field": "tags['Project']", "exists": "false" },
+          { "field": "tags['ManagedBy']", "exists": "false" }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "deny"
+  }
+}
