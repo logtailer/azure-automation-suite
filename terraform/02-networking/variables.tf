@@ -32,6 +32,18 @@ variable "aks_subnet_address_prefixes" {
   default     = ["10.0.10.0/23"]
 }
 
+variable "enable_hub_spoke" {
+  description = "Enable hub-spoke network topology with VNet peering"
+  type        = bool
+  default     = false
+}
+
+variable "hub_vnet_address_space" {
+  description = "Address space for the hub VNet"
+  type        = list(string)
+  default     = ["10.100.0.0/16"]
+}
+
 variable "enable_ddos_protection" {
   description = "Enable Azure DDoS Network Protection plan on the VNet"
   type        = bool
