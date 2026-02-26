@@ -44,6 +44,24 @@ variable "hub_vnet_address_space" {
   default     = ["10.100.0.0/16"]
 }
 
+variable "enable_vpn_gateway" {
+  description = "Deploy a VPN gateway into the GatewaySubnet"
+  type        = bool
+  default     = false
+}
+
+variable "gateway_subnet_address_prefix" {
+  description = "Address prefix for the GatewaySubnet (must be /27 or larger)"
+  type        = list(string)
+  default     = ["10.100.255.0/27"]
+}
+
+variable "vpn_gateway_sku" {
+  description = "SKU for the VPN gateway (VpnGw1, VpnGw2, VpnGw3, Basic)"
+  type        = string
+  default     = "VpnGw1"
+}
+
 variable "enable_ddos_protection" {
   description = "Enable Azure DDoS Network Protection plan on the VNet"
   type        = bool
