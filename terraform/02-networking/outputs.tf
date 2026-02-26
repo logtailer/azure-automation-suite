@@ -37,3 +37,13 @@ output "private_nsg_id" {
   description = "ID of the private network security group"
   value       = azurerm_network_security_group.private.id
 }
+
+output "hub_vnet_id" {
+  description = "Resource ID of the hub VNet (null if hub-spoke is disabled)"
+  value       = var.enable_hub_spoke ? azurerm_virtual_network.hub[0].id : null
+}
+
+output "vpn_gateway_id" {
+  description = "Resource ID of the VPN gateway (null if disabled)"
+  value       = var.enable_vpn_gateway ? azurerm_virtual_network_gateway.main[0].id : null
+}
