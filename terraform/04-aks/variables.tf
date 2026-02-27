@@ -121,3 +121,15 @@ variable "usr_node_pool_os_disk_size_gb" { type = number }
 variable "usr_node_pool_os_sku" { type = string }
 variable "usr_node_pool_os_type" { type = string }
 variable "usr_node_pool_vnet_subnet_id" { type = string }
+
+variable "enable_istio" {
+  description = "Enable Istio service mesh via Azure AKS mesh add-on"
+  type        = bool
+  default     = false
+}
+
+variable "istio_version" {
+  description = "Istio revision to install (e.g. asm-1-20)"
+  type        = string
+  default     = "asm-1-20"
+}
