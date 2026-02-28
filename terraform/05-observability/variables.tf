@@ -157,3 +157,21 @@ variable "opsgenie_webhook_url" {
   default     = ""
   sensitive   = true
 }
+
+variable "enable_audit_workspace" {
+  description = "Create a dedicated Log Analytics workspace for audit logs"
+  type        = bool
+  default     = false
+}
+
+variable "audit_log_retention_days" {
+  description = "Retention in days for the audit Log Analytics workspace"
+  type        = number
+  default     = 365
+}
+
+variable "enable_data_collection_rule" {
+  description = "Create a data collection rule for platform-wide log aggregation"
+  type        = bool
+  default     = false
+}
