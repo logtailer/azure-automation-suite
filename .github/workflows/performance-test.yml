@@ -1,0 +1,34 @@
+name: Performance Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [staging, prod]
+        default: staging
+      test_type:
+        type: choice
+        options: [baseline, stress]
+        default: baseline
+
+jobs:
+  k6:
+    name: k6 ${{ inputs.test_type }} test on ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run k6
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: scripts/performance-tests/k6-${{ inputs.test_type }}.js
+        env:
+          TARGET_URL: ${{ inputs.environment == 'prod' && secrets.PROD_URL || secrets.STAGING_URL }}
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-results-${{ inputs.test_type }}-${{ inputs.environment }}
+          path: results.json
