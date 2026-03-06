@@ -138,6 +138,12 @@ variable "allow_azure_services" {
   default     = false
 }
 
+variable "key_vault_id" {
+  description = "Key Vault resource ID to store database connection strings as secrets"
+  type        = string
+  default     = ""
+}
+
 variable "postgresql_allowed_ip_ranges" {
   description = "Map of named IP ranges allowed to access PostgreSQL (name -> {start, end})"
   type = map(object({
