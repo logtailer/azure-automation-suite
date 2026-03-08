@@ -73,3 +73,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "enable_route_table" {
+  description = "Create a custom route table for private subnet routing"
+  type        = bool
+  default     = false
+}
+
+variable "firewall_private_ip" {
+  description = "Private IP of Azure Firewall for UDR routing"
+  type        = string
+  default     = ""
+}
