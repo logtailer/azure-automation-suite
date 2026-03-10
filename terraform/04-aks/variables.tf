@@ -133,3 +133,15 @@ variable "istio_version" {
   type        = string
   default     = "asm-1-20"
 }
+
+variable "spot_node_pool_enabled" {
+  description = "Enable a spot instance node pool for cost-optimized workloads"
+  type        = bool
+  default     = false
+}
+
+variable "spot_node_pool_vm_size" {
+  description = "VM size for the spot node pool"
+  type        = string
+  default     = "Standard_D4s_v3"
+}
