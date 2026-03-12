@@ -394,3 +394,9 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+variable "key_vault_private_endpoint_subnet_id" {
+  description = "Subnet ID for Key Vault private endpoint"
+  type        = string
+  default     = ""
+}
