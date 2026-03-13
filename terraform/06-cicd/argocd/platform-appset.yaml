@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-services
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - service: api
+            namespace: platform
+          - service: worker
+            namespace: platform
+  template:
+    metadata:
+      name: "{{service}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/logtailer/azure-automation-suite
+        targetRevision: HEAD
+        path: "applications/{{service}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
