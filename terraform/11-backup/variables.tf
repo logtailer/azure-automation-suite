@@ -20,3 +20,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "backup_policy_name" {
+  description = "Name of the backup policy to apply"
+  type        = string
+  default     = "DefaultPolicy"
+}
+
+variable "enable_cross_region_restore" {
+  description = "Enable cross-region restore for the Recovery Services vault"
+  type        = bool
+  default     = false
+}
