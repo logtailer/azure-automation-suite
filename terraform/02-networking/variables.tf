@@ -85,3 +85,9 @@ variable "firewall_private_ip" {
   type        = string
   default     = ""
 }
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics workspace ID for NSG diagnostic settings"
+  type        = string
+  default     = ""
+}
