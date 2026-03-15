@@ -175,3 +175,15 @@ variable "enable_data_collection_rule" {
   type        = bool
   default     = false
 }
+
+variable "alert_window_size" {
+  description = "Window size for metric alert evaluation (ISO 8601 duration)"
+  type        = string
+  default     = "PT15M"
+}
+
+variable "alert_evaluation_frequency" {
+  description = "How often metric alerts are evaluated (ISO 8601 duration)"
+  type        = string
+  default     = "PT5M"
+}
