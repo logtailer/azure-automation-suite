@@ -1,0 +1,21 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerScaleSet
+metadata:
+  name: azure-runner-scale-set
+  namespace: arc-runners
+spec:
+  githubConfigUrl: https://github.com/logtailer/azure-automation-suite
+  minRunners: 1
+  maxRunners: 10
+  template:
+    spec:
+      containers:
+        - name: runner
+          image: ghcr.io/actions/actions-runner:latest
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
