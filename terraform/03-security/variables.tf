@@ -400,3 +400,9 @@ variable "key_vault_private_endpoint_subnet_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_workload_identity" {
+  description = "Create a user-assigned managed identity for workload identity federation"
+  type        = bool
+  default     = false
+}
