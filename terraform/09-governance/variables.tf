@@ -14,3 +14,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "policy_exemption_ids" {
+  description = "List of resource IDs to exempt from policy enforcement"
+  type        = list(string)
+  default     = []
+}
