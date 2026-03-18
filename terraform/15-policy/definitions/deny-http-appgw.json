@@ -1,0 +1,23 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/applicationGateways"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/applicationGateways/httpListeners[*]",
+          "where": {
+            "field": "Microsoft.Network/applicationGateways/httpListeners[*].protocol",
+            "equals": "Http"
+          }
+        },
+        "greater": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "audit"
+  }
+}
