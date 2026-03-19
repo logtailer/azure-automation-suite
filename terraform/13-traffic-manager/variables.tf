@@ -20,3 +20,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "probe_path" {
+  description = "Health probe path for Traffic Manager endpoints"
+  type        = string
+  default     = "/health"
+}
+
+variable "probe_interval_in_seconds" {
+  description = "Health probe interval in seconds"
+  type        = number
+  default     = 30
+}
