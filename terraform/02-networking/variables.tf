@@ -86,6 +86,18 @@ variable "firewall_private_ip" {
   default     = ""
 }
 
+variable "enable_bastion" {
+  description = "Deploy Azure Bastion for secure jump-host access without public SSH"
+  type        = bool
+  default     = false
+}
+
+variable "bastion_subnet_prefix" {
+  description = "Address prefix for AzureBastionSubnet (must be /26 or larger)"
+  type        = list(string)
+  default     = ["10.0.250.0/26"]
+}
+
 variable "log_analytics_workspace_id" {
   description = "Log Analytics workspace ID for NSG diagnostic settings"
   type        = string
