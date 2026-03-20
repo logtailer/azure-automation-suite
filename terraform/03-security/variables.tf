@@ -406,3 +406,9 @@ variable "enable_workload_identity" {
   type        = bool
   default     = false
 }
+
+variable "enable_tls_certificate" {
+  description = "Create a self-signed TLS certificate in Key Vault with 30-day auto-renewal"
+  type        = bool
+  default     = false
+}
