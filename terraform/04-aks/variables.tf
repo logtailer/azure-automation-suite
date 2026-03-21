@@ -145,3 +145,9 @@ variable "spot_node_pool_vm_size" {
   type        = string
   default     = "Standard_D4s_v3"
 }
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics workspace ID for AKS diagnostic settings and Container Insights"
+  type        = string
+  default     = ""
+}
