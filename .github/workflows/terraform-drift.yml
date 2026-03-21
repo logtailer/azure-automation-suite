@@ -1,0 +1,76 @@
+name: Terraform Drift Detection
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TF_VERSION: '1.7.0'
+
+jobs:
+  drift-detect:
+    name: Detect drift in ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - 01-foundation
+          - 02-networking
+          - 03-security
+          - 04-aks
+          - 05-observability
+          - 14-database
+          - 15-policy
+        environment: [prod]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Terraform Init
+        working-directory: terraform/${{ matrix.module }}
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=${{ secrets.TF_STATE_RG }}" \
+            -backend-config="storage_account_name=${{ secrets.TF_STATE_SA }}" \
+            -backend-config="container_name=tfstate" \
+            -backend-config="key=${{ matrix.module }}/${{ matrix.environment }}.tfstate"
+
+      - name: Terraform Plan (drift check)
+        id: plan
+        working-directory: terraform/${{ matrix.module }}
+        run: |
+          terraform plan \
+            -var-file="environments/${{ matrix.environment }}.tfvars" \
+            -detailed-exitcode \
+            -out=drift.tfplan 2>&1 | tee plan.out
+          echo "exitcode=$?" >> "$GITHUB_OUTPUT"
+        continue-on-error: true
+
+      - name: Evaluate drift
+        run: |
+          if [ "${{ steps.plan.outputs.exitcode }}" = "2" ]; then
+            echo "::warning title=Drift Detected::${{ matrix.module }} (${{ matrix.environment }}) has infrastructure drift"
+            exit 1
+          fi
+
+      - name: Notify on drift
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": ":rotating_light: *Terraform drift detected* in `${{ matrix.module }}` (`${{ matrix.environment }}`). See run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DRIFT_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
