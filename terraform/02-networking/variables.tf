@@ -103,3 +103,27 @@ variable "log_analytics_workspace_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_nsg_flow_logs" {
+  description = "Enable NSG flow logs with Network Watcher and traffic analytics"
+  type        = bool
+  default     = false
+}
+
+variable "flow_log_storage_account_id" {
+  description = "Storage account resource ID for NSG flow log retention"
+  type        = string
+  default     = ""
+}
+
+variable "log_analytics_workspace_resource_id" {
+  description = "Full resource ID of the Log Analytics workspace for traffic analytics"
+  type        = string
+  default     = ""
+}
+
+variable "location" {
+  description = "Azure region for networking resources"
+  type        = string
+  default     = "eastus"
+}
