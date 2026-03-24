@@ -412,3 +412,27 @@ variable "enable_tls_certificate" {
   type        = bool
   default     = false
 }
+
+variable "enable_workload_identity" {
+  description = "Create a user-assigned managed identity with federated credential for AKS workload identity"
+  type        = bool
+  default     = false
+}
+
+variable "aks_oidc_issuer_url" {
+  description = "OIDC issuer URL from the AKS cluster for federated identity binding"
+  type        = string
+  default     = ""
+}
+
+variable "workload_namespace" {
+  description = "Kubernetes namespace of the service account to federate"
+  type        = string
+  default     = "default"
+}
+
+variable "workload_service_account" {
+  description = "Kubernetes service account name to federate with the managed identity"
+  type        = string
+  default     = "workload-sa"
+}
