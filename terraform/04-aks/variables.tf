@@ -151,3 +151,9 @@ variable "log_analytics_workspace_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_velero" {
+  description = "Provision Velero backup storage account and managed identity for AKS cluster backups"
+  type        = bool
+  default     = false
+}
