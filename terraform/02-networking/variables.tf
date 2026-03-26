@@ -127,3 +127,15 @@ variable "location" {
   type        = string
   default     = "eastus"
 }
+
+variable "enable_private_dns" {
+  description = "Create private DNS zones for AKS and Key Vault and link them to the VNet"
+  type        = bool
+  default     = false
+}
+
+variable "aks_private_dns_zone_name" {
+  description = "Private DNS zone name for AKS (e.g. privatelink.eastus.azmk8s.io)"
+  type        = string
+  default     = "privatelink.eastus.azmk8s.io"
+}
