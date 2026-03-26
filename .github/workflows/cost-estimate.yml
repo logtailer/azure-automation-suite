@@ -1,0 +1,46 @@
+name: Terraform Cost Estimate
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**'
+
+jobs:
+  infracost:
+    name: Cost estimate for ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    strategy:
+      matrix:
+        module:
+          - 01-foundation
+          - 02-networking
+          - 03-security
+          - 04-aks
+          - 14-database
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v3
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      - name: Generate Infracost diff
+        run: |
+          infracost diff \
+            --path terraform/${{ matrix.module }} \
+            --format json \
+            --out-file /tmp/infracost-${{ matrix.module }}.json
+        env:
+          INFRACOST_TERRAFORM_VARS_FILE: terraform/${{ matrix.module }}/environments/prod.tfvars
+
+      - name: Post cost estimate comment
+        uses: infracost/actions/comment@v3
+        with:
+          path: /tmp/infracost-${{ matrix.module }}.json
+          behavior: update
+          tag: infracost-${{ matrix.module }}
