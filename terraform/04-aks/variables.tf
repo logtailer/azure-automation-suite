@@ -157,3 +157,15 @@ variable "enable_velero" {
   type        = bool
   default     = false
 }
+
+variable "acr_name" {
+  description = "Name of an existing Azure Container Registry to grant AcrPull to the AKS kubelet identity"
+  type        = string
+  default     = ""
+}
+
+variable "acr_resource_group_name" {
+  description = "Resource group containing the ACR referenced by acr_name"
+  type        = string
+  default     = ""
+}
