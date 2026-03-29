@@ -187,3 +187,15 @@ variable "alert_evaluation_frequency" {
   type        = string
   default     = "PT5M"
 }
+
+variable "critical_alert_emails" {
+  description = "Map of name => email address for critical alert action group receivers"
+  type        = map(string)
+  default     = {}
+}
+
+variable "warning_alert_emails" {
+  description = "Map of name => email address for warning alert action group receivers"
+  type        = map(string)
+  default     = {}
+}
