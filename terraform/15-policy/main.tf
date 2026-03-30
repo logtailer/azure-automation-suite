@@ -71,6 +71,29 @@ resource "azurerm_policy_set_definition" "platform_baseline" {
   }
 }
 
+resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
+  name         = "deny-unapproved-vm-skus"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Deny unapproved VM SKUs"
+
+  parameters = jsonencode({
+    allowedSkus = {
+      type     = "Array"
+      metadata = { displayName = "Allowed VM SKUs", description = "List of permitted VM SKU names" }
+      defaultValue = ["Standard_D2s_v3", "Standard_D4s_v3", "Standard_D8s_v3", "Standard_E4s_v3"]
+    }
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Deny", "Audit", "Disabled"]
+      defaultValue  = "Audit"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/deny-unapproved-vm-skus.json")
+}
+
 resource "azurerm_subscription_policy_assignment" "baseline" {
   name                 = "platform-security-baseline"
   subscription_id      = data.azurerm_subscription.current.id
