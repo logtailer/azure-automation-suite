@@ -1,0 +1,25 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.KeyVault/vaults"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.KeyVault/vaults/enableSoftDelete",
+            "notEquals": true
+          },
+          {
+            "field": "Microsoft.KeyVault/vaults/enablePurgeProtection",
+            "notEquals": true
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

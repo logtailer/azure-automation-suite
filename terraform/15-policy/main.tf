@@ -71,6 +71,24 @@ resource "azurerm_policy_set_definition" "platform_baseline" {
   }
 }
 
+resource "azurerm_policy_definition" "audit_keyvault_soft_delete" {
+  name         = "audit-keyvault-soft-delete"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Audit Key Vault soft delete and purge protection"
+
+  parameters = jsonencode({
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Audit", "Deny", "Disabled"]
+      defaultValue  = "Audit"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/audit-keyvault-soft-delete.json")
+}
+
 resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
   name         = "deny-unapproved-vm-skus"
   policy_type  = "Custom"
