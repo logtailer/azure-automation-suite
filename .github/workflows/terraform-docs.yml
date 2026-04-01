@@ -1,0 +1,42 @@
+name: Terraform Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/**/*.tf'
+  pull_request:
+    paths:
+      - 'terraform/**/*.tf'
+
+jobs:
+  terraform-docs:
+    name: Update terraform-docs for ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      matrix:
+        module:
+          - 01-foundation
+          - 02-networking
+          - 03-security
+          - 04-aks
+          - 05-observability
+          - 14-database
+          - 15-policy
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Generate terraform-docs
+        uses: terraform-docs/gh-actions@v1
+        with:
+          working-dir: terraform/${{ matrix.module }}
+          output-file: README.md
+          output-method: inject
+          git-push: ${{ github.event_name == 'push' }}
+          git-commit-message: "docs(${{ matrix.module }}): auto-update terraform-docs [skip ci]"
