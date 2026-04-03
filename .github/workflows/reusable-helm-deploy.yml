@@ -1,0 +1,79 @@
+name: Reusable Helm Deploy
+
+on:
+  workflow_call:
+    inputs:
+      chart_path:
+        description: "Path to the Helm chart or OCI chart reference"
+        required: true
+        type: string
+      release_name:
+        description: "Helm release name"
+        required: true
+        type: string
+      namespace:
+        description: "Kubernetes namespace"
+        required: true
+        type: string
+      values_file:
+        description: "Path to values file"
+        required: false
+        type: string
+        default: ""
+      environment:
+        description: "Target environment (dev, staging, prod)"
+        required: true
+        type: string
+      atomic:
+        description: "Roll back on failure"
+        required: false
+        type: boolean
+        default: true
+    secrets:
+      KUBE_CONFIG:
+        required: true
+
+jobs:
+  helm-deploy:
+    name: Deploy ${{ inputs.release_name }} to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.0
+
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p "$HOME/.kube"
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+
+      - name: Helm upgrade --install
+        run: |
+          HELM_ARGS=(
+            upgrade --install "${{ inputs.release_name }}" "${{ inputs.chart_path }}"
+            --namespace "${{ inputs.namespace }}"
+            --create-namespace
+            --wait
+            --timeout 5m
+          )
+          if [[ "${{ inputs.atomic }}" == "true" ]]; then
+            HELM_ARGS+=(--atomic)
+          fi
+          if [[ -n "${{ inputs.values_file }}" ]]; then
+            HELM_ARGS+=(-f "${{ inputs.values_file }}")
+          fi
+          HELM_ARGS+=(--set "image.tag=${{ github.sha }}")
+          helm "${HELM_ARGS[@]}"
+
+      - name: Verify rollout
+        run: |
+          kubectl rollout status deployment -n "${{ inputs.namespace }}" --timeout=120s || true
