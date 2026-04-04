@@ -1,0 +1,74 @@
+name: Reusable Slack Notification
+
+on:
+  workflow_call:
+    inputs:
+      status:
+        description: "Job status: success, failure, or cancelled"
+        required: true
+        type: string
+      workflow_name:
+        description: "Display name for the workflow that triggered the notification"
+        required: true
+        type: string
+      environment:
+        description: "Target environment"
+        required: false
+        type: string
+        default: ""
+      mention_on_failure:
+        description: "Slack user or group ID to mention on failure (e.g. @oncall)"
+        required: false
+        type: string
+        default: ""
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
+
+jobs:
+  notify:
+    name: Notify Slack
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build Slack payload
+        id: payload
+        run: |
+          ICON=":white_check_mark:"
+          COLOR="good"
+          if [[ "${{ inputs.status }}" == "failure" ]]; then
+            ICON=":x:"
+            COLOR="danger"
+          elif [[ "${{ inputs.status }}" == "cancelled" ]]; then
+            ICON=":warning:"
+            COLOR="warning"
+          fi
+
+          ENV_SUFFIX=""
+          if [[ -n "${{ inputs.environment }}" ]]; then
+            ENV_SUFFIX=" (\`${{ inputs.environment }}\`)"
+          fi
+
+          MENTION=""
+          if [[ "${{ inputs.status }}" == "failure" && -n "${{ inputs.mention_on_failure }}" ]]; then
+            MENTION=" ${{ inputs.mention_on_failure }}"
+          fi
+
+          echo "icon=$ICON" >> "$GITHUB_OUTPUT"
+          echo "color=$COLOR" >> "$GITHUB_OUTPUT"
+          echo "env_suffix=$ENV_SUFFIX" >> "$GITHUB_OUTPUT"
+          echo "mention=$MENTION" >> "$GITHUB_OUTPUT"
+
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "attachments": [{
+                "color": "${{ steps.payload.outputs.color }}",
+                "text": "${{ steps.payload.outputs.icon }} *${{ inputs.workflow_name }}*${{ steps.payload.outputs.env_suffix }} — ${{ inputs.status }}${{ steps.payload.outputs.mention }}\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
