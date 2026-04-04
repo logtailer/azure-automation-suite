@@ -1,0 +1,74 @@
+name: Reusable Integration Test
+
+on:
+  workflow_call:
+    inputs:
+      test_command:
+        description: "Command to run integration tests"
+        required: false
+        type: string
+        default: "make test-integration"
+      environment:
+        description: "Environment to run tests against"
+        required: true
+        type: string
+      timeout_minutes:
+        description: "Test timeout in minutes"
+        required: false
+        type: number
+        default: 30
+      working_directory:
+        description: "Working directory for the test command"
+        required: false
+        type: string
+        default: "."
+    secrets:
+      KUBE_CONFIG:
+        required: false
+      TEST_DB_URL:
+        required: false
+      TEST_API_KEY:
+        required: false
+    outputs:
+      test_result:
+        description: "Test result (success or failure)"
+        value: ${{ jobs.test.outputs.result }}
+
+jobs:
+  test:
+    name: Integration tests (${{ inputs.environment }})
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    outputs:
+      result: ${{ steps.run.outcome }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure kubeconfig
+        if: ${{ secrets.KUBE_CONFIG != '' }}
+        run: |
+          mkdir -p "$HOME/.kube"
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+
+      - name: Run integration tests
+        id: run
+        working-directory: ${{ inputs.working_directory }}
+        env:
+          TEST_ENV: ${{ inputs.environment }}
+          TEST_DB_URL: ${{ secrets.TEST_DB_URL }}
+          TEST_API_KEY: ${{ secrets.TEST_API_KEY }}
+        run: ${{ inputs.test_command }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results-${{ inputs.environment }}
+          path: |
+            **/test-results/**
+            **/coverage/**
+          retention-days: 14
+          if-no-files-found: ignore
