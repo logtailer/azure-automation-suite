@@ -1,0 +1,73 @@
+name: Reusable Database Migration
+
+on:
+  workflow_call:
+    inputs:
+      migration_tool:
+        description: "Migration tool: flyway, liquibase, or alembic"
+        required: false
+        type: string
+        default: "flyway"
+      migration_dir:
+        description: "Directory containing migration files"
+        required: false
+        type: string
+        default: "db/migrations"
+      environment:
+        description: "Target environment"
+        required: true
+        type: string
+      dry_run:
+        description: "Run in dry-run / validate mode only"
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      DB_URL:
+        required: true
+      DB_USER:
+        required: true
+      DB_PASSWORD:
+        required: true
+
+jobs:
+  migrate:
+    name: DB migration (${{ inputs.environment }})
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Flyway migration
+        if: inputs.migration_tool == 'flyway'
+        uses: flyway/flyway-github-action@v1
+        with:
+          args: ${{ inputs.dry_run && 'validate' || 'migrate' }} -locations=filesystem:${{ inputs.migration_dir }}
+        env:
+          FLYWAY_URL: ${{ secrets.DB_URL }}
+          FLYWAY_USER: ${{ secrets.DB_USER }}
+          FLYWAY_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+      - name: Run Alembic migration
+        if: inputs.migration_tool == 'alembic'
+        run: |
+          pip install alembic psycopg2-binary
+          if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+            alembic check
+          else
+            alembic upgrade head
+          fi
+        env:
+          DATABASE_URL: ${{ secrets.DB_URL }}
+
+      - name: Run Liquibase migration
+        if: inputs.migration_tool == 'liquibase'
+        uses: liquibase/liquibase-github-action@v2
+        with:
+          operation: ${{ inputs.dry_run && 'status' || 'update' }}
+          classpath: ${{ inputs.migration_dir }}
+          changeLogFile: changelog.xml
+          username: ${{ secrets.DB_USER }}
+          password: ${{ secrets.DB_PASSWORD }}
+          url: ${{ secrets.DB_URL }}
