@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-overview-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  platform-overview.json: |
+    {
+      "title": "Platform Overview",
+      "uid": "platform-overview",
+      "schemaVersion": 36,
+      "version": 1,
+      "refresh": "30s",
+      "panels": [
+        {
+          "id": 1,
+          "type": "stat",
+          "title": "Total Pods Running",
+          "gridPos": { "x": 0, "y": 0, "w": 4, "h": 4 },
+          "targets": [{
+            "expr": "count(kube_pod_status_phase{phase=\"Running\"})",
+            "legendFormat": "Running pods"
+          }]
+        },
+        {
+          "id": 2,
+          "type": "stat",
+          "title": "Nodes Ready",
+          "gridPos": { "x": 4, "y": 0, "w": 4, "h": 4 },
+          "targets": [{
+            "expr": "count(kube_node_status_condition{condition=\"Ready\",status=\"true\"})",
+            "legendFormat": "Ready nodes"
+          }]
+        },
+        {
+          "id": 3,
+          "type": "timeseries",
+          "title": "Cluster CPU Usage %",
+          "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+          "targets": [{
+            "expr": "(1 - avg(irate(node_cpu_seconds_total{mode=\"idle\"}[5m]))) * 100",
+            "legendFormat": "CPU %"
+          }]
+        },
+        {
+          "id": 4,
+          "type": "timeseries",
+          "title": "Pod Restart Rate",
+          "gridPos": { "x": 12, "y": 4, "w": 12, "h": 8 },
+          "targets": [{
+            "expr": "sum(rate(kube_pod_container_status_restarts_total[5m])) by (namespace)",
+            "legendFormat": "{{ namespace }}"
+          }]
+        }
+      ]
+    }
