@@ -139,3 +139,21 @@ variable "aks_private_dns_zone_name" {
   type        = string
   default     = "privatelink.eastus.azmk8s.io"
 }
+
+variable "enable_firewall" {
+  description = "Deploy Azure Firewall into AzureFirewallSubnet for centralized egress control"
+  type        = bool
+  default     = false
+}
+
+variable "firewall_subnet_address_prefix" {
+  description = "Address prefix for AzureFirewallSubnet (must be /26 or larger)"
+  type        = list(string)
+  default     = ["10.0.240.0/26"]
+}
+
+variable "firewall_sku_tier" {
+  description = "Azure Firewall SKU tier: Standard or Premium"
+  type        = string
+  default     = "Standard"
+}
