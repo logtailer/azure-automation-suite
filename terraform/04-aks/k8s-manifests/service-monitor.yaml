@@ -1,0 +1,40 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: platform-api-monitor
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - platform
+  selector:
+    matchLabels:
+      app: platform-api
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+      honorLabels: true
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: platform-worker-monitor
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector:
+    matchNames:
+      - platform
+  selector:
+    matchLabels:
+      app: platform-worker
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 60s
+      scrapeTimeout: 15s
