@@ -1,0 +1,23 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "count": {
+          "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*]",
+          "where": {
+            "field": "Microsoft.Network/networkInterfaces/ipConfigurations[*].publicIpAddress.id",
+            "exists": true
+          }
+        },
+        "greater": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}
