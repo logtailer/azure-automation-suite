@@ -1,0 +1,23 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "in": [
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.Network/applicationGateways",
+          "Microsoft.ContainerService/managedClusters"
+        ]
+      },
+      {
+        "count": {
+          "value": "[field('Microsoft.Insights/diagnosticSettings')]"
+        },
+        "equals": 0
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

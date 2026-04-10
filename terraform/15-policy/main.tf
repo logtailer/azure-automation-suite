@@ -112,6 +112,24 @@ resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
   policy_rule = file("${path.module}/definitions/deny-unapproved-vm-skus.json")
 }
 
+resource "azurerm_policy_definition" "require_diagnostic_settings" {
+  name         = "require-diagnostic-settings"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Require diagnostic settings on critical Azure resources"
+
+  parameters = jsonencode({
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Audit", "Disabled"]
+      defaultValue  = "Audit"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/require-diagnostic-settings.json")
+}
+
 resource "azurerm_policy_definition" "deny_public_ip_on_nic" {
   name         = "deny-public-ip-on-nic"
   policy_type  = "Custom"
