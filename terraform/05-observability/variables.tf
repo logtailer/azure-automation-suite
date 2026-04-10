@@ -199,3 +199,15 @@ variable "warning_alert_emails" {
   type        = map(string)
   default     = {}
 }
+
+variable "enable_cost_budget" {
+  description = "Create an Azure consumption budget with 80%/100%/110% threshold alerts"
+  type        = bool
+  default     = false
+}
+
+variable "monthly_budget_amount" {
+  description = "Monthly budget amount in USD for the subscription cost alert"
+  type        = number
+  default     = 1000
+}
