@@ -1,0 +1,47 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: platform-api-scaledobject
+  namespace: platform
+spec:
+  scaleTargetRef:
+    name: platform-api
+  pollingInterval: 30
+  cooldownPeriod: 300
+  minReplicaCount: 2
+  maxReplicaCount: 20
+  triggers:
+    - type: azure-servicebus
+      metadata:
+        namespace: sb-platform-prod
+        queueName: platform-events
+        messageCount: "100"
+      authenticationRef:
+        name: azure-servicebus-auth
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: azure-servicebus-auth
+  namespace: platform
+spec:
+  podIdentity:
+    provider: azure-workload
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: platform-worker-scaledobject
+  namespace: platform
+spec:
+  scaleTargetRef:
+    name: platform-worker
+  pollingInterval: 15
+  cooldownPeriod: 180
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "70"
