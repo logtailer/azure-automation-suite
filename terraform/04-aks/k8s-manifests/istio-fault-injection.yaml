@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: platform-api-chaos
+  namespace: platform
+  annotations:
+    description: "Fault injection config — apply during chaos testing only, never in prod continuously"
+spec:
+  hosts:
+    - platform-api.platform.svc.cluster.local
+  http:
+    - fault:
+        delay:
+          percentage:
+            value: 5.0
+          fixedDelay: 500ms
+        abort:
+          percentage:
+            value: 1.0
+          httpStatus: 503
+      route:
+        - destination:
+            host: platform-api.platform.svc.cluster.local
+            port:
+              number: 8080
