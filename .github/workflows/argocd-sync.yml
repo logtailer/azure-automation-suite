@@ -1,0 +1,51 @@
+name: ArgoCD Sync Status
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      app_name:
+        description: "ArgoCD application name to sync"
+        required: true
+        type: string
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options: [dev, staging, prod]
+
+jobs:
+  sync:
+    name: Sync ${{ inputs.app_name }} in ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Install ArgoCD CLI
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases/latest | jq -r .tag_name)
+          curl -sSL -o /usr/local/bin/argocd \
+            "https://github.com/argoproj/argo-cd/releases/download/${VERSION}/argocd-linux-amd64"
+          chmod +x /usr/local/bin/argocd
+
+      - name: Login to ArgoCD
+        run: |
+          argocd login "${{ secrets.ARGOCD_SERVER }}" \
+            --auth-token "${{ secrets.ARGOCD_TOKEN }}" \
+            --grpc-web
+
+      - name: Trigger sync
+        run: |
+          argocd app sync "${{ inputs.app_name }}" \
+            --timeout 300 \
+            --retry-limit 3
+
+      - name: Wait for healthy status
+        run: |
+          argocd app wait "${{ inputs.app_name }}" \
+            --health \
+            --timeout 300
+
+      - name: Print app status
+        if: always()
+        run: argocd app get "${{ inputs.app_name }}"
