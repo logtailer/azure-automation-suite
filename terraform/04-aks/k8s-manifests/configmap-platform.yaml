@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-config
+  namespace: platform
+data:
+  LOG_LEVEL: "info"
+  METRICS_PORT: "9090"
+  HEALTH_PORT: "8081"
+  SHUTDOWN_GRACE_PERIOD_SECONDS: "30"
+  MAX_CONNECTIONS: "100"
+  REQUEST_TIMEOUT_SECONDS: "10"
+  CACHE_TTL_SECONDS: "300"
+  FEATURE_FLAG_DARK_LAUNCH: "false"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.monitoring.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "platform-api"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-worker-config
+  namespace: platform
+data:
+  LOG_LEVEL: "info"
+  WORKER_CONCURRENCY: "10"
+  QUEUE_POLL_INTERVAL_MS: "500"
+  MAX_RETRY_ATTEMPTS: "5"
+  RETRY_BACKOFF_MS: "1000"
+  DEAD_LETTER_THRESHOLD: "3"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.monitoring.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "platform-worker"
