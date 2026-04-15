@@ -211,3 +211,9 @@ variable "monthly_budget_amount" {
   type        = number
   default     = 1000
 }
+
+variable "enable_otel_collector" {
+  description = "Create an Azure Monitor data collection endpoint and rule for OpenTelemetry"
+  type        = bool
+  default     = false
+}
