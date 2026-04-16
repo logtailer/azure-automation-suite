@@ -1,0 +1,29 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Compute/disks"
+      },
+      {
+        "anyOf": [
+          {
+            "field": "Microsoft.Compute/disks/encryptionSettingsCollection.enabled",
+            "notEquals": true
+          },
+          {
+            "field": "Microsoft.Compute/disks/encryption.type",
+            "notIn": [
+              "EncryptionAtRestWithPlatformKey",
+              "EncryptionAtRestWithCustomerKey",
+              "EncryptionAtRestWithPlatformAndCustomerKeys"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

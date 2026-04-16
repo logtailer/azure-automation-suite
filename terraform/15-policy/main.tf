@@ -112,6 +112,24 @@ resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
   policy_rule = file("${path.module}/definitions/deny-unapproved-vm-skus.json")
 }
 
+resource "azurerm_policy_definition" "deny_unencrypted_disk" {
+  name         = "deny-unencrypted-disk"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Deny unencrypted managed disks"
+
+  parameters = jsonencode({
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Deny", "Audit", "Disabled"]
+      defaultValue  = "Audit"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/deny-unencrypted-disk.json")
+}
+
 resource "azurerm_policy_definition" "require_diagnostic_settings" {
   name         = "require-diagnostic-settings"
   policy_type  = "Custom"
