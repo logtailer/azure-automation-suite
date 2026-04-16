@@ -1,0 +1,21 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "in": [
+          "Microsoft.Storage/storageAccounts",
+          "Microsoft.KeyVault/vaults",
+          "Microsoft.DBforPostgreSQL/flexibleServers"
+        ]
+      },
+      {
+        "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+        "notLike": "*"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

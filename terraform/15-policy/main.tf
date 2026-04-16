@@ -112,6 +112,24 @@ resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
   policy_rule = file("${path.module}/definitions/deny-unapproved-vm-skus.json")
 }
 
+resource "azurerm_policy_definition" "require_private_endpoint" {
+  name         = "require-private-endpoint"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Require private endpoints on storage, Key Vault, and PostgreSQL"
+
+  parameters = jsonencode({
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Audit", "Disabled"]
+      defaultValue  = "Audit"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/require-private-endpoint.json")
+}
+
 resource "azurerm_policy_definition" "deny_unencrypted_disk" {
   name         = "deny-unencrypted-disk"
   policy_type  = "Custom"
