@@ -152,3 +152,21 @@ variable "postgresql_allowed_ip_ranges" {
   }))
   default = {}
 }
+
+variable "enable_read_replica" {
+  description = "Create a read replica of the PostgreSQL flexible server in a secondary region"
+  type        = bool
+  default     = false
+}
+
+variable "replica_location" {
+  description = "Azure region for the PostgreSQL read replica"
+  type        = string
+  default     = "westus"
+}
+
+variable "replica_sku_name" {
+  description = "SKU for the read replica (can be smaller than primary)"
+  type        = string
+  default     = "B_Standard_B1ms"
+}
