@@ -436,3 +436,15 @@ variable "workload_service_account" {
   type        = string
   default     = "workload-sa"
 }
+
+variable "enable_custom_aks_role" {
+  description = "Create a custom AKS Operator role definition scoped to the subscription"
+  type        = bool
+  default     = false
+}
+
+variable "enable_custom_secret_role" {
+  description = "Create a custom Secret Reader role definition for Key Vault read-only access"
+  type        = bool
+  default     = false
+}
