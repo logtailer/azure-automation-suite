@@ -170,3 +170,9 @@ variable "replica_sku_name" {
   type        = string
   default     = "B_Standard_B1ms"
 }
+
+variable "enable_pgbouncer" {
+  description = "Deploy a PgBouncer connection pooler container alongside PostgreSQL"
+  type        = bool
+  default     = false
+}
