@@ -187,3 +187,15 @@ variable "appgw_capacity" {
   type        = number
   default     = 2
 }
+
+variable "enable_waf" {
+  description = "Enable Web Application Firewall policy on the Application Gateway"
+  type        = bool
+  default     = false
+}
+
+variable "waf_mode" {
+  description = "WAF policy mode: Detection (log only) or Prevention (block)"
+  type        = string
+  default     = "Detection"
+}
