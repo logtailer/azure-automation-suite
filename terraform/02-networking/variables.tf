@@ -157,3 +157,33 @@ variable "firewall_sku_tier" {
   type        = string
   default     = "Standard"
 }
+
+variable "enable_application_gateway" {
+  description = "Deploy Azure Application Gateway v2 with zone redundancy"
+  type        = bool
+  default     = false
+}
+
+variable "appgw_subnet_address_prefix" {
+  description = "Address prefix for the Application Gateway subnet (minimum /24)"
+  type        = list(string)
+  default     = ["10.0.230.0/24"]
+}
+
+variable "appgw_sku_name" {
+  description = "Application Gateway SKU name"
+  type        = string
+  default     = "Standard_v2"
+}
+
+variable "appgw_sku_tier" {
+  description = "Application Gateway SKU tier"
+  type        = string
+  default     = "Standard_v2"
+}
+
+variable "appgw_capacity" {
+  description = "Application Gateway instance count (1–125)"
+  type        = number
+  default     = 2
+}
