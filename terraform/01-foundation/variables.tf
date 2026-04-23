@@ -124,3 +124,15 @@ variable "service_bus_capacity" {
   type        = number
   default     = 1
 }
+
+variable "enable_front_door" {
+  description = "Deploy Azure Front Door (CDN Frontdoor) profile and endpoint"
+  type        = bool
+  default     = false
+}
+
+variable "front_door_sku" {
+  description = "Front Door SKU: Standard_AzureFrontDoor or Premium_AzureFrontDoor"
+  type        = string
+  default     = "Standard_AzureFrontDoor"
+}
