@@ -100,3 +100,27 @@ variable "component_budgets" {
     idp           = { amount = 5,  threshold = 80 }
   }
 }
+
+variable "enable_service_bus" {
+  description = "Deploy an Azure Service Bus namespace with platform event queues"
+  type        = bool
+  default     = false
+}
+
+variable "service_bus_namespace_name" {
+  description = "Name of the Service Bus namespace"
+  type        = string
+  default     = ""
+}
+
+variable "service_bus_sku" {
+  description = "Service Bus SKU: Basic, Standard, or Premium"
+  type        = string
+  default     = "Standard"
+}
+
+variable "service_bus_capacity" {
+  description = "Messaging units for Premium SKU (1, 2, 4, 8, or 16)"
+  type        = number
+  default     = 1
+}
