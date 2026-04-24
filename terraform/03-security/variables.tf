@@ -448,3 +448,9 @@ variable "enable_custom_secret_role" {
   type        = bool
   default     = false
 }
+
+variable "enable_customer_managed_key" {
+  description = "Create a customer-managed RSA key in Key Vault with automatic 365-day rotation"
+  type        = bool
+  default     = false
+}
