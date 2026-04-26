@@ -217,3 +217,21 @@ variable "enable_otel_collector" {
   type        = bool
   default     = false
 }
+
+variable "enable_app_insights" {
+  description = "Deploy Application Insights workspace-based resource for APM"
+  type        = bool
+  default     = false
+}
+
+variable "app_insights_retention_days" {
+  description = "Data retention in days for Application Insights (30–730)"
+  type        = number
+  default     = 90
+}
+
+variable "app_insights_sampling_percentage" {
+  description = "Adaptive sampling percentage for Application Insights (0–100)"
+  type        = number
+  default     = 100
+}
