@@ -199,3 +199,9 @@ variable "waf_mode" {
   type        = string
   default     = "Detection"
 }
+
+variable "enable_nat_gateway" {
+  description = "Attach a NAT Gateway to the AKS subnet for static egress IP"
+  type        = bool
+  default     = false
+}
