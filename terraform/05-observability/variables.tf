@@ -235,3 +235,15 @@ variable "app_insights_sampling_percentage" {
   type        = number
   default     = 100
 }
+
+variable "enable_synthetic_monitor" {
+  description = "Create an Application Insights web test for synthetic availability monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "synthetic_monitor_url" {
+  description = "URL to ping for the synthetic availability monitor"
+  type        = string
+  default     = "https://api.platform.example.com/health"
+}
