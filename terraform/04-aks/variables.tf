@@ -169,3 +169,15 @@ variable "acr_resource_group_name" {
   type        = string
   default     = ""
 }
+
+variable "enable_flux" {
+  description = "Install the Flux AKS cluster extension for GitOps reconciliation"
+  type        = bool
+  default     = false
+}
+
+variable "flux_git_repository_url" {
+  description = "Git repository URL for Flux to watch for cluster manifests"
+  type        = string
+  default     = ""
+}
