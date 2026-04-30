@@ -112,6 +112,29 @@ resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
   policy_rule = file("${path.module}/definitions/deny-unapproved-vm-skus.json")
 }
 
+resource "azurerm_policy_definition" "deny_non_compliant_location" {
+  name         = "deny-non-compliant-location"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Deny resources in non-approved Azure regions"
+
+  parameters = jsonencode({
+    allowedLocations = {
+      type     = "Array"
+      metadata = { displayName = "Allowed Locations", strongType = "location" }
+      defaultValue = ["eastus", "westus", "westus2", "westeurope", "northeurope"]
+    }
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Deny", "Audit", "Disabled"]
+      defaultValue  = "Audit"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/deny-non-compliant-location.json")
+}
+
 resource "azurerm_policy_definition" "require_private_endpoint" {
   name         = "require-private-endpoint"
   policy_type  = "Custom"
