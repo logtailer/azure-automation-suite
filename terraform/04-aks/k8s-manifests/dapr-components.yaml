@@ -1,0 +1,43 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: azure-servicebus-pubsub
+  namespace: platform
+spec:
+  type: pubsub.azure.servicebus.queues
+  version: v1
+  metadata:
+    - name: connectionString
+      secretKeyRef:
+        name: platform-servicebus-secret
+        key: connectionString
+    - name: maxActiveMessages
+      value: "10"
+    - name: lockDurationInSec
+      value: "60"
+    - name: maxRetriableErrorsPerSec
+      value: "10"
+---
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: azure-keyvault-secret-store
+  namespace: platform
+spec:
+  type: secretstores.azure.keyvault
+  version: v1
+  metadata:
+    - name: vaultName
+      value: kv-platform-prod
+    - name: azureClientId
+      value: ""
+---
+apiVersion: dapr.io/v1alpha1
+kind: Subscription
+metadata:
+  name: platform-events-subscription
+  namespace: platform
+spec:
+  pubsubname: azure-servicebus-pubsub
+  topic: platform-events
+  route: /events/handle
