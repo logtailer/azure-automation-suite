@@ -181,3 +181,9 @@ variable "flux_git_repository_url" {
   type        = string
   default     = ""
 }
+
+variable "enable_dapr" {
+  description = "Install the Dapr AKS cluster extension for distributed application runtime"
+  type        = bool
+  default     = false
+}
