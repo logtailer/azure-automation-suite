@@ -136,3 +136,9 @@ variable "front_door_sku" {
   type        = string
   default     = "Standard_AzureFrontDoor"
 }
+
+variable "enable_event_grid" {
+  description = "Deploy an Event Grid topic with CloudEvents schema for platform event routing"
+  type        = bool
+  default     = false
+}
