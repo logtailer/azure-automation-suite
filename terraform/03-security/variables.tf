@@ -454,3 +454,21 @@ variable "enable_customer_managed_key" {
   type        = bool
   default     = false
 }
+
+variable "enable_kv_private_endpoint" {
+  description = "Create a private endpoint for Key Vault to restrict access to the VNet"
+  type        = bool
+  default     = false
+}
+
+variable "private_endpoint_subnet_id" {
+  description = "Subnet ID for placing the Key Vault private endpoint"
+  type        = string
+  default     = ""
+}
+
+variable "kv_private_dns_zone_id" {
+  description = "Resource ID of the privatelink.vaultcore.azure.net private DNS zone"
+  type        = string
+  default     = ""
+}
