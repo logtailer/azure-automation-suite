@@ -1,0 +1,61 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8sallowedrepos
+  annotations:
+    description: Restricts container images to approved registries only.
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sAllowedRepos
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            repos:
+              type: array
+              items:
+                type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sallowedrepos
+
+        import future.keywords.if
+
+        violation[{"msg": msg}] if {
+          container := input.review.object.spec.containers[_]
+          not any_allowed(container.image)
+          msg := sprintf("Container <%v> uses image from disallowed registry: %v", [container.name, container.image])
+        }
+
+        violation[{"msg": msg}] if {
+          container := input.review.object.spec.initContainers[_]
+          not any_allowed(container.image)
+          msg := sprintf("Init container <%v> uses image from disallowed registry: %v", [container.name, container.image])
+        }
+
+        any_allowed(image) if {
+          repo := input.parameters.repos[_]
+          startswith(image, repo)
+        }
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAllowedRepos
+metadata:
+  name: allowed-registries
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    excludedNamespaces:
+      - kube-system
+      - gatekeeper-system
+      - flux-system
+  parameters:
+    repos:
+      - "acrplatformprod.azurecr.io/"
+      - "mcr.microsoft.com/"
+      - "ghcr.io/org/"
