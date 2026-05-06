@@ -187,3 +187,21 @@ variable "enable_dapr" {
   type        = bool
   default     = false
 }
+
+variable "enable_gpu_node_pool" {
+  description = "Add a GPU node pool with nvidia taint for ML workloads"
+  type        = bool
+  default     = false
+}
+
+variable "gpu_node_vm_size" {
+  description = "VM size for the GPU node pool (e.g. Standard_NC6s_v3)"
+  type        = string
+  default     = "Standard_NC6s_v3"
+}
+
+variable "gpu_node_count" {
+  description = "Number of GPU nodes in the pool"
+  type        = number
+  default     = 1
+}
