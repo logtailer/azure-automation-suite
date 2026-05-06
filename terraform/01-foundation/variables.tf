@@ -142,3 +142,45 @@ variable "enable_event_grid" {
   type        = bool
   default     = false
 }
+
+variable "enable_acr" {
+  description = "Deploy an Azure Container Registry for private image storage"
+  type        = bool
+  default     = false
+}
+
+variable "acr_name" {
+  description = "Name of the Azure Container Registry (must be globally unique)"
+  type        = string
+  default     = ""
+}
+
+variable "acr_sku" {
+  description = "ACR SKU: Basic, Standard, or Premium"
+  type        = string
+  default     = "Standard"
+}
+
+variable "acr_private_only" {
+  description = "Disable public network access on the ACR (Premium only)"
+  type        = bool
+  default     = false
+}
+
+variable "acr_geo_replications" {
+  description = "List of Azure regions to geo-replicate the ACR to (Premium only)"
+  type        = list(string)
+  default     = []
+}
+
+variable "acr_retention_days" {
+  description = "Number of days to retain untagged manifests"
+  type        = number
+  default     = 30
+}
+
+variable "acr_content_trust" {
+  description = "Enable content trust (image signing) on the ACR"
+  type        = bool
+  default     = false
+}
