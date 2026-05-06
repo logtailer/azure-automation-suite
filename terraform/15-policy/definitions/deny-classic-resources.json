@@ -1,0 +1,21 @@
+{
+  "if": {
+    "anyOf": [
+      {
+        "field": "type",
+        "like": "Microsoft.ClassicCompute/*"
+      },
+      {
+        "field": "type",
+        "like": "Microsoft.ClassicNetwork/*"
+      },
+      {
+        "field": "type",
+        "like": "Microsoft.ClassicStorage/*"
+      }
+    ]
+  },
+  "then": {
+    "effect": "[parameters('effect')]"
+  }
+}

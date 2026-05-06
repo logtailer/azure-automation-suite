@@ -71,6 +71,24 @@ resource "azurerm_policy_set_definition" "platform_baseline" {
   }
 }
 
+resource "azurerm_policy_definition" "deny_classic_resources" {
+  name         = "deny-classic-resources"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Deny creation of classic (v1) Azure resources"
+
+  parameters = jsonencode({
+    effect = {
+      type         = "String"
+      metadata     = { displayName = "Effect" }
+      allowedValues = ["Deny", "Audit", "Disabled"]
+      defaultValue  = "Deny"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/deny-classic-resources.json")
+}
+
 resource "azurerm_policy_definition" "audit_keyvault_soft_delete" {
   name         = "audit-keyvault-soft-delete"
   policy_type  = "Custom"
