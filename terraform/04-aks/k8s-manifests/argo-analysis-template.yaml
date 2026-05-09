@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: success-rate
+  namespace: platform
+spec:
+  args:
+    - name: service-name
+    - name: namespace
+      value: platform
+  metrics:
+    - name: success-rate
+      interval: 1m
+      count: 5
+      successCondition: result[0] >= 0.95
+      failureLimit: 2
+      provider:
+        prometheus:
+          address: http://prometheus-operated.monitoring.svc.cluster.local:9090
+          query: |
+            sum(rate(
+              istio_requests_total{
+                reporter="destination",
+                destination_service=~"{{args.service-name}}.{{args.namespace}}.svc.cluster.local",
+                response_code!~"5.*"
+              }[5m]
+            )) /
+            sum(rate(
+              istio_requests_total{
+                reporter="destination",
+                destination_service=~"{{args.service-name}}.{{args.namespace}}.svc.cluster.local"
+              }[5m]
+            ))
+    - name: latency-p99
+      interval: 1m
+      count: 5
+      successCondition: result[0] <= 0.5
+      failureLimit: 2
+      provider:
+        prometheus:
+          address: http://prometheus-operated.monitoring.svc.cluster.local:9090
+          query: |
+            histogram_quantile(0.99, sum(rate(
+              istio_request_duration_milliseconds_bucket{
+                reporter="destination",
+                destination_service=~"{{args.service-name}}.{{args.namespace}}.svc.cluster.local"
+              }[5m]
+            )) by (le)) / 1000
