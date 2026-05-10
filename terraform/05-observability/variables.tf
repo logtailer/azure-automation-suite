@@ -247,3 +247,21 @@ variable "synthetic_monitor_url" {
   type        = string
   default     = "https://api.platform.example.com/health"
 }
+
+variable "enable_network_alerts" {
+  description = "Enable metric alerts for VNet dropped packets and Application Gateway unhealthy hosts"
+  type        = bool
+  default     = false
+}
+
+variable "vnet_resource_id" {
+  description = "Resource ID of the VNet to monitor for dropped packets"
+  type        = string
+  default     = ""
+}
+
+variable "appgw_resource_id" {
+  description = "Resource ID of the Application Gateway to monitor for unhealthy backend hosts"
+  type        = string
+  default     = ""
+}
