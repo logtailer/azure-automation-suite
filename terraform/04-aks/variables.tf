@@ -205,3 +205,21 @@ variable "gpu_node_count" {
   type        = number
   default     = 1
 }
+
+variable "enable_windows_node_pool" {
+  description = "Add a Windows Server 2022 node pool for legacy .NET workloads"
+  type        = bool
+  default     = false
+}
+
+variable "windows_node_vm_size" {
+  description = "VM size for the Windows node pool"
+  type        = string
+  default     = "Standard_D4s_v3"
+}
+
+variable "windows_node_count" {
+  description = "Number of Windows nodes in the pool"
+  type        = number
+  default     = 2
+}
