@@ -176,3 +176,9 @@ variable "enable_pgbouncer" {
   type        = bool
   default     = false
 }
+
+variable "postgres_max_connections_alert_threshold" {
+  description = "Active connection count threshold for PostgreSQL high-connections alert"
+  type        = number
+  default     = 80
+}
