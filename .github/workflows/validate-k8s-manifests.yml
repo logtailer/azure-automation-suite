@@ -1,0 +1,61 @@
+name: Validate Kubernetes Manifests
+
+on:
+  pull_request:
+    paths:
+      - 'terraform/**/k8s-manifests/**'
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/**/k8s-manifests/**'
+
+jobs:
+  kubeval:
+    name: Validate manifests with kubeconform
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install kubeconform
+        run: |
+          VERSION="v0.6.4"
+          curl -sSL "https://github.com/yannh/kubeconform/releases/download/${VERSION}/kubeconform-linux-amd64.tar.gz" \
+            | tar xz -C /usr/local/bin
+
+      - name: Validate standard Kubernetes manifests
+        run: |
+          find terraform -path "*/k8s-manifests/*.yaml" | sort | while read -r f; do
+            echo "Validating: $f"
+            kubeconform \
+              -strict \
+              -summary \
+              -kubernetes-version "1.29.0" \
+              -ignore-missing-schemas \
+              "$f" || FAILED=1
+          done
+          if [[ "${FAILED:-0}" -eq 1 ]]; then
+            echo "One or more manifests failed validation" >&2
+            exit 1
+          fi
+
+  conftest:
+    name: Policy check with conftest
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install conftest
+        run: |
+          VERSION="v0.52.0"
+          curl -sSL "https://github.com/open-policy-agent/conftest/releases/download/${VERSION}/conftest_${VERSION#v}_Linux_x86_64.tar.gz" \
+            | tar xz -C /usr/local/bin
+
+      - name: Run conftest policies
+        run: |
+          if [[ -d "policy" ]]; then
+            find terraform -path "*/k8s-manifests/*.yaml" | xargs conftest test --policy policy/ || true
+          else
+            echo "No policy directory found, skipping conftest"
+          fi
