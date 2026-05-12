@@ -205,3 +205,27 @@ variable "enable_nat_gateway" {
   type        = bool
   default     = false
 }
+
+variable "enable_postgres_subnet_delegation" {
+  description = "Create a delegated subnet for PostgreSQL flexible server VNet injection"
+  type        = bool
+  default     = false
+}
+
+variable "postgres_subnet_address_prefix" {
+  description = "Address prefix for the PostgreSQL delegated subnet"
+  type        = list(string)
+  default     = ["10.0.20.0/24"]
+}
+
+variable "enable_aci_subnet" {
+  description = "Create a delegated subnet for Azure Container Instances"
+  type        = bool
+  default     = false
+}
+
+variable "aci_subnet_address_prefix" {
+  description = "Address prefix for the ACI delegated subnet"
+  type        = list(string)
+  default     = ["10.0.21.0/24"]
+}
