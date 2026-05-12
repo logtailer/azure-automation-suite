@@ -1,0 +1,39 @@
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: platform-jaeger
+  namespace: monitoring
+spec:
+  strategy: production
+  storage:
+    type: elasticsearch
+    options:
+      es:
+        server-urls: http://elasticsearch.monitoring.svc.cluster.local:9200
+        index-prefix: jaeger-platform
+  collector:
+    replicas: 2
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: "1"
+        memory: 512Mi
+  query:
+    replicas: 1
+    serviceType: ClusterIP
+  agent:
+    strategy: DaemonSet
+  sampling:
+    options:
+      default_strategy:
+        type: probabilistic
+        param: 0.05
+      service_strategies:
+        - service: platform-api
+          type: probabilistic
+          param: 0.5
+        - service: platform-worker
+          type: ratelimiting
+          param: 10
