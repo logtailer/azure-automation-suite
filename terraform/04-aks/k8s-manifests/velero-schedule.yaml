@@ -1,0 +1,37 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: daily-full-backup
+  namespace: velero
+spec:
+  schedule: "0 2 * * *"
+  template:
+    includedNamespaces:
+      - platform
+      - monitoring
+      - istio-system
+    excludedResources:
+      - events
+      - events.events.k8s.io
+    storageLocation: azure-default
+    volumeSnapshotLocations:
+      - azure-default
+    ttl: 720h0m0s
+    labelSelector:
+      matchExpressions:
+        - key: velero.io/exclude-from-backup
+          operator: DoesNotExist
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: hourly-namespace-backup
+  namespace: velero
+spec:
+  schedule: "0 * * * *"
+  template:
+    includedNamespaces:
+      - platform
+    storageLocation: azure-default
+    ttl: 48h0m0s
+    snapshotVolumes: false
