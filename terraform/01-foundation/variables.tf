@@ -184,3 +184,21 @@ variable "acr_content_trust" {
   type        = bool
   default     = false
 }
+
+variable "enable_platform_storage" {
+  description = "Deploy a platform storage account for artifacts and backups"
+  type        = bool
+  default     = false
+}
+
+variable "platform_storage_account_name" {
+  description = "Name of the platform storage account (must be globally unique)"
+  type        = string
+  default     = ""
+}
+
+variable "platform_storage_replication" {
+  description = "Storage replication type: LRS, ZRS, GRS, GZRS"
+  type        = string
+  default     = "ZRS"
+}
