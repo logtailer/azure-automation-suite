@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-istio-control-plane
+  namespace: platform
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+    - Ingress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-system
+      ports:
+        - port: 15010
+          protocol: TCP
+        - port: 15012
+          protocol: TCP
+        - port: 15014
+          protocol: TCP
+        - port: 15017
+          protocol: TCP
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-system
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-webhook-admission
+  namespace: platform
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector: {}
+      ports:
+        - port: 15017
+          protocol: TCP
