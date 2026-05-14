@@ -265,3 +265,27 @@ variable "appgw_resource_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_aks_alerts" {
+  description = "Enable metric alerts for AKS node CPU, memory, and failed pods"
+  type        = bool
+  default     = false
+}
+
+variable "aks_cluster_id" {
+  description = "Resource ID of the AKS cluster to monitor"
+  type        = string
+  default     = ""
+}
+
+variable "aks_cpu_alert_threshold" {
+  description = "CPU utilisation percentage threshold for AKS node alert"
+  type        = number
+  default     = 80
+}
+
+variable "aks_memory_alert_threshold" {
+  description = "Memory working-set percentage threshold for AKS node alert"
+  type        = number
+  default     = 80
+}
