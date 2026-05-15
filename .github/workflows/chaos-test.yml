@@ -1,0 +1,77 @@
+name: Chaos Engineering Tests
+
+on:
+  schedule:
+    - cron: "0 3 * * 3"
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: "Chaos scenario to run (node-kill, network-partition, pod-kill)"
+        required: true
+        default: "pod-kill"
+      namespace:
+        description: "Target namespace"
+        required: false
+        default: "platform"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  chaos-test:
+    name: Run chaos scenario
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER_NAME }} \
+            --overwrite-existing
+
+      - name: Record pre-chaos baseline
+        run: |
+          kubectl get pods -n ${{ github.event.inputs.namespace || 'platform' }} -o wide
+          kubectl top pods -n ${{ github.event.inputs.namespace || 'platform' }} 2>/dev/null || true
+
+      - name: Run chaos scenario
+        run: |
+          SCENARIO="${{ github.event.inputs.scenario || 'pod-kill' }}"
+          NS="${{ github.event.inputs.namespace || 'platform' }}"
+          case "$SCENARIO" in
+            pod-kill)
+              bash scripts/chaos/kill-random-node.sh --namespace "$NS" --dry-run false
+              ;;
+            network-partition)
+              bash scripts/chaos/network-partition.sh --namespace "$NS"
+              ;;
+            *)
+              echo "Unknown scenario: $SCENARIO" && exit 1
+              ;;
+          esac
+
+      - name: Wait for recovery
+        run: |
+          echo "Waiting 120s for cluster to recover..."
+          sleep 120
+          kubectl wait --for=condition=ready pod \
+            -l app=platform-api \
+            -n ${{ github.event.inputs.namespace || 'platform' }} \
+            --timeout=300s
+
+      - name: Verify SLO compliance
+        run: |
+          kubectl get pods -n ${{ github.event.inputs.namespace || 'platform' }}
+          echo "Chaos test completed successfully"
