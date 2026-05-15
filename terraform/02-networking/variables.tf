@@ -229,3 +229,58 @@ variable "aci_subnet_address_prefix" {
   type        = list(string)
   default     = ["10.0.21.0/24"]
 }
+
+variable "enable_expressroute" {
+  description = "Deploy an ExpressRoute circuit for dedicated private connectivity"
+  type        = bool
+  default     = false
+}
+
+variable "er_service_provider" {
+  description = "ExpressRoute service provider name (e.g. Equinix)"
+  type        = string
+  default     = "Equinix"
+}
+
+variable "er_peering_location" {
+  description = "ExpressRoute peering location (e.g. Silicon Valley)"
+  type        = string
+  default     = "Silicon Valley"
+}
+
+variable "er_bandwidth_mbps" {
+  description = "ExpressRoute circuit bandwidth in Mbps"
+  type        = number
+  default     = 1000
+}
+
+variable "er_sku_tier" {
+  description = "ExpressRoute circuit SKU tier: Standard or Premium"
+  type        = string
+  default     = "Standard"
+}
+
+variable "er_sku_family" {
+  description = "ExpressRoute circuit SKU family: MeteredData or UnlimitedData"
+  type        = string
+  default     = "MeteredData"
+}
+
+variable "enable_er_gateway" {
+  description = "Deploy an ExpressRoute virtual network gateway"
+  type        = bool
+  default     = false
+}
+
+variable "er_gateway_sku" {
+  description = "SKU for the ExpressRoute gateway (ErGw1AZ, ErGw2AZ, ErGw3AZ)"
+  type        = string
+  default     = "ErGw1AZ"
+}
+
+variable "er_authorization_key" {
+  description = "Authorization key for the ExpressRoute circuit connection"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
