@@ -202,3 +202,16 @@ variable "platform_storage_replication" {
   type        = string
   default     = "ZRS"
 }
+
+variable "enable_logic_app" {
+  description = "Deploy a Logic App workflow to process and route Azure Monitor alerts"
+  type        = bool
+  default     = false
+}
+
+variable "teams_webhook_url" {
+  description = "Microsoft Teams incoming webhook URL for alert notifications"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
