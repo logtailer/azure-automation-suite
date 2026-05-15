@@ -182,3 +182,33 @@ variable "postgres_max_connections_alert_threshold" {
   type        = number
   default     = 80
 }
+
+variable "enable_database" {
+  description = "Master toggle: create PostgreSQL flexible server resources"
+  type        = bool
+  default     = false
+}
+
+variable "db_backup_retention_days" {
+  description = "Number of days to retain PostgreSQL automated backups (7–35)"
+  type        = number
+  default     = 14
+}
+
+variable "db_backup_storage_alert_gb" {
+  description = "Backup storage usage threshold in GB before alerting"
+  type        = number
+  default     = 50
+}
+
+variable "enable_db_alerts" {
+  description = "Enable metric alerts for PostgreSQL backup storage"
+  type        = bool
+  default     = false
+}
+
+variable "warning_action_group_id" {
+  description = "Resource ID of the warning action group for alerts"
+  type        = string
+  default     = ""
+}
