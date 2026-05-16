@@ -472,3 +472,15 @@ variable "kv_private_dns_zone_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_jit_access" {
+  description = "Create a Defender for Cloud Just-in-Time access policy for SSH and RDP"
+  type        = bool
+  default     = false
+}
+
+variable "jit_target_vm_id" {
+  description = "Resource ID of the VM to protect with JIT access"
+  type        = string
+  default     = ""
+}
