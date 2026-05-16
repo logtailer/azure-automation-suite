@@ -223,3 +223,27 @@ variable "windows_node_count" {
   type        = number
   default     = 2
 }
+
+variable "enable_spot_node_pool" {
+  description = "Add a Spot priority node pool for cost-optimised batch workloads"
+  type        = bool
+  default     = false
+}
+
+variable "spot_vm_size" {
+  description = "VM size for the Spot node pool"
+  type        = string
+  default     = "Standard_D4s_v3"
+}
+
+variable "spot_max_count" {
+  description = "Maximum node count for the Spot autoscaler pool"
+  type        = number
+  default     = 10
+}
+
+variable "enable_aks_autoscale_alerts" {
+  description = "Create Monitor autoscale settings for the AKS user node pool"
+  type        = bool
+  default     = false
+}
