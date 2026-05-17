@@ -1,0 +1,75 @@
+name: Load Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: "Test scenario (api-load, spike, database)"
+        required: true
+        default: "api-load"
+      target_url:
+        description: "Base URL to test"
+        required: true
+  schedule:
+    - cron: "0 4 * * 0"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  load-test:
+    name: Run k6 load test
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install k6
+        run: |
+          curl https://github.com/grafana/k6/releases/download/v0.53.0/k6-v0.53.0-linux-amd64.tar.gz \
+            -L -o k6.tar.gz
+          tar -xzf k6.tar.gz
+          sudo mv k6-v0.53.0-linux-amd64/k6 /usr/local/bin/
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get API token
+        id: token
+        run: |
+          TOKEN=$(az account get-access-token --query accessToken -o tsv)
+          echo "::add-mask::$TOKEN"
+          echo "api_token=$TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Run load test
+        run: |
+          SCENARIO="${{ github.event.inputs.scenario || 'api-load' }}"
+          k6 run \
+            -e BASE_URL="${{ github.event.inputs.target_url || secrets.STAGING_API_URL }}" \
+            -e API_TOKEN="${{ steps.token.outputs.api_token }}" \
+            --out json=results.json \
+            "scripts/performance-tests/k6-${SCENARIO}.js"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-results-${{ github.run_id }}
+          path: results.json
+          retention-days: 14
+
+      - name: Parse thresholds
+        if: always()
+        run: |
+          PASS=$(jq '.metrics."http_req_duration".thresholds | to_entries | map(select(.value.ok == false)) | length' results.json 2>/dev/null || echo 0)
+          if [[ "$PASS" -gt 0 ]]; then
+            echo "::error::$PASS load test threshold(s) breached"
+            exit 1
+          fi
+          echo "All thresholds passed"
