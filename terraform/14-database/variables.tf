@@ -212,3 +212,12 @@ variable "warning_action_group_id" {
   type        = string
   default     = ""
 }
+
+variable "mysql_allowed_ip_ranges" {
+  description = "Map of named IP ranges allowed to access MySQL (name -> {start, end})"
+  type = map(object({
+    start = string
+    end   = string
+  }))
+  default = {}
+}
