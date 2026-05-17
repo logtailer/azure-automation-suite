@@ -289,3 +289,21 @@ variable "aks_memory_alert_threshold" {
   type        = number
   default     = 80
 }
+
+variable "enable_slo_alerts" {
+  description = "Enable SLO-based error-budget burn and p99 latency alerts"
+  type        = bool
+  default     = false
+}
+
+variable "slo_error_rate_threshold" {
+  description = "Error rate fraction (0–1) that triggers the fast-burn alert"
+  type        = number
+  default     = 0.01
+}
+
+variable "slo_latency_p99_ms" {
+  description = "p99 latency threshold in milliseconds for the latency SLO alert"
+  type        = number
+  default     = 500
+}
