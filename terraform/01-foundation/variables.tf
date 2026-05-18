@@ -215,3 +215,58 @@ variable "teams_webhook_url" {
   default     = ""
   sensitive   = true
 }
+
+variable "enable_apim" {
+  description = "Deploy an Azure API Management instance"
+  type        = bool
+  default     = false
+}
+
+variable "apim_name" {
+  description = "Name of the API Management service (must be globally unique)"
+  type        = string
+  default     = ""
+}
+
+variable "apim_publisher_name" {
+  description = "Publisher name shown in the APIM developer portal"
+  type        = string
+  default     = "Platform Team"
+}
+
+variable "apim_publisher_email" {
+  description = "Publisher email for APIM notifications"
+  type        = string
+  default     = ""
+}
+
+variable "apim_sku" {
+  description = "API Management SKU: Developer, Basic, Standard, or Premium"
+  type        = string
+  default     = "Developer"
+}
+
+variable "apim_capacity" {
+  description = "Number of APIM scale units"
+  type        = number
+  default     = 1
+}
+
+variable "apim_vnet_type" {
+  description = "APIM VNet integration type: None, External, or Internal"
+  type        = string
+  default     = "None"
+}
+
+variable "apim_subnet_id" {
+  description = "Subnet resource ID for APIM VNet injection (External or Internal mode)"
+  type        = string
+  default     = ""
+}
+
+variable "app_insights_instrumentation_key" {
+  description = "Application Insights instrumentation key for APIM logging"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
