@@ -284,3 +284,37 @@ variable "er_authorization_key" {
   default     = ""
   sensitive   = true
 }
+
+variable "enable_private_link_service" {
+  description = "Expose an internal load balancer as a Private Link service"
+  type        = bool
+  default     = false
+}
+
+variable "internal_lb_frontend_ip_id" {
+  description = "Resource ID of the internal load balancer frontend IP for Private Link"
+  type        = string
+  default     = ""
+}
+
+variable "pls_auto_approval_subscription_ids" {
+  description = "Subscription IDs that can auto-approve Private Link connections"
+  type        = list(string)
+  default     = []
+}
+
+variable "pls_visibility_subscription_ids" {
+  description = "Subscription IDs that can see the Private Link service"
+  type        = list(string)
+  default     = []
+}
+
+variable "custom_private_endpoints" {
+  description = "Map of custom private endpoints to create"
+  type = map(object({
+    resource_id       = string
+    subresource_names = list(string)
+    manual            = bool
+  }))
+  default = {}
+}
