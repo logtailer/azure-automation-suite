@@ -307,3 +307,39 @@ variable "slo_latency_p99_ms" {
   type        = number
   default     = 500
 }
+
+variable "enable_kv_diagnostics" {
+  description = "Send Key Vault audit logs to Log Analytics"
+  type        = bool
+  default     = false
+}
+
+variable "key_vault_id" {
+  description = "Resource ID of the Key Vault to capture diagnostic logs from"
+  type        = string
+  default     = ""
+}
+
+variable "enable_storage_diagnostics" {
+  description = "Send storage account blob operation logs to Log Analytics"
+  type        = bool
+  default     = false
+}
+
+variable "storage_account_id" {
+  description = "Resource ID of the storage account for diagnostic settings"
+  type        = string
+  default     = ""
+}
+
+variable "enable_apim_diagnostics" {
+  description = "Send APIM gateway logs to Log Analytics"
+  type        = bool
+  default     = false
+}
+
+variable "apim_resource_id" {
+  description = "Resource ID of the API Management service for diagnostic settings"
+  type        = string
+  default     = ""
+}
