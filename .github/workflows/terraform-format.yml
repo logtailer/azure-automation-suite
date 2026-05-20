@@ -1,0 +1,47 @@
+name: Terraform Format Check
+
+on:
+  pull_request:
+    paths:
+      - "terraform/**/*.tf"
+      - "*.tf"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  fmt-check:
+    name: terraform fmt
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+
+      - name: Check formatting
+        id: fmt
+        run: |
+          terraform fmt -check -recursive -diff terraform/ 2>&1 | tee fmt-output.txt
+          FMT_EXIT=${PIPESTATUS[0]}
+          echo "exit_code=$FMT_EXIT" >> "$GITHUB_OUTPUT"
+          exit $FMT_EXIT
+
+      - name: Post formatting diff as PR comment
+        if: failure() && steps.fmt.outputs.exit_code != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const diff = fs.readFileSync('fmt-output.txt', 'utf8');
+            const body = `## Terraform Formatting Issues\n\nRun \`terraform fmt -recursive terraform/\` to fix:\n\n\`\`\`diff\n${diff}\n\`\`\``;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
