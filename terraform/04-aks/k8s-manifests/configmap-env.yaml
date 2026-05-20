@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-env
+  namespace: platform
+data:
+  APP_ENV: "production"
+  LOG_LEVEL: "info"
+  LOG_FORMAT: "json"
+  METRICS_PORT: "9090"
+  HEALTH_PORT: "8081"
+  GRPC_PORT: "50051"
+  HTTP_PORT: "8080"
+  DB_MAX_OPEN_CONNS: "25"
+  DB_MAX_IDLE_CONNS: "10"
+  DB_CONN_MAX_LIFETIME: "300s"
+  CACHE_TTL: "300"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector.monitoring.svc.cluster.local:4317"
+  OTEL_SERVICE_NAME: "platform-api"
+  OTEL_TRACES_SAMPLER: "parentbased_traceidratio"
+  OTEL_TRACES_SAMPLER_ARG: "0.1"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-feature-flags
+  namespace: platform
+data:
+  ENABLE_RATE_LIMITING: "true"
+  RATE_LIMIT_RPS: "1000"
+  ENABLE_CIRCUIT_BREAKER: "true"
+  CIRCUIT_BREAKER_THRESHOLD: "50"
+  ENABLE_RETRIES: "true"
+  RETRY_MAX_ATTEMPTS: "3"
+  ENABLE_CANARY_HEADER: "false"
