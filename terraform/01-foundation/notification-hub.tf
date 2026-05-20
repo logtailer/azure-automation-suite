@@ -1,0 +1,38 @@
+resource "azurerm_notification_hub_namespace" "main" {
+  count               = var.enable_notification_hub ? 1 : 0
+  name                = "nhns-${var.component_name}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  namespace_type      = "NotificationHub"
+  sku_name            = var.notification_hub_sku
+
+  tags = var.tags
+}
+
+resource "azurerm_notification_hub" "main" {
+  count               = var.enable_notification_hub ? 1 : 0
+  name                = "nh-${var.component_name}"
+  resource_group_name = var.resource_group_name
+  namespace_name      = azurerm_notification_hub_namespace.main[0].name
+  location            = var.location
+
+  dynamic "apns_credential" {
+    for_each = var.apns_bundle_id != "" ? [1] : []
+    content {
+      application_mode = var.apns_production ? "Production" : "Sandbox"
+      bundle_id        = var.apns_bundle_id
+      key_id           = var.apns_key_id
+      team_id          = var.apns_team_id
+      token            = var.apns_token
+    }
+  }
+
+  dynamic "gcm_credential" {
+    for_each = var.gcm_api_key != "" ? [1] : []
+    content {
+      api_key = var.gcm_api_key
+    }
+  }
+
+  tags = var.tags
+}

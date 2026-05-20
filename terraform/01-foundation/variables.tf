@@ -270,3 +270,54 @@ variable "app_insights_instrumentation_key" {
   default     = ""
   sensitive   = true
 }
+
+variable "enable_notification_hub" {
+  description = "Deploy an Azure Notification Hub namespace for push notifications"
+  type        = bool
+  default     = false
+}
+
+variable "notification_hub_sku" {
+  description = "Notification Hub namespace SKU: Free, Basic, or Standard"
+  type        = string
+  default     = "Free"
+}
+
+variable "apns_bundle_id" {
+  description = "Apple APNs bundle ID for iOS push notifications"
+  type        = string
+  default     = ""
+}
+
+variable "apns_production" {
+  description = "Use APNs production (true) or sandbox (false) endpoint"
+  type        = bool
+  default     = false
+}
+
+variable "apns_key_id" {
+  description = "APNs authentication key ID"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "apns_team_id" {
+  description = "Apple Developer Team ID"
+  type        = string
+  default     = ""
+}
+
+variable "apns_token" {
+  description = "APNs authentication token content"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+
+variable "gcm_api_key" {
+  description = "Google Firebase Cloud Messaging API key for Android push notifications"
+  type        = string
+  default     = ""
+  sensitive   = true
+}
