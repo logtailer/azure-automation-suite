@@ -318,3 +318,15 @@ variable "custom_private_endpoints" {
   }))
   default = {}
 }
+
+variable "additional_vnet_peerings" {
+  description = "Map of additional VNet peerings (name -> remote VNet resource ID)"
+  type        = map(string)
+  default     = {}
+}
+
+variable "enable_er_gateway" {
+  description = "Whether an ExpressRoute gateway is deployed (used to set use_remote_gateways)"
+  type        = bool
+  default     = false
+}
