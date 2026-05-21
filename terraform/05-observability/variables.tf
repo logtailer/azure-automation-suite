@@ -343,3 +343,15 @@ variable "apim_resource_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_prometheus_collection" {
+  description = "Create a data collection rule to forward Prometheus metrics to Azure Monitor workspace"
+  type        = bool
+  default     = false
+}
+
+variable "azure_monitor_workspace_id" {
+  description = "Resource ID of the Azure Monitor workspace for Prometheus ingestion"
+  type        = string
+  default     = ""
+}
