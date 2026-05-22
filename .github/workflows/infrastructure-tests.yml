@@ -1,0 +1,75 @@
+name: Infrastructure Tests (Terratest)
+
+on:
+  pull_request:
+    paths:
+      - "terraform/**"
+  schedule:
+    - cron: "0 3 * * 2"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terratest:
+    name: Run Terratest integration tests
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "^1.22"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+          terraform_wrapper: false
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+
+      - name: Download Go dependencies
+        working-directory: test/
+        run: go mod download
+
+      - name: Run networking module tests
+        working-directory: test/
+        run: go test -v -timeout 30m -run TestNetworkingModule ./...
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: "true"
+          TF_VAR_location: "eastus"
+
+      - name: Run security module tests
+        if: always()
+        working-directory: test/
+        run: go test -v -timeout 30m -run TestSecurityModule ./...
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_USE_OIDC: "true"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terratest-results
+          path: test/results/
+          retention-days: 14
