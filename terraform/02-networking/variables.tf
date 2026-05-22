@@ -330,3 +330,15 @@ variable "enable_er_gateway" {
   type        = bool
   default     = false
 }
+
+variable "enable_network_watcher" {
+  description = "Create an Azure Network Watcher instance for the region"
+  type        = bool
+  default     = false
+}
+
+variable "flow_log_retention_days" {
+  description = "Number of days to retain NSG flow logs in the storage account"
+  type        = number
+  default     = 30
+}
