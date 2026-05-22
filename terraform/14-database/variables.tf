@@ -221,3 +221,15 @@ variable "mysql_allowed_ip_ranges" {
   }))
   default = {}
 }
+
+variable "enable_redis_replica" {
+  description = "Create a geo-replicated Redis secondary linked to the primary cache"
+  type        = bool
+  default     = false
+}
+
+variable "redis_replica_location" {
+  description = "Azure region for the Redis geo-replica"
+  type        = string
+  default     = "westus"
+}
