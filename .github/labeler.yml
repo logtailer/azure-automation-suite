@@ -1,0 +1,44 @@
+terraform/networking:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/02-networking/**"
+
+terraform/security:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/03-security/**"
+
+terraform/aks:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/04-aks/**"
+
+terraform/observability:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/05-observability/**"
+
+terraform/database:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/14-database/**"
+
+terraform/policy:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/15-policy/**"
+
+terraform/foundation:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/01-foundation/**"
+
+k8s-manifests:
+  - changed-files:
+    - any-glob-to-any-file: "terraform/04-aks/k8s-manifests/**"
+
+ci/cd:
+  - changed-files:
+    - any-glob-to-any-file: ".github/workflows/**"
+
+scripts:
+  - changed-files:
+    - any-glob-to-any-file: "scripts/**"
+
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: "**/*.md"
+    - any-glob-to-any-file: "docs/**"
