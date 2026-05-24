@@ -225,6 +225,30 @@ resource "azurerm_policy_definition" "deny_public_ip_on_nic" {
   policy_rule = file("${path.module}/definitions/deny-public-ip-on-nic.json")
 }
 
+resource "azurerm_policy_definition" "deny_public_redis" {
+  name         = "deny-public-redis-access"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Deny public network access on Azure Cache for Redis"
+  description  = "Requires Redis Cache instances to disable public network access"
+
+  metadata = jsonencode({
+    category = "Cache"
+    version  = "1.0.0"
+  })
+
+  parameters = jsonencode({
+    effect = {
+      type          = "String"
+      metadata      = { displayName = "Effect" }
+      allowedValues = ["Deny", "Audit", "Disabled"]
+      defaultValue  = "Deny"
+    }
+  })
+
+  policy_rule = file("${path.module}/definitions/deny-public-redis.json")
+}
+
 resource "azurerm_subscription_policy_assignment" "baseline" {
   name                 = "platform-security-baseline"
   subscription_id      = data.azurerm_subscription.current.id
