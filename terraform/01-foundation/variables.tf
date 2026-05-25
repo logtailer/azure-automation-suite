@@ -321,3 +321,39 @@ variable "gcm_api_key" {
   default     = ""
   sensitive   = true
 }
+
+variable "enable_app_config" {
+  description = "Deploy an Azure App Configuration store for centralised feature flags and settings"
+  type        = bool
+  default     = false
+}
+
+variable "app_config_name" {
+  description = "Name of the App Configuration store (must be globally unique)"
+  type        = string
+  default     = ""
+}
+
+variable "app_config_sku" {
+  description = "App Configuration SKU: free or standard"
+  type        = string
+  default     = "standard"
+}
+
+variable "app_config_public_access" {
+  description = "Allow public network access to the App Configuration store"
+  type        = bool
+  default     = false
+}
+
+variable "app_config_reader_principal_ids" {
+  description = "Map of principal names to object IDs granted App Configuration Data Reader"
+  type        = map(string)
+  default     = {}
+}
+
+variable "app_config_private_endpoint_subnet_id" {
+  description = "Subnet ID for the App Configuration private endpoint"
+  type        = string
+  default     = ""
+}
