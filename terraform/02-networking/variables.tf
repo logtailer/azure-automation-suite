@@ -360,3 +360,45 @@ variable "dns_resolver_outbound_subnet_prefix" {
   type        = list(string)
   default     = ["10.0.22.16/28"]
 }
+
+variable "enable_traffic_manager" {
+  description = "Deploy an Azure Traffic Manager profile for global load balancing"
+  type        = bool
+  default     = false
+}
+
+variable "tm_routing_method" {
+  description = "Traffic Manager routing method: Priority, Weighted, Performance, or Geographic"
+  type        = string
+  default     = "Priority"
+}
+
+variable "tm_dns_relative_name" {
+  description = "Relative DNS name for the Traffic Manager profile (globally unique)"
+  type        = string
+  default     = ""
+}
+
+variable "tm_health_probe_path" {
+  description = "HTTP path used by Traffic Manager health probes"
+  type        = string
+  default     = "/health"
+}
+
+variable "tm_primary_endpoint_resource_id" {
+  description = "Azure resource ID of the primary Traffic Manager endpoint"
+  type        = string
+  default     = ""
+}
+
+variable "tm_secondary_endpoint_resource_id" {
+  description = "Azure resource ID of the secondary Traffic Manager endpoint"
+  type        = string
+  default     = ""
+}
+
+variable "tm_primary_weight" {
+  description = "Weight for the primary endpoint when using Weighted routing (1–1000)"
+  type        = number
+  default     = 80
+}
