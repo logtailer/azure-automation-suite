@@ -514,3 +514,27 @@ variable "critical_action_group_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_break_glass" {
+  description = "Assign Owner to a break-glass account and alert on sign-in"
+  type        = bool
+  default     = false
+}
+
+variable "break_glass_principal_id" {
+  description = "Object ID of the break-glass emergency account"
+  type        = string
+  default     = ""
+}
+
+variable "break_glass_upn_fragment" {
+  description = "UPN fragment (partial match) of the break-glass account for sign-in alerting"
+  type        = string
+  default     = "breakglass"
+}
+
+variable "enable_mfa_alerts" {
+  description = "Alert when MFA is disabled for any user account via Entra audit logs"
+  type        = bool
+  default     = false
+}
