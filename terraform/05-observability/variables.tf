@@ -361,3 +361,15 @@ variable "enable_workbooks" {
   type        = bool
   default     = false
 }
+
+variable "enable_maintenance_suppression" {
+  description = "Create an alert processing rule to suppress Sev2-4 alerts during weekend maintenance windows"
+  type        = bool
+  default     = false
+}
+
+variable "enable_alert_routing" {
+  description = "Create an alert processing rule to route Sev0-1 alerts to the on-call action group"
+  type        = bool
+  default     = false
+}
