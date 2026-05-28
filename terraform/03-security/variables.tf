@@ -484,3 +484,33 @@ variable "jit_target_vm_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_pim_group" {
+  description = "Create a Contributor role assignment for a PIM-managed privileged access group"
+  type        = bool
+  default     = false
+}
+
+variable "pim_group_object_id" {
+  description = "Object ID of the Azure AD group used for privileged PIM access"
+  type        = string
+  default     = ""
+}
+
+variable "enable_pim_alerts" {
+  description = "Alert on new Owner or User Access Administrator role assignments"
+  type        = bool
+  default     = false
+}
+
+variable "log_analytics_workspace_id" {
+  description = "Log Analytics workspace ID for PIM alert scheduled query rules"
+  type        = string
+  default     = ""
+}
+
+variable "critical_action_group_id" {
+  description = "Resource ID of the critical action group for security alerts"
+  type        = string
+  default     = ""
+}
