@@ -355,3 +355,9 @@ variable "azure_monitor_workspace_id" {
   type        = string
   default     = ""
 }
+
+variable "enable_workbooks" {
+  description = "Create Application Insights workbooks for API health and cost overview"
+  type        = bool
+  default     = false
+}
