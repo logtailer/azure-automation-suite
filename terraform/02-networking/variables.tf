@@ -342,3 +342,21 @@ variable "flow_log_retention_days" {
   type        = number
   default     = 30
 }
+
+variable "enable_dns_resolver" {
+  description = "Deploy Azure DNS Private Resolver with inbound and outbound endpoints"
+  type        = bool
+  default     = false
+}
+
+variable "dns_resolver_inbound_subnet_prefix" {
+  description = "Address prefix for the DNS resolver inbound endpoint subnet"
+  type        = list(string)
+  default     = ["10.0.22.0/28"]
+}
+
+variable "dns_resolver_outbound_subnet_prefix" {
+  description = "Address prefix for the DNS resolver outbound endpoint subnet"
+  type        = list(string)
+  default     = ["10.0.22.16/28"]
+}
