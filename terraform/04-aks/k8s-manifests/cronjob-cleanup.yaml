@@ -1,0 +1,85 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleanup-completed-jobs
+  namespace: platform
+spec:
+  schedule: "0 1 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 3600
+      template:
+        metadata:
+          labels:
+            app: cleanup-job
+        spec:
+          serviceAccountName: platform-api-sa
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: cleanup
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "Cleaning completed pods older than 1h..."
+                  kubectl delete pods -n platform \
+                    --field-selector=status.phase==Succeeded \
+                    --ignore-not-found=true
+                  kubectl delete pods -n platform \
+                    --field-selector=status.phase==Failed \
+                    --ignore-not-found=true
+                  echo "Cleanup complete."
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: token-cache-warmup
+  namespace: platform
+spec:
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: Replace
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: platform-api-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: warmup
+              image: curlimages/curl:latest
+              command:
+                - sh
+                - -c
+                - |
+                  curl -sf http://platform-api.platform.svc.cluster.local:8080/internal/warmup \
+                    -H "X-Internal: true" || exit 1
+              resources:
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+                limits:
+                  cpu: 100m
+                  memory: 64Mi
