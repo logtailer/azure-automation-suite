@@ -85,6 +85,8 @@ No modules.
 | [azurerm_application_insights_smart_detection_rule.failure_anomalies](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_smart_detection_rule) | resource |
 | [azurerm_application_insights_smart_detection_rule.slow_requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_smart_detection_rule) | resource |
 | [azurerm_application_insights_web_test.platform_api_ping](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_web_test) | resource |
+| [azurerm_application_insights_workbook.api_health](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_workbook) | resource |
+| [azurerm_application_insights_workbook.cost_overview](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_workbook) | resource |
 | [azurerm_application_insights_workbook.platform_overview](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_workbook) | resource |
 | [azurerm_consumption_budget_resource_group.component_budget](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/consumption_budget_resource_group) | resource |
 | [azurerm_consumption_budget_subscription.platform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/consumption_budget_subscription) | resource |
@@ -185,6 +187,7 @@ No modules.
 | <a name="input_enable_slo_alerts"></a> [enable\_slo\_alerts](#input\_enable\_slo\_alerts) | Enable SLO-based error-budget burn and p99 latency alerts | `bool` | `false` | no |
 | <a name="input_enable_storage_diagnostics"></a> [enable\_storage\_diagnostics](#input\_enable\_storage\_diagnostics) | Send storage account blob operation logs to Log Analytics | `bool` | `false` | no |
 | <a name="input_enable_synthetic_monitor"></a> [enable\_synthetic\_monitor](#input\_enable\_synthetic\_monitor) | Create an Application Insights web test for synthetic availability monitoring | `bool` | `false` | no |
+| <a name="input_enable_workbooks"></a> [enable\_workbooks](#input\_enable\_workbooks) | Create Application Insights workbooks for API health and cost overview | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment name (dev, prod, etc.) | `string` | `"production"` | no |
 | <a name="input_grafana_name"></a> [grafana\_name](#input\_grafana\_name) | Name of the Grafana dashboard | `string` | `"grafana-monitoring"` | no |
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | Resource ID of the Key Vault to capture diagnostic logs from | `string` | `""` | no |
