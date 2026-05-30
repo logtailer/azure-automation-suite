@@ -6,10 +6,14 @@ cluster_name        = "aks-platform-prod"
 node_pool_vm_size   = "Standard_D8s_v3"
 node_count          = 3
 min_node_count      = 3
-max_node_count      = 10
+max_node_count      = 15
 enable_auto_scaling = true
 
-kubernetes_version         = "1.29"
+upgrade_max_surge        = "33%"
+upgrade_drain_timeout    = 30
+upgrade_node_soak_period = 5
+
+kubernetes_version         = "1.30"
 network_plugin             = "azure"
 network_policy             = "calico"
 load_balancer_sku          = "standard"
