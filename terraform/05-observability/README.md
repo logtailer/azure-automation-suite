@@ -100,6 +100,8 @@ No modules.
 | [azurerm_monitor_action_group.pagerduty](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_action_group.warning](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
 | [azurerm_monitor_activity_log_alert.aci_restart](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_activity_log_alert) | resource |
+| [azurerm_monitor_alert_processing_rule_action_group.route_critical](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_processing_rule_action_group) | resource |
+| [azurerm_monitor_alert_processing_rule_suppression.maintenance_window](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_alert_processing_rule_suppression) | resource |
 | [azurerm_monitor_data_collection_endpoint.otel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_endpoint) | resource |
 | [azurerm_monitor_data_collection_rule.otel](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule) | resource |
 | [azurerm_monitor_data_collection_rule.platform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule) | resource |
@@ -170,6 +172,7 @@ No modules.
 | <a name="input_cost_alert_threshold"></a> [cost\_alert\_threshold](#input\_cost\_alert\_threshold) | Cost alert threshold percentage (e.g., 80 for 80%) | `number` | `80` | no |
 | <a name="input_critical_alert_emails"></a> [critical\_alert\_emails](#input\_critical\_alert\_emails) | Map of name => email address for critical alert action group receivers | `map(string)` | `{}` | no |
 | <a name="input_enable_aks_alerts"></a> [enable\_aks\_alerts](#input\_enable\_aks\_alerts) | Enable metric alerts for AKS node CPU, memory, and failed pods | `bool` | `false` | no |
+| <a name="input_enable_alert_routing"></a> [enable\_alert\_routing](#input\_enable\_alert\_routing) | Create an alert processing rule to route Sev0-1 alerts to the on-call action group | `bool` | `false` | no |
 | <a name="input_enable_apim_diagnostics"></a> [enable\_apim\_diagnostics](#input\_enable\_apim\_diagnostics) | Send APIM gateway logs to Log Analytics | `bool` | `false` | no |
 | <a name="input_enable_app_insights"></a> [enable\_app\_insights](#input\_enable\_app\_insights) | Deploy Application Insights workspace-based resource for APM | `bool` | `false` | no |
 | <a name="input_enable_audit_workspace"></a> [enable\_audit\_workspace](#input\_enable\_audit\_workspace) | Create a dedicated Log Analytics workspace for audit logs | `bool` | `false` | no |
@@ -178,6 +181,7 @@ No modules.
 | <a name="input_enable_data_collection_rule"></a> [enable\_data\_collection\_rule](#input\_enable\_data\_collection\_rule) | Create a data collection rule for platform-wide log aggregation | `bool` | `false` | no |
 | <a name="input_enable_idp_monitoring"></a> [enable\_idp\_monitoring](#input\_enable\_idp\_monitoring) | Enable monitoring for IDP (Backstage) resources | `bool` | `false` | no |
 | <a name="input_enable_kv_diagnostics"></a> [enable\_kv\_diagnostics](#input\_enable\_kv\_diagnostics) | Send Key Vault audit logs to Log Analytics | `bool` | `false` | no |
+| <a name="input_enable_maintenance_suppression"></a> [enable\_maintenance\_suppression](#input\_enable\_maintenance\_suppression) | Create an alert processing rule to suppress Sev2-4 alerts during weekend maintenance windows | `bool` | `false` | no |
 | <a name="input_enable_network_alerts"></a> [enable\_network\_alerts](#input\_enable\_network\_alerts) | Enable metric alerts for VNet dropped packets and Application Gateway unhealthy hosts | `bool` | `false` | no |
 | <a name="input_enable_opsgenie_integration"></a> [enable\_opsgenie\_integration](#input\_enable\_opsgenie\_integration) | Enable OpsGenie integration for alerts | `bool` | `false` | no |
 | <a name="input_enable_otel_collector"></a> [enable\_otel\_collector](#input\_enable\_otel\_collector) | Create an Azure Monitor data collection endpoint and rule for OpenTelemetry | `bool` | `false` | no |
