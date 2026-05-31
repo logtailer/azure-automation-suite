@@ -1,10 +1,6 @@
 name: Deploy Security
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'terraform/03-security/**'
   workflow_dispatch:
     inputs:
       environment:
@@ -14,7 +10,7 @@ on:
 
 jobs:
   deploy-dev:
-    if: github.event_name == 'push' || inputs.environment == 'dev'
+    if: inputs.environment == 'dev'
     uses: ./.github/workflows/reusable-terraform-deploy.yml
     with:
       module: 03-security
