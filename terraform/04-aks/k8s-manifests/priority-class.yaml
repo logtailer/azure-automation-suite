@@ -1,0 +1,32 @@
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: platform-critical
+value: 1000000
+globalDefault: false
+description: "Reserved for critical platform infrastructure that must not be evicted"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: platform-high
+value: 100000
+globalDefault: false
+description: "High-priority workloads preempt best-effort and normal pods"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: platform-normal
+value: 10000
+globalDefault: true
+description: "Default priority for standard platform workloads"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: platform-batch
+value: 1000
+globalDefault: false
+description: "Low-priority batch and background jobs — first to be evicted under pressure"
+preemptionPolicy: Never
