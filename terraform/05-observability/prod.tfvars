@@ -11,12 +11,12 @@ grafana_name                 = "grafana-platform-prod"
 environment                  = "prod"
 component_name               = "observability"
 
-enable_idp_monitoring      = true
-enable_prometheus_metrics  = true
-enable_component_budget    = true
-component_budget_amount    = 60
-cost_alert_threshold       = 75
-cost_alert_emails          = ["platform-team@example.com", "oncall@example.com"]
+enable_idp_monitoring     = true
+enable_prometheus_metrics = true
+enable_component_budget   = true
+component_budget_amount   = 60
+cost_alert_threshold      = 75
+cost_alert_emails         = ["platform-team@example.com", "oncall@example.com"]
 
 aks_cluster_id     = ""
 storage_account_id = ""

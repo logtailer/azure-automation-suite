@@ -7,7 +7,7 @@ resource "azurerm_application_insights_workbook" "api_health" {
   source_id           = lower(var.log_analytics_workspace_id)
 
   data_json = jsonencode({
-    version  = "Notebook/1.0"
+    version = "Notebook/1.0"
     items = [
       {
         type = 1
@@ -18,24 +18,24 @@ resource "azurerm_application_insights_workbook" "api_health" {
       {
         type = 3
         content = {
-          version = "KqlItem/1.0"
-          query   = "requests | summarize RequestCount=count(), FailureCount=countif(success==false) by bin(timestamp, 5m) | render timechart"
-          size    = 0
-          title   = "Request Rate vs Failures (5m bins)"
-          timeContext = { durationMs = 3600000 }
-          queryType   = 0
+          version      = "KqlItem/1.0"
+          query        = "requests | summarize RequestCount=count(), FailureCount=countif(success==false) by bin(timestamp, 5m) | render timechart"
+          size         = 0
+          title        = "Request Rate vs Failures (5m bins)"
+          timeContext  = { durationMs = 3600000 }
+          queryType    = 0
           resourceType = "microsoft.operationalinsights/workspaces"
         }
       },
       {
         type = 3
         content = {
-          version = "KqlItem/1.0"
-          query   = "requests | summarize p50=percentile(duration,50), p95=percentile(duration,95), p99=percentile(duration,99) by bin(timestamp, 5m) | render timechart"
-          size    = 0
-          title   = "Latency Percentiles"
-          timeContext = { durationMs = 3600000 }
-          queryType   = 0
+          version      = "KqlItem/1.0"
+          query        = "requests | summarize p50=percentile(duration,50), p95=percentile(duration,95), p99=percentile(duration,99) by bin(timestamp, 5m) | render timechart"
+          size         = 0
+          title        = "Latency Percentiles"
+          timeContext  = { durationMs = 3600000 }
+          queryType    = 0
           resourceType = "microsoft.operationalinsights/workspaces"
         }
       }

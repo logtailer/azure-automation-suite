@@ -11,12 +11,12 @@ grafana_name                 = "grafana-platform-staging"
 environment                  = "staging"
 component_name               = "observability"
 
-enable_idp_monitoring      = true
-enable_prometheus_metrics  = true
-enable_component_budget    = true
-component_budget_amount    = 30
-cost_alert_threshold       = 80
-cost_alert_emails          = ["platform-team@example.com"]
+enable_idp_monitoring     = true
+enable_prometheus_metrics = true
+enable_component_budget   = true
+component_budget_amount   = 30
+cost_alert_threshold      = 80
+cost_alert_emails         = ["platform-team@example.com"]
 
 aks_cluster_id     = ""
 storage_account_id = ""

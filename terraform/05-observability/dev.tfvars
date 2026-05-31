@@ -11,14 +11,14 @@ grafana_name                 = "grafana-platform-dev"
 environment                  = "dev"
 component_name               = "observability"
 
-enable_idp_monitoring      = false
-enable_prometheus_metrics  = false
-enable_component_budget    = true
-component_budget_amount    = 15
-cost_alert_threshold       = 80
-cost_alert_emails          = ["platform-team@example.com"]
+enable_idp_monitoring     = false
+enable_prometheus_metrics = false
+enable_component_budget   = true
+component_budget_amount   = 15
+cost_alert_threshold      = 80
+cost_alert_emails         = ["platform-team@example.com"]
 
-aks_cluster_id    = ""
+aks_cluster_id     = ""
 storage_account_id = ""
 
 tfstate_resource_group_name  = "terraform-state-rg"

@@ -9,8 +9,8 @@ resource "azurerm_monitor_action_group" "pagerduty" {
   short_name          = "pagerduty"
 
   webhook_receiver {
-    name        = "pagerduty-webhook"
-    service_uri = var.pagerduty_webhook_url
+    name                    = "pagerduty-webhook"
+    service_uri             = var.pagerduty_webhook_url
     use_common_alert_schema = true
   }
 
@@ -52,8 +52,8 @@ resource "azurerm_monitor_action_group" "opsgenie" {
   short_name          = "opsgenie"
 
   webhook_receiver {
-    name        = "opsgenie-webhook"
-    service_uri = var.opsgenie_webhook_url
+    name                    = "opsgenie-webhook"
+    service_uri             = var.opsgenie_webhook_url
     use_common_alert_schema = true
   }
 

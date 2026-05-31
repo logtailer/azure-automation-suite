@@ -272,12 +272,6 @@ variable "enable_aks_alerts" {
   default     = false
 }
 
-variable "aks_cluster_id" {
-  description = "Resource ID of the AKS cluster to monitor"
-  type        = string
-  default     = ""
-}
-
 variable "aks_cpu_alert_threshold" {
   description = "CPU utilisation percentage threshold for AKS node alert"
   type        = number
@@ -324,12 +318,6 @@ variable "enable_storage_diagnostics" {
   description = "Send storage account blob operation logs to Log Analytics"
   type        = bool
   default     = false
-}
-
-variable "storage_account_id" {
-  description = "Resource ID of the storage account for diagnostic settings"
-  type        = string
-  default     = ""
 }
 
 variable "enable_apim_diagnostics" {

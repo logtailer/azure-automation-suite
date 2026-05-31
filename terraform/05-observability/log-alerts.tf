@@ -1,11 +1,11 @@
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "high_error_rate" {
-  count               = var.log_analytics_workspace_id != "" ? 1 : 0
-  name                = "alert-high-error-rate-${var.environment}"
-  resource_group_name = data.azurerm_resource_group.main.name
-  location            = data.azurerm_resource_group.main.location
-  severity            = 1
-  enabled             = true
-  description         = "Alert when application error rate exceeds 5% over 5 minutes"
+  count                = var.log_analytics_workspace_id != "" ? 1 : 0
+  name                 = "alert-high-error-rate-${var.environment}"
+  resource_group_name  = data.azurerm_resource_group.main.name
+  location             = data.azurerm_resource_group.main.location
+  severity             = 1
+  enabled              = true
+  description          = "Alert when application error rate exceeds 5% over 5 minutes"
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
   scopes               = [azurerm_log_analytics_workspace.main.id]
@@ -33,13 +33,13 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "high_error_rate" {
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "kv_unauthorized_access" {
-  count               = var.log_analytics_workspace_id != "" ? 1 : 0
-  name                = "alert-kv-unauthorized-${var.environment}"
-  resource_group_name = data.azurerm_resource_group.main.name
-  location            = data.azurerm_resource_group.main.location
-  severity            = 2
-  enabled             = true
-  description         = "Alert on repeated unauthorized access attempts to Key Vault"
+  count                = var.log_analytics_workspace_id != "" ? 1 : 0
+  name                 = "alert-kv-unauthorized-${var.environment}"
+  resource_group_name  = data.azurerm_resource_group.main.name
+  location             = data.azurerm_resource_group.main.location
+  severity             = 2
+  enabled              = true
+  description          = "Alert on repeated unauthorized access attempts to Key Vault"
   evaluation_frequency = "PT15M"
   window_duration      = "PT15M"
   scopes               = [azurerm_log_analytics_workspace.main.id]

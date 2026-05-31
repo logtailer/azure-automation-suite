@@ -69,10 +69,10 @@ resource "azurerm_portal_dashboard" "platform" {
         parts = {
           "0" = {
             position = {
-              x        = 0
-              y        = 0
-              colSpan  = 6
-              rowSpan  = 4
+              x       = 0
+              y       = 0
+              colSpan = 6
+              rowSpan = 4
             }
             metadata = {
               type = "Extension/HubsExtension/PartType/MonitorChartPart"

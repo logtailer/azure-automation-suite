@@ -1,11 +1,11 @@
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "error_budget_burn" {
-  count               = var.enable_slo_alerts ? 1 : 0
-  name                = "slo-error-budget-burn-fast"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  description         = "Error budget burning faster than 14x the allowed rate (1h window)"
-  severity            = 1
-  enabled             = true
+  count                = var.enable_slo_alerts ? 1 : 0
+  name                 = "slo-error-budget-burn-fast"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  description          = "Error budget burning faster than 14x the allowed rate (1h window)"
+  severity             = 1
+  enabled              = true
   evaluation_frequency = "PT10M"
   window_duration      = "PT1H"
 
@@ -41,13 +41,13 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "error_budget_burn" {
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "p99_latency" {
-  count               = var.enable_slo_alerts ? 1 : 0
-  name                = "slo-p99-latency-breach"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  description         = "p99 request latency exceeds SLO target"
-  severity            = 2
-  enabled             = true
+  count                = var.enable_slo_alerts ? 1 : 0
+  name                 = "slo-p99-latency-breach"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  description          = "p99 request latency exceeds SLO target"
+  severity             = 2
+  enabled              = true
   evaluation_frequency = "PT5M"
   window_duration      = "PT15M"
 

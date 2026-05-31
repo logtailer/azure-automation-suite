@@ -21,9 +21,9 @@ repos:
       - id: terraform_validate
         args:
           - --args=-no-color
-      - id: terraform_tfsec
+      - id: terraform_trivy
         args:
-          - --args=--config-file=.tfsec/config.yml
+          - --args=--config-file=.trivy/config.yaml
       - id: terraform_checkov
         args:
           - --args=--config-file=.checkov.yml
