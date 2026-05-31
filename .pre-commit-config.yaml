@@ -1,9 +1,26 @@
 repos:
+  # ── General file hygiene ────────────────────────────────────────────────────
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-json
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  # ── Terraform / HCL ────────────────────────────────────────────────────────
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.86.0
+    rev: v1.96.0
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
+        args:
+          - --args=-no-color
       - id: terraform_tfsec
         args:
           - --args=--config-file=.tfsec/config.yml
@@ -11,10 +28,42 @@ repos:
         args:
           - --args=--config-file=.checkov.yml
 
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+  # ── Shell scripts ───────────────────────────────────────────────────────────
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
     hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-merge-conflict
-      - id: detect-private-key
+      - id: shellcheck
+        args: [--severity=warning]
+        files: \.sh$
+
+  # ── YAML ────────────────────────────────────────────────────────────────────
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args:
+          - -d
+          - |
+            {
+              extends: default,
+              rules: {
+                line-length: {max: 200},
+                truthy: {allowed-values: ["true", "false", "on", "off"]},
+                comments: {min-spaces-from-content: 1}
+              }
+            }
+
+  # ── Python ──────────────────────────────────────────────────────────────────
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.7
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        files: \.py$
+
+  # ── Kubernetes manifests ────────────────────────────────────────────────────
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.28.4
+    hooks:
+      - id: check-github-workflows
+      - id: check-github-actions
