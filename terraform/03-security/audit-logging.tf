@@ -1,18 +1,7 @@
 # Audit Logging and Monitoring
 # Enterprise audit trails and security monitoring
 
-# Data source for Log Analytics workspace (from observability module)
-data "terraform_remote_state" "observability" {
-  count   = var.enable_audit_logging && var.log_analytics_workspace_id != "" ? 0 : 0
-  backend = "azurerm"
-
-  config = {
-    resource_group_name  = var.tfstate_resource_group_name
-    storage_account_name = var.tfstate_storage_account_name
-    container_name       = "observability"
-    key                  = "observability.tfstate"
-  }
-}
+# terraform_remote_state "observability" is declared in sentinel.tf
 
 # Diagnostic settings for Key Vault
 resource "azurerm_monitor_diagnostic_setting" "keyvault" {

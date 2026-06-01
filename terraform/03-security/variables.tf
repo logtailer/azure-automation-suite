@@ -262,17 +262,6 @@ variable "component_name" {
   default     = "security"
 }
 
-# Terraform state configuration
-variable "tfstate_resource_group_name" {
-  description = "Resource group containing Terraform state"
-  type        = string
-}
-
-variable "tfstate_storage_account_name" {
-  description = "Storage account for Terraform state"
-  type        = string
-}
-
 # Sentinel configuration
 variable "enable_sentinel_aad_connector" {
   description = "Enable Azure Active Directory data connector for Sentinel"
@@ -413,12 +402,6 @@ variable "enable_tls_certificate" {
   default     = false
 }
 
-variable "enable_workload_identity" {
-  description = "Create a user-assigned managed identity with federated credential for AKS workload identity"
-  type        = bool
-  default     = false
-}
-
 variable "aks_oidc_issuer_url" {
   description = "OIDC issuer URL from the AKS cluster for federated identity binding"
   type        = string
@@ -501,12 +484,6 @@ variable "enable_pim_alerts" {
   description = "Alert on new Owner or User Access Administrator role assignments"
   type        = bool
   default     = false
-}
-
-variable "log_analytics_workspace_id" {
-  description = "Log Analytics workspace ID for PIM alert scheduled query rules"
-  type        = string
-  default     = ""
 }
 
 variable "critical_action_group_id" {
