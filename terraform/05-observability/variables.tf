@@ -356,6 +356,24 @@ variable "enable_maintenance_suppression" {
   default     = false
 }
 
+variable "log_analytics_workspace_id" {
+  description = "Resource ID of the Log Analytics workspace for diagnostic settings and alerts"
+  type        = string
+  default     = ""
+}
+
+variable "warning_action_group_id" {
+  description = "Resource ID of the action group for warning-severity alerts"
+  type        = string
+  default     = ""
+}
+
+variable "critical_action_group_id" {
+  description = "Resource ID of the action group for critical-severity alerts"
+  type        = string
+  default     = ""
+}
+
 variable "enable_alert_routing" {
   description = "Create an alert processing rule to route Sev0-1 alerts to the on-call action group"
   type        = bool

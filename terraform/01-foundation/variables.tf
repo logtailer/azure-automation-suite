@@ -357,3 +357,9 @@ variable "app_config_private_endpoint_subnet_id" {
   type        = string
   default     = ""
 }
+
+variable "environment" {
+  description = "Deployment environment (dev, staging, prod)"
+  type        = string
+  default     = "dev"
+}

@@ -174,15 +174,12 @@ resource "azuread_application" "platform" {
     }
   }
 
-  tags = var.tags
 }
 
 # Service Principal for the application
 resource "azuread_service_principal" "platform" {
   client_id = azuread_application.platform.application_id
   owners    = [data.azuread_client_config.current.object_id]
-
-  tags = var.tags
 }
 
 # Client secret for the application

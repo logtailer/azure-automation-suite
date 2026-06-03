@@ -109,3 +109,27 @@ variable "viewer_group_name" {
   type        = string
   default     = "Platform Viewers"
 }
+
+variable "enable_component_budget" {
+  description = "Create a consumption budget for the IDP resource group"
+  type        = bool
+  default     = false
+}
+
+variable "component_budget_amount" {
+  description = "Monthly budget amount in USD for the IDP component"
+  type        = number
+  default     = 100
+}
+
+variable "cost_alert_threshold" {
+  description = "Percentage of budget consumed that triggers a cost alert notification"
+  type        = number
+  default     = 80
+}
+
+variable "cost_alert_emails" {
+  description = "List of email addresses to notify when cost threshold is breached"
+  type        = list(string)
+  default     = []
+}

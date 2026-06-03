@@ -19,6 +19,18 @@ variable "key_vault_sku" {
   default     = "standard"
 }
 
+variable "enabled_for_deployment" {
+  description = "Allow Azure VMs to retrieve certificates stored as secrets"
+  type        = bool
+  default     = false
+}
+
+variable "enabled_for_disk_encryption" {
+  description = "Allow Azure Disk Encryption to retrieve secrets and unwrap keys"
+  type        = bool
+  default     = false
+}
+
 variable "soft_delete_retention_days" {
   description = "Number of days to retain deleted items"
   type        = number

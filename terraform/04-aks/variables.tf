@@ -247,3 +247,51 @@ variable "enable_aks_autoscale_alerts" {
   type        = bool
   default     = false
 }
+
+variable "project_name" {
+  description = "Project name used for resource tagging"
+  type        = string
+  default     = "azure-platform"
+}
+
+variable "vm_name" {
+  description = "Name suffix for the jumpbox VM"
+  type        = string
+  default     = "jumpbox"
+}
+
+variable "admin_username" {
+  description = "Administrator username for the jumpbox VM"
+  type        = string
+  default     = "azureuser"
+}
+
+variable "os_disk_size" {
+  description = "OS disk size in GB for the jumpbox VM"
+  type        = number
+  default     = 128
+}
+
+variable "vm_image_publisher" {
+  description = "Publisher of the jumpbox VM image"
+  type        = string
+  default     = "Canonical"
+}
+
+variable "vm_image_offer" {
+  description = "Offer of the jumpbox VM image"
+  type        = string
+  default     = "0001-com-ubuntu-server-jammy"
+}
+
+variable "vm_image_sku" {
+  description = "SKU of the jumpbox VM image"
+  type        = string
+  default     = "22_04-lts-gen2"
+}
+
+variable "vm_image_version" {
+  description = "Version of the jumpbox VM image"
+  type        = string
+  default     = "latest"
+}
