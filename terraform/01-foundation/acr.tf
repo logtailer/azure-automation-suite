@@ -11,6 +11,8 @@ resource "azurerm_container_registry" "main" {
   public_network_access_enabled = !var.acr_private_only
   tags                          = local.common_tags
 
+  retention_policy_in_days = var.acr_retention_days
+
   dynamic "georeplications" {
     for_each = var.acr_geo_replications
     content {
@@ -18,14 +20,5 @@ resource "azurerm_container_registry" "main" {
       zone_redundancy_enabled   = true
       regional_endpoint_enabled = true
     }
-  }
-
-  retention_policy {
-    days    = var.acr_retention_days
-    enabled = true
-  }
-
-  trust_policy {
-    enabled = var.acr_content_trust
   }
 }

@@ -48,6 +48,7 @@ resource "azurerm_security_center_subscription_pricing" "sql_server_vms" {
 
 # Security Center Contact
 resource "azurerm_security_center_contact" "main" {
+  name                = "default"
   email               = var.security_contact_email
   phone               = var.security_contact_phone
   alert_notifications = var.alert_notifications_enabled

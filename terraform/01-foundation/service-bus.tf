@@ -5,7 +5,6 @@ resource "azurerm_servicebus_namespace" "main" {
   location            = azurerm_resource_group.main.location
   sku                 = var.service_bus_sku
   capacity            = var.service_bus_sku == "Premium" ? var.service_bus_capacity : 0
-  zone_redundant      = var.service_bus_sku == "Premium"
   minimum_tls_version = "1.2"
   tags                = local.common_tags
 }
