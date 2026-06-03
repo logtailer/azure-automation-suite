@@ -43,7 +43,7 @@ resource "kubernetes_network_policy" "allow_same_namespace" {
 # Allow traffic from system namespaces
 resource "kubernetes_network_policy" "allow_system_ingress" {
   metadata {
-    name      = "allow-system-ingress" 
+    name      = "allow-system-ingress"
     namespace = "default"
   }
 

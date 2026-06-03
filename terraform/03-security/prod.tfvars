@@ -3,15 +3,15 @@ component_name      = "security"
 resource_group_name = "rg-security-prod"
 location            = "Central India"
 
-key_vault_name                = "kv-platform-prod-001"
-enabled_for_disk_encryption   = true
-enabled_for_deployment        = true
-soft_delete_retention_days    = 90
-purge_protection_enabled      = true
-sku_name                      = "premium"
-enable_rbac_authorization     = true
-default_network_action        = "Deny"
-allowed_ip_ranges             = []
+key_vault_name              = "kv-platform-prod-001"
+enabled_for_disk_encryption = true
+enabled_for_deployment      = true
+soft_delete_retention_days  = 90
+purge_protection_enabled    = true
+sku_name                    = "premium"
+enable_rbac_authorization   = true
+default_network_action      = "Deny"
+allowed_ip_ranges           = []
 
 enable_aks_identity        = true
 enable_app_identity        = true

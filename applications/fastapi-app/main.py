@@ -117,14 +117,14 @@ async def create_user(user: UserCreate):
     # Check if email already exists
     if any(u.email == user.email for u in users_db):
         raise HTTPException(status_code=400, detail="Email already registered")
-    
+
     new_user = User(
         id=len(users_db) + 1,
         name=user.name,
         email=user.email,
         created_at=datetime.utcnow()
     )
-    
+
     users_db.append(new_user)
     logger.info(f"Created user: {new_user.email}")
     return new_user
@@ -144,7 +144,7 @@ async def delete_user(user_id: int):
     user = next((u for u in users_db if u.id == user_id), None)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     users_db = [u for u in users_db if u.id != user_id]
     logger.info(f"Deleted user: {user.email}")
     return {"message": "User deleted successfully"}

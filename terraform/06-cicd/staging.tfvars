@@ -10,7 +10,7 @@ runner_node_max_count = 5
 runner_min_replicas   = 1
 runner_max_replicas   = 5
 
-argocd_namespace    = "argocd"
+argocd_namespace     = "argocd"
 argocd_chart_version = "5.51.6"
 
 enable_component_budget = true

@@ -6,8 +6,8 @@ resource "azurerm_postgresql_flexible_server" "read_replica" {
   version             = var.postgresql_version
   sku_name            = var.replica_sku_name
 
-  create_mode               = "Replica"
-  source_server_id          = azurerm_postgresql_flexible_server.main[0].id
+  create_mode                  = "Replica"
+  source_server_id             = azurerm_postgresql_flexible_server.main[0].id
   geo_redundant_backup_enabled = false
 
   authentication {

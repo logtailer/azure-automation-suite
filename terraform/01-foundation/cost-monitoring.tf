@@ -64,7 +64,7 @@ resource "azurerm_consumption_budget_resource_group" "component_budget" {
 
 # Cost anomaly detection (only for the platform, not per component)
 resource "azurerm_consumption_budget_subscription" "anomaly_detection" {
-  count           = var.component_name == "foundation" ? 1 : 0  # Only create for foundation
+  count           = var.component_name == "foundation" ? 1 : 0 # Only create for foundation
   name            = "anomaly-detection-${var.tags.Environment}"
   subscription_id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
 

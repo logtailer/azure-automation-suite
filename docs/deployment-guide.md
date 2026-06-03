@@ -142,7 +142,7 @@ terraform output
 - Network Security Groups
 - Route tables
 
-#### **Step 4: Deploy Security Infrastructure**  
+#### **Step 4: Deploy Security Infrastructure**
 ```bash
 cd ../03-security
 
@@ -214,7 +214,7 @@ aks-default-12345678-vmss000001    Ready    agent   5m    v1.28.3
 ```bash
 cd ../05-observability
 
-# Initialize with remote backend  
+# Initialize with remote backend
 terraform init -backend-config="../backend.tfvars"
 
 # Deploy Azure Monitor resources
@@ -517,7 +517,7 @@ az consumption budget create \
 
 # Or manual cleanup (in reverse order)
 cd terraform/06-cicd && terraform destroy
-cd ../05-observability && terraform destroy  
+cd ../05-observability && terraform destroy
 cd ../04-aks && terraform destroy
 cd ../03-security && terraform destroy
 cd ../02-networking && terraform destroy
@@ -544,7 +544,7 @@ kubectl delete namespace argocd
 ## 📚 **Next Steps**
 
 1. **Custom Applications**: Deploy your own applications
-2. **Domain Setup**: Configure custom domains and SSL certificates  
+2. **Domain Setup**: Configure custom domains and SSL certificates
 3. **Multi-Environment**: Set up staging and production environments
 4. **Advanced Monitoring**: Add custom metrics and alerting
 5. **Security Scanning**: Integrate container and infrastructure scanning

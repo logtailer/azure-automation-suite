@@ -4,15 +4,15 @@ resource_group_name = "rg-security"
 location            = "Central India"
 
 # Key Vault Configuration
-key_vault_name                = "kv-platform-security-001"
-enabled_for_disk_encryption   = true
-enabled_for_deployment        = true
-soft_delete_retention_days    = 90
-purge_protection_enabled      = true
-sku_name                      = "standard"
-enable_rbac_authorization     = true
-default_network_action        = "Deny" # Restrict by default
-allowed_ip_ranges             = []     # Add your IPs
+key_vault_name              = "kv-platform-security-001"
+enabled_for_disk_encryption = true
+enabled_for_deployment      = true
+soft_delete_retention_days  = 90
+purge_protection_enabled    = true
+sku_name                    = "standard"
+enable_rbac_authorization   = true
+default_network_action      = "Deny" # Restrict by default
+allowed_ip_ranges           = []     # Add your IPs
 
 # Identity Configuration
 enable_aks_identity        = true
@@ -21,11 +21,11 @@ enable_devops_identity     = true
 enable_monitoring_identity = true
 
 # Network Security
-enable_network_security         = true
-enable_kv_network_restriction   = true
-enable_private_endpoint         = false # Enable when VNet is available
-subnet_id                       = ""
-vnet_id                         = ""
+enable_network_security       = true
+enable_kv_network_restriction = true
+enable_private_endpoint       = false # Enable when VNet is available
+subnet_id                     = ""
+vnet_id                       = ""
 
 # Governance
 enable_resource_locks = true
@@ -40,8 +40,8 @@ enable_defender_policy        = false
 enable_kv_public_block_policy = false
 
 # Audit Logging
-enable_audit_logging = true
-enable_kv_alerts     = true
+enable_audit_logging       = true
+enable_kv_alerts           = true
 log_analytics_workspace_id = "" # Set from observability module
 action_group_id            = "" # Set from observability module
 
@@ -76,13 +76,13 @@ defender_tier_key_vault   = "Standard"
 defender_tier_sql         = "Free"
 defender_tier_sql_vms     = "Free"
 
-security_contact_email         = "security@example.com"
-alert_notifications_enabled    = true
-alerts_to_admins_enabled       = true
-auto_provision_log_analytics   = true
+security_contact_email       = "security@example.com"
+alert_notifications_enabled  = true
+alerts_to_admins_enabled     = true
+auto_provision_log_analytics = true
 
 # Azure Firewall
-enable_firewall                  = true
-firewall_sku_tier                = "Standard"
+enable_firewall                   = true
+firewall_sku_tier                 = "Standard"
 firewall_intrusion_detection_mode = "Alert"
-environment                      = "dev"
+environment                       = "dev"

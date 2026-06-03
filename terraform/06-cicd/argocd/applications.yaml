@@ -1,3 +1,4 @@
+---
 # GitOps Application Manifests
 
 apiVersion: argoproj.io/v1alpha1
@@ -19,7 +20,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
     retry:
       limit: 3
       backoff:
@@ -34,14 +35,14 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - env: production
-        namespace: production
-      - env: staging  
-        namespace: staging
-      - env: development
-        namespace: development
+    - list:
+        elements:
+          - env: production
+            namespace: production
+          - env: staging
+            namespace: staging
+          - env: development
+            namespace: development
   template:
     metadata:
       name: '{{env}}-apps'
@@ -59,4 +60,4 @@ spec:
           prune: true
           selfHeal: true
         syncOptions:
-        - CreateNamespace=true
+          - CreateNamespace=true

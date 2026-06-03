@@ -35,14 +35,14 @@ resource "azurerm_log_analytics_saved_search" "component_costs" {
   name                       = "ComponentCosts"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.cost_analytics.id
   category                   = "Cost Management"
-  display_name              = "Cost by Component"
-  query = <<-EOT
+  display_name               = "Cost by Component"
+  query                      = <<-EOT
     AzureActivity
     | where TimeGenerated >= ago(30d)
     | where ResourceGroup has "${var.tags.Project}"
     | extend Component = case(
         ResourceGroup contains "foundation", "Foundation",
-        ResourceGroup contains "networking", "Networking", 
+        ResourceGroup contains "networking", "Networking",
         ResourceGroup contains "aks", "AKS",
         ResourceGroup contains "security", "Security",
         ResourceGroup contains "cicd", "CI/CD",
@@ -60,10 +60,10 @@ resource "azurerm_log_analytics_saved_search" "component_costs" {
 # Create budget alerts for each component type
 resource "azurerm_consumption_budget_resource_group" "component_budgets" {
   for_each = var.component_budgets
-  
+
   name              = "${each.key}-budget-${var.tags.Environment}"
   resource_group_id = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.tags.Project}-${each.key}-${var.tags.Environment}-rg"
-  
+
   amount     = each.value.amount
   time_grain = "Monthly"
 
@@ -73,9 +73,9 @@ resource "azurerm_consumption_budget_resource_group" "component_budgets" {
   }
 
   notification {
-    enabled   = true
-    threshold = each.value.threshold
-    operator  = "GreaterThan"
+    enabled        = true
+    threshold      = each.value.threshold
+    operator       = "GreaterThan"
     contact_emails = var.cost_alert_emails
   }
 

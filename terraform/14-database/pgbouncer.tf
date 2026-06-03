@@ -20,13 +20,13 @@ resource "azurerm_container_group" "pgbouncer" {
     }
 
     environment_variables = {
-      PGBOUNCER_DATABASE        = "*"
-      PGBOUNCER_POOL_MODE       = "transaction"
-      PGBOUNCER_MAX_CLIENT_CONN = "200"
+      PGBOUNCER_DATABASE          = "*"
+      PGBOUNCER_POOL_MODE         = "transaction"
+      PGBOUNCER_MAX_CLIENT_CONN   = "200"
       PGBOUNCER_DEFAULT_POOL_SIZE = "20"
-      POSTGRESQL_HOST           = azurerm_postgresql_flexible_server.main[0].fqdn
-      POSTGRESQL_PORT           = "5432"
-      POSTGRESQL_USERNAME       = var.postgresql_admin_login
+      POSTGRESQL_HOST             = azurerm_postgresql_flexible_server.main[0].fqdn
+      POSTGRESQL_PORT             = "5432"
+      POSTGRESQL_USERNAME         = var.postgresql_admin_login
     }
 
     secure_environment_variables = {

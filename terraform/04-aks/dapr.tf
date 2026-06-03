@@ -5,9 +5,9 @@ resource "azurerm_kubernetes_cluster_extension" "dapr" {
   extension_type = "microsoft.dapr"
 
   configuration_settings = {
-    "global.ha.enabled"                = "true"
-    "dapr_operator.replicaCount"       = "2"
+    "global.ha.enabled"                  = "true"
+    "dapr_operator.replicaCount"         = "2"
     "dapr_sidecar_injector.replicaCount" = "2"
-    "dapr_sentry.replicaCount"         = "2"
+    "dapr_sentry.replicaCount"           = "2"
   }
 }

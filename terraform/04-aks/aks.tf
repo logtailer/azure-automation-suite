@@ -82,8 +82,8 @@ resource "azurerm_kubernetes_cluster" "cluster" {
       authorized_ip_ranges = var.api_server_authorized_ip_ranges
     }
   }
-  azure_policy_enabled              = var.azure_policy_enabled
-  local_account_disabled            = var.local_account_disabled
+  azure_policy_enabled   = var.azure_policy_enabled
+  local_account_disabled = var.local_account_disabled
 
   maintenance_window {
     allowed {

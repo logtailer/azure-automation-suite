@@ -7,13 +7,13 @@ resource "azurerm_role_assignment" "break_glass_owner" {
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "break_glass_signin" {
-  count               = var.enable_break_glass && var.log_analytics_workspace_id != "" ? 1 : 0
-  name                = "alert-break-glass-signin"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  description         = "Alert immediately when the break-glass account signs in"
-  severity            = 0
-  enabled             = true
+  count                = var.enable_break_glass && var.log_analytics_workspace_id != "" ? 1 : 0
+  name                 = "alert-break-glass-signin"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  description          = "Alert immediately when the break-glass account signs in"
+  severity             = 0
+  enabled              = true
   evaluation_frequency = "PT5M"
   window_duration      = "PT5M"
 
@@ -44,13 +44,13 @@ resource "azurerm_monitor_scheduled_query_rules_alert_v2" "break_glass_signin" {
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "mfa_disabled_user" {
-  count               = var.enable_mfa_alerts && var.log_analytics_workspace_id != "" ? 1 : 0
-  name                = "alert-mfa-disabled-account"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  description         = "Alert when MFA is disabled for a user account via audit log"
-  severity            = 1
-  enabled             = true
+  count                = var.enable_mfa_alerts && var.log_analytics_workspace_id != "" ? 1 : 0
+  name                 = "alert-mfa-disabled-account"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  description          = "Alert when MFA is disabled for a user account via audit log"
+  severity             = 1
+  enabled              = true
   evaluation_frequency = "PT10M"
   window_duration      = "PT10M"
 

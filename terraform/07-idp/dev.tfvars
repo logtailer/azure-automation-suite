@@ -21,7 +21,7 @@ db_admin_username      = "backstage_admin"
 github_organization = "logtailer" # Your GitHub username/org
 # These will be provided via GitHub secrets:
 # github_token = ""           # GitHub PAT with repo access
-# github_client_id = ""       # GitHub OAuth App Client ID  
+# github_client_id = ""       # GitHub OAuth App Client ID
 # github_client_secret = ""   # GitHub OAuth App Client Secret
 
 # Azure AD Application

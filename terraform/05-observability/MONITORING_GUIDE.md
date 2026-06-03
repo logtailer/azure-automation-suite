@@ -13,7 +13,7 @@ Comprehensive monitoring for Azure platform using Grafana, Prometheus, Log Analy
 
 ### Infrastructure Monitoring
 - AKS cluster health and performance (6 alerts)
-- Storage account availability  
+- Storage account availability
 - Application availability and response times
 
 ### IDP (Backstage) Monitoring
@@ -41,7 +41,7 @@ Metrics: CpuUsage, MemoryUsage
 
 **PostgreSQL Performance Dashboard**
 ```
-Namespace: Microsoft.DBforPostgreSQL/flexibleServers  
+Namespace: Microsoft.DBforPostgreSQL/flexibleServers
 Resource: <postgresql-server-id>
 Metrics: cpu_percent, memory_percent, storage_percent, active_connections
 ```
@@ -51,7 +51,7 @@ Metrics: cpu_percent, memory_percent, storage_percent, active_connections
 # Container CPU usage
 container_cpu_usage_seconds_total{container="backstage"}
 
-# Database connections  
+# Database connections
 pg_stat_database_numbackends{database="backstage"}
 ```
 

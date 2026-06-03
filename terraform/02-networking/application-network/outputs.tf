@@ -107,6 +107,6 @@ output "keyvault_private_dns_zone_id" {
 }
 
 output "acr_private_dns_zone_id" {
-  description = "ID of the ACR private DNS zone"  
+  description = "ID of the ACR private DNS zone"
   value       = azurerm_private_dns_zone.acr.id
 }

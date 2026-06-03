@@ -64,8 +64,8 @@ resource "azurerm_redis_cache" "main" {
   family              = var.redis_family
   sku_name            = var.redis_sku_name
 
-  enable_non_ssl_port = false
-  minimum_tls_version = "1.2"
+  non_ssl_port_enabled = false
+  minimum_tls_version  = "1.2"
 
   tags = local.common_tags
 }

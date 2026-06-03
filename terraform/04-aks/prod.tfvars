@@ -13,11 +13,11 @@ upgrade_max_surge        = "33%"
 upgrade_drain_timeout    = 30
 upgrade_node_soak_period = 5
 
-kubernetes_version         = "1.30"
-network_plugin             = "azure"
-network_policy             = "calico"
-load_balancer_sku          = "standard"
-outbound_type              = "loadBalancer"
+kubernetes_version = "1.30"
+network_plugin     = "azure"
+network_policy     = "calico"
+load_balancer_sku  = "standard"
+outbound_type      = "loadBalancer"
 
 enable_private_cluster     = true
 enable_azure_policy        = true

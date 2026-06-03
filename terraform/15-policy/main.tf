@@ -79,8 +79,8 @@ resource "azurerm_policy_definition" "deny_classic_resources" {
 
   parameters = jsonencode({
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Deny", "Audit", "Disabled"]
       defaultValue  = "Deny"
     }
@@ -97,8 +97,8 @@ resource "azurerm_policy_definition" "audit_keyvault_soft_delete" {
 
   parameters = jsonencode({
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Audit", "Deny", "Disabled"]
       defaultValue  = "Audit"
     }
@@ -115,13 +115,13 @@ resource "azurerm_policy_definition" "deny_unapproved_vm_skus" {
 
   parameters = jsonencode({
     allowedSkus = {
-      type     = "Array"
-      metadata = { displayName = "Allowed VM SKUs", description = "List of permitted VM SKU names" }
+      type         = "Array"
+      metadata     = { displayName = "Allowed VM SKUs", description = "List of permitted VM SKU names" }
       defaultValue = ["Standard_D2s_v3", "Standard_D4s_v3", "Standard_D8s_v3", "Standard_E4s_v3"]
     }
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Deny", "Audit", "Disabled"]
       defaultValue  = "Audit"
     }
@@ -138,13 +138,13 @@ resource "azurerm_policy_definition" "deny_non_compliant_location" {
 
   parameters = jsonencode({
     allowedLocations = {
-      type     = "Array"
-      metadata = { displayName = "Allowed Locations", strongType = "location" }
+      type         = "Array"
+      metadata     = { displayName = "Allowed Locations", strongType = "location" }
       defaultValue = ["eastus", "westus", "westus2", "westeurope", "northeurope"]
     }
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Deny", "Audit", "Disabled"]
       defaultValue  = "Audit"
     }
@@ -161,8 +161,8 @@ resource "azurerm_policy_definition" "require_private_endpoint" {
 
   parameters = jsonencode({
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Audit", "Disabled"]
       defaultValue  = "Audit"
     }
@@ -179,8 +179,8 @@ resource "azurerm_policy_definition" "deny_unencrypted_disk" {
 
   parameters = jsonencode({
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Deny", "Audit", "Disabled"]
       defaultValue  = "Audit"
     }
@@ -197,8 +197,8 @@ resource "azurerm_policy_definition" "require_diagnostic_settings" {
 
   parameters = jsonencode({
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Audit", "Disabled"]
       defaultValue  = "Audit"
     }
@@ -215,8 +215,8 @@ resource "azurerm_policy_definition" "deny_public_ip_on_nic" {
 
   parameters = jsonencode({
     effect = {
-      type         = "String"
-      metadata     = { displayName = "Effect" }
+      type          = "String"
+      metadata      = { displayName = "Effect" }
       allowedValues = ["Deny", "Audit", "Disabled"]
       defaultValue  = "Audit"
     }

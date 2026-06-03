@@ -11,7 +11,7 @@ A production-ready, enterprise-grade Azure infrastructure platform built with mo
 This platform implements a comprehensive **Internal Developer Platform (IDP)** that provides:
 - **Self-Service Infrastructure** via Backstage portal
 - **GitOps Deployments** with monitoring and alerting
-- **Zero-Trust Security** with private networking  
+- **Zero-Trust Security** with private networking
 - **Scalable Kubernetes** with AKS and auto-scaling
 
 ### 📐 Infrastructure Layers
@@ -43,7 +43,7 @@ cd azure-automation-suite/terraform
 cd 01-foundation
 ./deploy.sh core.tfvars
 
-# Deploy networking layer  
+# Deploy networking layer
 cd ../02-networking/application-network
 ./deploy.sh dev.tfvars
 

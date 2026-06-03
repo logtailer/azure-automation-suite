@@ -21,9 +21,8 @@ repos:
       - id: terraform_validate
         args:
           - --args=-no-color
+          - --init-args=-backend=false
       - id: terraform_trivy
-        args:
-          - --args=--config-file=.trivy/config.yaml
       - id: terraform_checkov
         args:
           - --args=--config-file=.checkov.yml

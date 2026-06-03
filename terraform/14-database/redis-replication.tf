@@ -7,7 +7,7 @@ resource "azurerm_redis_cache" "replica" {
   family              = var.redis_family
   sku_name            = var.redis_sku_name
 
-  enable_non_ssl_port           = false
+  non_ssl_port_enabled          = false
   minimum_tls_version           = "1.2"
   public_network_access_enabled = false
 
@@ -19,10 +19,10 @@ resource "azurerm_redis_cache" "replica" {
 }
 
 resource "azurerm_redis_linked_server" "geo_replica" {
-  count                     = var.enable_redis && var.enable_redis_replica ? 1 : 0
-  target_redis_cache_name   = var.redis_cache_name
-  resource_group_name       = var.resource_group_name
-  linked_redis_cache_id     = azurerm_redis_cache.replica[0].id
+  count                       = var.enable_redis && var.enable_redis_replica ? 1 : 0
+  target_redis_cache_name     = var.redis_cache_name
+  resource_group_name         = var.resource_group_name
+  linked_redis_cache_id       = azurerm_redis_cache.replica[0].id
   linked_redis_cache_location = var.redis_replica_location
-  server_role               = "Secondary"
+  server_role                 = "Secondary"
 }

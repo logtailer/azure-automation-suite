@@ -9,7 +9,7 @@ The Terraform files have been properly organized into a modular, enterprise-grad
 ```
 terraform/
 ├── 01-foundation/        # Core infrastructure (Resource groups, Storage)
-├── 02-networking/        # Network architecture (VNet, Subnets, NAT Gateway)  
+├── 02-networking/        # Network architecture (VNet, Subnets, NAT Gateway)
 ├── 03-security/         # Security controls (Key Vault, RBAC) [Ready for content]
 ├── 04-aks/             # Compute resources (VMs, AKS clusters)
 ├── 05-observability/    # Monitoring stack [Ready for content]
@@ -43,7 +43,7 @@ terraform/
 ```bash
 # Sequential deployment order
 cd 01-foundation && terraform init && terraform apply
-cd ../02-networking && terraform init && terraform apply  
+cd ../02-networking && terraform init && terraform apply
 cd ../03-security && terraform init && terraform apply
 cd ../04-aks && terraform init && terraform apply
 cd ../05-observability && terraform init && terraform apply
@@ -61,7 +61,7 @@ cd ../06-cicd && terraform init && terraform apply
 
 #### **From Root → Working Versions**
 - `core/` → `working-versions/core/` (Alternative foundation approach)
-- `aks/` → `working-versions/aks/` (Alternative AKS approach)  
+- `aks/` → `working-versions/aks/` (Alternative AKS approach)
 - `backend/` → `working-versions/backend/` (Backend configuration)
 - State files, plans, keys → `working-versions/`
 

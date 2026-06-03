@@ -6,7 +6,6 @@ set -e
 
 ENVIRONMENT="${1:-dev}"
 PROJECT_NAME="${2:-azure-platform}"
-SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 
 echo "🔍 Generating Cost Analysis Report for $ENVIRONMENT environment..."
 echo "=================================================="
@@ -22,31 +21,31 @@ TOTAL_COST=0
 
 for component in "${COMPONENTS[@]}"; do
   RG_NAME="${PROJECT_NAME}-${component}-${ENVIRONMENT}-rg"
-  
+
   # Get cost data for the resource group (current month)
   COST=$(az consumption usage list \
-    --billing-period-name $(date +%Y%m) \
+    --billing-period-name "$(date +%Y%m)" \
     --query "[?contains(instanceName, '$RG_NAME')].pretaxCost" \
     --output tsv 2>/dev/null | awk '{s+=$1} END {print s}' || echo "0")
-  
+
   if [[ -z "$COST" ]] || [[ "$COST" == "" ]]; then
     COST="0"
   fi
-  
+
   # Format cost to 2 decimal places
   FORMATTED_COST=$(printf "%.2f" "$COST" 2>/dev/null || echo "0.00")
   TOTAL_COST=$(echo "$TOTAL_COST + $FORMATTED_COST" | bc -l 2>/dev/null || echo "$TOTAL_COST")
-  
+
   # Get budget for this component
   BUDGET=$(echo 'var.component_budgets["'$component'"].amount' | jq -r '.amount // 5' 2>/dev/null || echo "5")
-  
+
   # Calculate percentage of budget used
   if (( $(echo "$BUDGET > 0" | bc -l 2>/dev/null || echo 0) )); then
     PERCENT=$(echo "scale=1; $FORMATTED_COST * 100 / $BUDGET" | bc -l 2>/dev/null || echo "0")
   else
     PERCENT="0"
   fi
-  
+
   # Color coding based on usage
   if (( $(echo "$PERCENT > 80" | bc -l 2>/dev/null || echo 0) )); then
     COLOR="🔴"
@@ -55,7 +54,7 @@ for component in "${COMPONENTS[@]}"; do
   else
     COLOR="🟢"
   fi
-  
+
   printf "%-15s %s \$%-8s / \$%-5s (%s%%)\n" \
     "$component" "$COLOR" "$FORMATTED_COST" "$BUDGET" "$PERCENT"
 done

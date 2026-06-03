@@ -9,11 +9,11 @@ min_node_count      = 1
 max_node_count      = 3
 enable_auto_scaling = true
 
-kubernetes_version         = "1.29"
-network_plugin             = "azure"
-network_policy             = "calico"
-load_balancer_sku          = "standard"
-outbound_type              = "loadBalancer"
+kubernetes_version = "1.29"
+network_plugin     = "azure"
+network_policy     = "calico"
+load_balancer_sku  = "standard"
+outbound_type      = "loadBalancer"
 
 enable_private_cluster     = false
 enable_azure_policy        = true

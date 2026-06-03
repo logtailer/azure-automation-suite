@@ -90,7 +90,7 @@ The application exposes Prometheus metrics at `/metrics`:
 # Unit tests
 pytest tests/unit/
 
-# Integration tests  
+# Integration tests
 pytest tests/integration/
 
 # Load testing

@@ -14,7 +14,7 @@ This document provides a comprehensive overview of the Azure DevOps platform arc
 
 ### **2. Cloud-Native**
 - Containerized applications
-- Microservices architecture  
+- Microservices architecture
 - Auto-scaling capabilities
 - Infrastructure as Code
 
@@ -38,7 +38,7 @@ This document provides a comprehensive overview of the Azure DevOps platform arc
 ```
 Production VNet: 10.0.0.0/16
 ├── AKS Subnet: 10.0.1.0/24          (Kubernetes nodes)
-├── CI/CD Subnet: 10.0.2.0/24        (Build agents, runners)  
+├── CI/CD Subnet: 10.0.2.0/24        (Build agents, runners)
 ├── Observability: 10.0.3.0/24       (Monitoring tools)
 ├── Security Subnet: 10.0.4.0/24     (Security tools, bastion)
 ├── Data Subnet: 10.0.5.0/24         (Databases, storage)
@@ -90,7 +90,7 @@ graph LR
 
 ### **Storage Classes**
 - **default**: Azure Disk Standard SSD
-- **premium**: Azure Disk Premium SSD  
+- **premium**: Azure Disk Premium SSD
 - **azurefile**: Azure Files for shared storage
 - **fast**: Azure Ultra Disk for high IOPS workloads
 
@@ -104,7 +104,7 @@ graph TB
     AAD[Azure Active Directory] --> AKS[AKS Cluster]
     AAD --> KeyVault[Key Vault]
     AAD --> ACR[Container Registry]
-    
+
     AKS --> MSI[Managed Identity]
     MSI --> KeyVault
     MSI --> ACR
@@ -141,22 +141,22 @@ graph TB
         Promtail[Promtail]
         AzureMonitor[Azure Monitor Agent]
     end
-    
+
     subgraph "Storage"
         PrometheusDB[(Prometheus TSDB)]
         Loki[(Loki)]
         LogAnalytics[(Log Analytics)]
     end
-    
+
     subgraph "Visualization"
         Grafana[Grafana]
         AzureDashboards[Azure Dashboards]
     end
-    
+
     Prometheus --> PrometheusDB
     Promtail --> Loki
     AzureMonitor --> LogAnalytics
-    
+
     PrometheusDB --> Grafana
     Loki --> Grafana
     LogAnalytics --> AzureDashboards
@@ -185,20 +185,20 @@ graph LR
     subgraph "Source"
         GitHub[GitHub Repository]
     end
-    
+
     subgraph "CI Pipeline"
         Build[Build & Test]
         Security[Security Scan]
         Package[Container Build]
         Publish[Push to ACR]
     end
-    
+
     subgraph "CD Pipeline"
         ArgoCD[ArgoCD]
         Deploy[Deploy to AKS]
         Verify[Smoke Tests]
     end
-    
+
     GitHub --> Build
     Build --> Security
     Security --> Package
@@ -218,7 +218,7 @@ graph LR
 
 ### **Environment Strategy**
 - **Development**: Auto-deploy on merge to main
-- **Staging**: Auto-deploy + integration tests  
+- **Staging**: Auto-deploy + integration tests
 - **Production**: Manual approval + blue-green deployment
 
 ---
@@ -233,17 +233,17 @@ Node Pools:
   System Pool:
     VM Size: Standard_B2s (2 vCPU, 4GB RAM)
     Cost: ~$60/month per node
-    
-  Application Pool: 
+
+  Application Pool:
     VM Size: Standard_D2s_v3 (2 vCPU, 8GB RAM)
     Cost: ~$95/month per node
-    
+
   Spot Pool:
     VM Size: Standard_D2s_v3 (spot pricing)
     Cost: ~$25/month per node (75% savings)
 ```
 
-#### **Storage Optimization**  
+#### **Storage Optimization**
 - **Standard SSD**: For general workloads ($0.05/GB/month)
 - **Premium SSD**: For high-performance apps ($0.15/GB/month)
 - **Azure Files**: For shared storage ($0.06/GB/month)
@@ -278,7 +278,7 @@ Cluster Autoscaler:
 
 ### **Scalability Patterns**
 - **Horizontal Pod Autoscaling**: Based on CPU/Memory metrics
-- **Vertical Pod Autoscaling**: Automatic resource right-sizing  
+- **Vertical Pod Autoscaling**: Automatic resource right-sizing
 - **Cluster Autoscaling**: Dynamic node pool scaling
 - **Multi-zone Deployment**: High availability across AZs
 
@@ -292,7 +292,7 @@ Cluster Autoscaler:
 
 ### **Caching Strategy**
 - **CDN**: Azure CDN for static content
-- **Application Cache**: Redis for session/data caching  
+- **Application Cache**: Redis for session/data caching
 - **Database Cache**: Query result caching
 - **Browser Cache**: Appropriate cache headers
 
@@ -309,7 +309,7 @@ Cluster Autoscaler:
 
 ### **Scaling Triggers**
 - **Scale Up**: CPU >70% or Memory >80% for 5 minutes
-- **Scale Down**: CPU <30% and Memory <50% for 10 minutes  
+- **Scale Down**: CPU <30% and Memory <50% for 10 minutes
 - **Emergency Scale**: Queue depth >100 or error rate >10%
 
 ---
@@ -333,7 +333,7 @@ Cluster Autoscaler:
 ### **Why Prometheus over Azure Monitor?**
 - **Cost**: Significantly cheaper for high-volume metrics
 - **Flexibility**: Custom metrics and alerting rules
-- **Portability**: Works across cloud providers  
+- **Portability**: Works across cloud providers
 - **Ecosystem**: Rich integrations with CNCF tools
 
 ---
@@ -345,14 +345,14 @@ Cluster Autoscaler:
 - **Trade-off**: Slight complexity increase
 - **Benefit**: Enhanced security posture
 
-### **Cost vs. Performance**  
+### **Cost vs. Performance**
 - **Chose**: Mixed node pools (general + spot)
 - **Trade-off**: Potential pod evictions
 - **Benefit**: 40-60% cost reduction
 
 ### **Simplicity vs. Flexibility**
 - **Chose**: Kubernetes over App Service
-- **Trade-off**: Higher operational overhead  
+- **Trade-off**: Higher operational overhead
 - **Benefit**: Future scalability and portability
 
 ---

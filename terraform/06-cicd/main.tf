@@ -62,11 +62,11 @@ resource "azurerm_kubernetes_cluster" "cicd" {
 
   # System node pool (always-on)
   default_node_pool {
-    name                = "system"
-    node_count          = var.system_node_count
-    vm_size             = var.system_node_size
-    vnet_subnet_id      = data.terraform_remote_state.networking.outputs.aks_cicd_subnet_id
-    enable_auto_scaling = false
+    name                 = "system"
+    node_count           = var.system_node_count
+    vm_size              = var.system_node_size
+    vnet_subnet_id       = data.terraform_remote_state.networking.outputs.aks_cicd_subnet_id
+    auto_scaling_enabled = false
 
     node_labels = {
       "workload" = "system"
@@ -127,7 +127,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "runners" {
   vnet_subnet_id        = data.terraform_remote_state.networking.outputs.aks_cicd_subnet_id
 
   # Autoscaling configuration (scale to zero)
-  enable_auto_scaling = true
+  auto_scaling_enabled = true
   min_count           = var.runner_node_min_count # 0
   max_count           = var.runner_node_max_count # 5
   node_count          = null                      # Required when auto-scaling

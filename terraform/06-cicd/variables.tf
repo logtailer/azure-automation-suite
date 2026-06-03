@@ -81,7 +81,7 @@ variable "system_node_count" {
 variable "system_node_size" {
   description = "VM size for system nodes"
   type        = string
-  default     = "Standard_B2s"  # 2 vCPU, 4 GB RAM
+  default     = "Standard_B2s" # 2 vCPU, 4 GB RAM
 }
 
 variable "runner_node_min_count" {
@@ -99,7 +99,7 @@ variable "runner_node_max_count" {
 variable "runner_node_size" {
   description = "VM size for runner nodes"
   type        = string
-  default     = "Standard_D2s_v3"  # 2 vCPU, 8 GB RAM
+  default     = "Standard_D2s_v3" # 2 vCPU, 8 GB RAM
 }
 
 # Actions Runner Controller configuration

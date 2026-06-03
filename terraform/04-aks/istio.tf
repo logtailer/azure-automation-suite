@@ -2,7 +2,7 @@ resource "null_resource" "istio_install" {
   count = var.enable_istio ? 1 : 0
 
   triggers = {
-    cluster_id   = azurerm_kubernetes_cluster.cluster.id
+    cluster_id    = azurerm_kubernetes_cluster.cluster.id
     istio_version = var.istio_version
   }
 

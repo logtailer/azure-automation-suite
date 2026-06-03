@@ -1,7 +1,7 @@
 # Production environment networking configuration
 foundation_resource_group_name = "azure-platform-prod-rg"
 vnet_name                      = "azure-platform-prod-vnet"
-vnet_address_space            = ["10.2.0.0/15"]
+vnet_address_space             = ["10.2.0.0/15"]
 
 # Subnet configurations — larger ranges for production workloads
 public_subnet_address_prefixes  = ["10.2.1.0/24"]

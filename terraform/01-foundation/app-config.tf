@@ -5,10 +5,10 @@ resource "azurerm_app_configuration" "main" {
   location            = var.location
   sku                 = var.app_config_sku
 
-  local_auth_enabled            = false
-  public_network_access         = var.app_config_public_access ? "Enabled" : "Disabled"
-  purge_protection_enabled      = var.app_config_sku == "standard" ? true : false
-  soft_delete_retention_days    = var.app_config_sku == "standard" ? 7 : null
+  local_auth_enabled         = false
+  public_network_access      = var.app_config_public_access ? "Enabled" : "Disabled"
+  purge_protection_enabled   = var.app_config_sku == "standard" ? true : false
+  soft_delete_retention_days = var.app_config_sku == "standard" ? 7 : null
 
   identity {
     type = "SystemAssigned"

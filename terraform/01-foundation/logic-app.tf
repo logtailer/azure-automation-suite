@@ -19,9 +19,9 @@ resource "azurerm_logic_app_trigger_http_request" "alert_webhook" {
   schema = jsonencode({
     type = "object"
     properties = {
-      alertName    = { type = "string" }
-      severity     = { type = "string" }
-      resourceId   = { type = "string" }
+      alertName     = { type = "string" }
+      severity      = { type = "string" }
+      resourceId    = { type = "string" }
       firedDateTime = { type = "string" }
     }
   })

@@ -5,7 +5,7 @@ data "azurerm_management_group" "root" {
 
 resource "azurerm_management_group_policy_assignment" "baseline" {
   count                = var.assign_at_management_group ? 1 : 0
-  name                 = "platform-security-baseline"
+  name                 = "plat-sec-baseline"
   management_group_id  = data.azurerm_management_group.root[0].id
   policy_definition_id = azurerm_policy_set_definition.platform_baseline.id
   display_name         = "Platform Security Baseline (MG)"

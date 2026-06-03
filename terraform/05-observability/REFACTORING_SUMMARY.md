@@ -117,7 +117,7 @@ Enhanced and refactored the 05-observability module in two phases:
 ### New Files (8):
 1. idp-integration.tf - Cross-module integration
 2. aci-alerts.tf - Container monitoring
-3. database-alerts.tf - PostgreSQL monitoring  
+3. database-alerts.tf - PostgreSQL monitoring
 4. prometheus-integration.tf - Prometheus workspace
 5. cost-monitoring.tf - Budget tracking
 6. MONITORING_GUIDE.md - Documentation

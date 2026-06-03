@@ -19,8 +19,8 @@ resource "azurerm_cdn_frontdoor_origin_group" "aks" {
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.main[0].id
 
   load_balancing {
-    sample_size                 = 4
-    successful_samples_required = 3
+    sample_size                        = 4
+    successful_samples_required        = 3
     additional_latency_in_milliseconds = 50
   }
 

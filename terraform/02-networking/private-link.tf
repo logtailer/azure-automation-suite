@@ -15,9 +15,9 @@ resource "azurerm_private_link_service" "main" {
     var.internal_lb_frontend_ip_id
   ]
 
-  auto_approval_subscription_ids  = var.pls_auto_approval_subscription_ids
-  visibility_subscription_ids     = var.pls_visibility_subscription_ids
-  enable_proxy_protocol           = false
+  auto_approval_subscription_ids = var.pls_auto_approval_subscription_ids
+  visibility_subscription_ids    = var.pls_visibility_subscription_ids
+  enable_proxy_protocol          = false
 
   tags = var.tags
 }

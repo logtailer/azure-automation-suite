@@ -1,16 +1,8 @@
-resource "azurerm_network_watcher" "main" {
-  count               = var.enable_nsg_flow_logs ? 1 : 0
-  name                = "nw-${var.vnet_name}"
-  resource_group_name = var.foundation_resource_group_name
-  location            = var.location
-  tags                = local.common_tags
-}
-
 resource "azurerm_network_watcher_flow_log" "private_subnet" {
-  count                = var.enable_nsg_flow_logs ? 1 : 0
-  name                 = "flowlog-private-subnet"
-  network_watcher_name = azurerm_network_watcher.main[0].name
-  resource_group_name  = var.foundation_resource_group_name
+  count                     = var.enable_nsg_flow_logs ? 1 : 0
+  name                      = "flowlog-private-subnet"
+  network_watcher_name      = azurerm_network_watcher.main[0].name
+  resource_group_name       = var.foundation_resource_group_name
   network_security_group_id = azurerm_network_security_group.private.id
   storage_account_id        = var.flow_log_storage_account_id
   enabled                   = true

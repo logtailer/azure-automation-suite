@@ -10,14 +10,14 @@ resource "azurerm_public_ip" "nat" {
 }
 
 resource "azurerm_nat_gateway" "main" {
-  count               = var.enable_nat_gateway ? 1 : 0
-  name                = "ng-${var.vnet_name}"
-  resource_group_name = var.foundation_resource_group_name
-  location            = var.location
-  sku_name            = "Standard"
+  count                   = var.enable_nat_gateway ? 1 : 0
+  name                    = "ng-${var.vnet_name}"
+  resource_group_name     = var.foundation_resource_group_name
+  location                = var.location
+  sku_name                = "Standard"
   idle_timeout_in_minutes = 10
-  zones               = ["1"]
-  tags                = local.common_tags
+  zones                   = ["1"]
+  tags                    = local.common_tags
 }
 
 resource "azurerm_nat_gateway_public_ip_association" "main" {

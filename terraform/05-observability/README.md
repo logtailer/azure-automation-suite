@@ -7,7 +7,7 @@ Comprehensive observability solution providing centralized logging, metrics visu
 
 ### Core Monitoring
 - Log Analytics Workspace (30-day retention)
-- Application Insights  
+- Application Insights
 - Azure Managed Grafana
 - Azure Monitor Prometheus
 
@@ -16,7 +16,7 @@ Comprehensive observability solution providing centralized logging, metrics visu
 - Storage availability
 - Application performance
 
-### IDP (Backstage) Monitoring  
+### IDP (Backstage) Monitoring
 - Container Instance metrics (CPU, memory, restarts)
 - PostgreSQL performance (CPU, memory, storage, connections)
 - Container Registry activity
@@ -49,7 +49,7 @@ enable_prometheus_metrics = true  # Enable Prometheus workspace
 
 ## Documentation
 - [Monitoring Guide](MONITORING_GUIDE.md) - Comprehensive setup and usage
-- [Foundation Module](../01-foundation/) - Base infrastructure  
+- [Foundation Module](../01-foundation/) - Base infrastructure
 - [IDP Module](../07-idp/) - Backstage platform
 
 ## Outputs

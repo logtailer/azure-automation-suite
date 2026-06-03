@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "windows" {
   max_pods              = 30
 
   node_labels = {
-    "os"      = "windows"
+    "os"       = "windows"
     "workload" = "legacy"
   }
 
@@ -21,8 +21,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "windows" {
   ]
 
   upgrade_settings {
-    max_surge = "1"
-    drain_timeout_in_minutes = 30
+    max_surge                     = "1"
+    drain_timeout_in_minutes      = 30
     node_soak_duration_in_minutes = 0
   }
 

@@ -36,7 +36,7 @@ resource "helm_release" "argocd" {
       global = {
         domain = var.argocd_domain
       }
-      
+
       server = {
         service = {
           type = "LoadBalancer"
@@ -44,11 +44,11 @@ resource "helm_release" "argocd" {
             "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path" = "/healthz"
           }
         }
-        
+
         config = {
           "application.instanceLabelKey" = "argocd.argoproj.io/instance"
           "server.rbac.policy.default"   = "role:readonly"
-          "server.rbac.policy.csv" = <<-EOT
+          "server.rbac.policy.csv"       = <<-EOT
             p, role:admin, applications, *, */*, allow
             p, role:admin, certificates, *, *, allow
             p, role:admin, clusters, *, *, allow
@@ -57,7 +57,7 @@ resource "helm_release" "argocd" {
           EOT
         }
       }
-      
+
       repoServer = {
         replicas = 2
         resources = {
@@ -71,13 +71,13 @@ resource "helm_release" "argocd" {
           }
         }
       }
-      
+
       applicationSet = {
         enabled = true
       }
-      
+
       notifications = {
-        enabled = true
+        enabled   = true
         argocdUrl = "https://${var.argocd_domain}"
       }
     })
@@ -126,6 +126,6 @@ resource "kubernetes_manifest" "app_project_production" {
       ]
     }
   }
-  
+
   depends_on = [helm_release.argocd]
 }

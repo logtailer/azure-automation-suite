@@ -1,6 +1,6 @@
 resource "azurerm_api_management_policy" "global" {
-  count               = var.enable_apim ? 1 : 0
-  api_management_id   = azurerm_api_management.main[0].id
+  count             = var.enable_apim ? 1 : 0
+  api_management_id = azurerm_api_management.main[0].id
 
   xml_content = <<-XML
     <policies>

@@ -19,15 +19,6 @@ data "azurerm_resource_group" "foundation" {
   name = var.foundation_resource_group_name
 }
 
-# Create VNet for networking
-resource "azurerm_network_ddos_protection_plan" "main" {
-  count               = var.enable_ddos_protection ? 1 : 0
-  name                = "ddos-protection-plan"
-  location            = data.azurerm_resource_group.foundation.location
-  resource_group_name = data.azurerm_resource_group.foundation.name
-  tags                = var.tags
-}
-
 resource "azurerm_virtual_network" "main" {
   name                = var.vnet_name
   address_space       = var.vnet_address_space
@@ -137,49 +128,7 @@ resource "azurerm_subnet_network_security_group_association" "private" {
   network_security_group_id = azurerm_network_security_group.private.id
 }
 
-# NAT Gateway for outbound internet access from private subnets
-resource "azurerm_public_ip" "nat_gateway" {
-  name                = "nat-gateway-pip"
-  location            = data.azurerm_resource_group.foundation.location
-  resource_group_name = data.azurerm_resource_group.foundation.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
-
-  tags = var.tags
-}
-
-resource "azurerm_nat_gateway" "main" {
-  name                = "nat-gateway"
-  location            = data.azurerm_resource_group.foundation.location
-  resource_group_name = data.azurerm_resource_group.foundation.name
-  sku_name            = "Standard"
-
-  tags = var.tags
-}
-
-resource "azurerm_nat_gateway_public_ip_association" "main" {
-  nat_gateway_id       = azurerm_nat_gateway.main.id
-  public_ip_address_id = azurerm_public_ip.nat_gateway.id
-}
-
-resource "azurerm_subnet_nat_gateway_association" "private" {
-  subnet_id      = azurerm_subnet.private.id
-  nat_gateway_id = azurerm_nat_gateway.main.id
-}
-
-resource "azurerm_subnet_nat_gateway_association" "aks" {
-  subnet_id      = azurerm_subnet.aks.id
-  nat_gateway_id = azurerm_nat_gateway.main.id
-}
-
 # Private DNS Zones for Azure Services
-resource "azurerm_private_dns_zone" "keyvault" {
-  name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = data.azurerm_resource_group.foundation.name
-
-  tags = var.tags
-}
-
 resource "azurerm_private_dns_zone" "acr" {
   name                = "privatelink.azurecr.io"
   resource_group_name = data.azurerm_resource_group.foundation.name
@@ -202,15 +151,6 @@ resource "azurerm_private_dns_zone" "storage" {
 }
 
 # Link Private DNS Zones to VNet
-resource "azurerm_private_dns_zone_virtual_network_link" "keyvault" {
-  name                  = "keyvault-dns-link"
-  resource_group_name   = data.azurerm_resource_group.foundation.name
-  private_dns_zone_name = azurerm_private_dns_zone.keyvault.name
-  virtual_network_id    = azurerm_virtual_network.main.id
-
-  tags = var.tags
-}
-
 resource "azurerm_private_dns_zone_virtual_network_link" "acr" {
   name                  = "acr-dns-link"
   resource_group_name   = data.azurerm_resource_group.foundation.name

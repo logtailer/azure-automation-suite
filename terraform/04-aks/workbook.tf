@@ -16,32 +16,32 @@ resource "azurerm_application_insights_workbook" "aks_node_health" {
         name = "header"
       },
       {
-        type  = 3
-        name  = "node-cpu"
+        type = 3
+        name = "node-cpu"
         content = {
-          version = "KqlItem/1.0"
-          query   = "Perf | where ObjectName == 'K8SNode' and CounterName == 'cpuUsageNanoCores' | summarize AvgCPU=avg(CounterValue) by Computer, bin(TimeGenerated, 5m) | render timechart"
-          size    = 0
-          title   = "Node CPU Usage"
-          queryType = 0
+          version      = "KqlItem/1.0"
+          query        = "Perf | where ObjectName == 'K8SNode' and CounterName == 'cpuUsageNanoCores' | summarize AvgCPU=avg(CounterValue) by Computer, bin(TimeGenerated, 5m) | render timechart"
+          size         = 0
+          title        = "Node CPU Usage"
+          queryType    = 0
           resourceType = "microsoft.operationalinsights/workspaces"
         }
       },
       {
-        type  = 3
-        name  = "node-memory"
+        type = 3
+        name = "node-memory"
         content = {
-          version = "KqlItem/1.0"
-          query   = "Perf | where ObjectName == 'K8SNode' and CounterName == 'memoryRssBytes' | summarize AvgMem=avg(CounterValue) by Computer, bin(TimeGenerated, 5m) | render timechart"
-          size    = 0
-          title   = "Node Memory RSS"
-          queryType = 0
+          version      = "KqlItem/1.0"
+          query        = "Perf | where ObjectName == 'K8SNode' and CounterName == 'memoryRssBytes' | summarize AvgMem=avg(CounterValue) by Computer, bin(TimeGenerated, 5m) | render timechart"
+          size         = 0
+          title        = "Node Memory RSS"
+          queryType    = 0
           resourceType = "microsoft.operationalinsights/workspaces"
         }
       }
     ]
     styleSettings = {}
-    "$schema" = "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+    "$schema"     = "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
   })
 
   tags = var.tags

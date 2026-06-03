@@ -7,13 +7,13 @@ resource "azurerm_role_assignment" "privileged_group_owner" {
 }
 
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "privileged_role_assignment" {
-  count               = var.enable_pim_alerts ? 1 : 0
-  name                = "alert-new-owner-assignment"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  description         = "Alert when Owner or User Access Administrator is granted"
-  severity            = 1
-  enabled             = true
+  count                = var.enable_pim_alerts ? 1 : 0
+  name                 = "alert-new-owner-assignment"
+  resource_group_name  = var.resource_group_name
+  location             = var.location
+  description          = "Alert when Owner or User Access Administrator is granted"
+  severity             = 1
+  enabled              = true
   evaluation_frequency = "PT10M"
   window_duration      = "PT10M"
 

@@ -1,15 +1,11 @@
-output "aks_cluster_name" {
-  description = "Name of the AKS cluster for GitHub runners"
-  value       = azurerm_kubernetes_cluster.github_runners.name
+# AKS cluster outputs — cluster is provisioned in 04-aks module
+# These outputs reference remote state rather than local resources
+output "resource_group_name" {
+  description = "Resource group for GitHub runner infrastructure"
+  value       = azurerm_resource_group.this.name
 }
 
-output "aks_kube_config" {
-  description = "Kubeconfig for the AKS cluster"
-  value       = azurerm_kubernetes_cluster.github_runners.kube_config_raw
-  sensitive   = true
-}
-
-output "aks_node_resource_group" {
-  description = "Node resource group for the AKS cluster"
-  value       = azurerm_kubernetes_cluster.github_runners.node_resource_group
+output "resource_group_id" {
+  description = "Resource group ID for GitHub runner infrastructure"
+  value       = azurerm_resource_group.this.id
 }

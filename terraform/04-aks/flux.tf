@@ -1,8 +1,8 @@
 resource "azurerm_kubernetes_cluster_extension" "flux" {
-  count             = var.enable_flux ? 1 : 0
-  name              = "flux"
-  cluster_id        = azurerm_kubernetes_cluster.cluster.id
-  extension_type    = "microsoft.flux"
+  count          = var.enable_flux ? 1 : 0
+  name           = "flux"
+  cluster_id     = azurerm_kubernetes_cluster.cluster.id
+  extension_type = "microsoft.flux"
 
   configuration_settings = {
     "multiTenancy.enforce" = "false"

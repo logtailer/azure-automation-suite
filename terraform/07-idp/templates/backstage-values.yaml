@@ -13,7 +13,7 @@ backstage:
 
   externalPostgresql:
     existingSecret: ${db_secret_name}
-    
+
   service:
     type: LoadBalancer
     port: 80
@@ -39,15 +39,15 @@ backstage:
       memory: "512Mi"
       cpu: "250m"
     limits:
-      memory: "1Gi"  
+      memory: "1Gi"
       cpu: "500m"
 
   replicaCount: 2
 
   nodeSelector: {}
-  
+
   tolerations: []
-  
+
   affinity: {}
 
   env:

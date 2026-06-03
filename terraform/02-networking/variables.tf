@@ -325,12 +325,6 @@ variable "additional_vnet_peerings" {
   default     = {}
 }
 
-variable "enable_er_gateway" {
-  description = "Whether an ExpressRoute gateway is deployed (used to set use_remote_gateways)"
-  type        = bool
-  default     = false
-}
-
 variable "enable_network_watcher" {
   description = "Create an Azure Network Watcher instance for the region"
   type        = bool

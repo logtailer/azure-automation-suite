@@ -24,7 +24,7 @@ resource "azurerm_virtual_network_gateway" "main" {
   type                = "Vpn"
   vpn_type            = "RouteBased"
   sku                 = var.vpn_gateway_sku
-  active_active = false
+  active_active       = false
 
   ip_configuration {
     name                          = "vnetGatewayConfig"

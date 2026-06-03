@@ -91,13 +91,13 @@ variable "component_budgets" {
     threshold = number
   }))
   default = {
-    foundation     = { amount = 5,  threshold = 80 }
-    networking     = { amount = 10, threshold = 80 }
-    security       = { amount = 3,  threshold = 80 }
+    foundation    = { amount = 5, threshold = 80 }
+    networking    = { amount = 10, threshold = 80 }
+    security      = { amount = 3, threshold = 80 }
     aks           = { amount = 25, threshold = 80 }
-    observability = { amount = 5,  threshold = 80 }
-    cicd          = { amount = 2,  threshold = 80 }
-    idp           = { amount = 5,  threshold = 80 }
+    observability = { amount = 5, threshold = 80 }
+    cicd          = { amount = 2, threshold = 80 }
+    idp           = { amount = 5, threshold = 80 }
   }
 }
 

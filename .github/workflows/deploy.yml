@@ -76,7 +76,13 @@ jobs:
       - name: Setup Azure CLI
         uses: azure/login@v1
         with:
-          creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+          creds: |
+            {
+              "clientId": "${{ secrets.ARM_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.ARM_SUBSCRIPTION_ID }}",
+              "tenantId": "${{ secrets.ARM_TENANT_ID }}"
+            }
 
       - name: Check if backend exists
         id: check_backend
@@ -98,20 +104,20 @@ jobs:
           echo "Bootstrapping foundation without backend..."
           terraform init
           terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
-          
+
           # Get outputs for backend configuration
           STORAGE_ACCOUNT=$(terraform output -raw tfstate_storage_account_name)
           RESOURCE_GROUP=$(terraform output -raw tfstate_resource_group_name)
-          
+
           echo "storage_account=$STORAGE_ACCOUNT" >> $GITHUB_OUTPUT
           echo "resource_group=$RESOURCE_GROUP" >> $GITHUB_OUTPUT
-          
+
           # Display cost monitoring information
           echo "## 💰 Cost Monitoring Configured" >> $GITHUB_STEP_SUMMARY
           echo "- Monthly Budget: \$$(terraform output -raw budget_amount)" >> $GITHUB_STEP_SUMMARY
           echo "- Resource Group: $(terraform output -raw component_resource_group_name)" >> $GITHUB_STEP_SUMMARY
           echo "- Platform Budget ID: $(terraform output -raw platform_budget_id)" >> $GITHUB_STEP_SUMMARY
-          
+
           # Now migrate to remote backend
           echo "Migrating to remote backend..."
           terraform init \
@@ -137,7 +143,7 @@ jobs:
           terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
           terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
           echo "Foundation deployment completed successfully"
-          
+
           # Display cost monitoring information
           echo "## 💰 Cost Monitoring Configured" >> $GITHUB_STEP_SUMMARY
           echo "- Monthly Budget: \$$(terraform output -raw budget_amount)" >> $GITHUB_STEP_SUMMARY
@@ -162,14 +168,20 @@ jobs:
       - name: Setup Azure CLI
         uses: azure/login@v1
         with:
-          creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+          creds: |
+            {
+              "clientId": "${{ secrets.ARM_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.ARM_SUBSCRIPTION_ID }}",
+              "tenantId": "${{ secrets.ARM_TENANT_ID }}"
+            }
 
       - name: Deploy Component
         id: component
         working-directory: terraform/${{ github.event.inputs.component }}
         run: |
           echo "Initializing and deploying ${{ github.event.inputs.component }}..."
-          
+
           # Check if backend.hcl exists for this component, if not create it
           if [ ! -f "backend.hcl" ]; then
             echo "Creating backend.hcl for ${{ github.event.inputs.component }}..."
@@ -181,12 +193,12 @@ jobs:
           use_azuread_auth     = true
           EOF
           fi
-          
+
           terraform init -backend-config="backend.hcl"
           terraform plan -var-file=${{ github.event.inputs.environment }}.tfvars
           terraform apply -auto-approve -var-file=${{ github.event.inputs.environment }}.tfvars
           echo "${{ github.event.inputs.component }} deployment completed successfully"
-          
+
           # Display component-specific information
           if [ "${{ github.event.inputs.component }}" = "02-networking" ]; then
             echo "## 🌐 Networking Resources Deployed" >> $GITHUB_STEP_SUMMARY
