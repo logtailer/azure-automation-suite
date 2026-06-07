@@ -160,6 +160,9 @@ No modules.
 | [azurerm_network_watcher.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher) | resource |
 | [azurerm_network_watcher_flow_log.aks_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
 | [azurerm_network_watcher_flow_log.private_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
+| [azurerm_private_dns_resolver.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_resolver) | resource |
+| [azurerm_private_dns_resolver_inbound_endpoint.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_resolver_inbound_endpoint) | resource |
+| [azurerm_private_dns_resolver_outbound_endpoint.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_resolver_outbound_endpoint) | resource |
 | [azurerm_private_dns_zone.acr](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
 | [azurerm_private_dns_zone.keyvault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_dns_zone) | resource |
@@ -177,7 +180,6 @@ No modules.
 | [azurerm_public_ip.er_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_public_ip.firewall](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_public_ip.nat](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
-| [azurerm_public_ip.nat_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_public_ip.vpn_gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
 | [azurerm_route.internet_via_firewall](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route) | resource |
 | [azurerm_route_table.private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/route_table) | resource |
@@ -185,16 +187,20 @@ No modules.
 | [azurerm_subnet.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.appgw](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.bastion](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [azurerm_subnet.dns_resolver_inbound](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [azurerm_subnet.dns_resolver_outbound](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.firewall](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.gateway](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.postgres_delegated](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet.public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
 | [azurerm_subnet_nat_gateway_association.aks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_nat_gateway_association) | resource |
-| [azurerm_subnet_nat_gateway_association.private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_nat_gateway_association) | resource |
 | [azurerm_subnet_network_security_group_association.private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_subnet_network_security_group_association.public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_subnet_route_table_association.private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet_route_table_association) | resource |
+| [azurerm_traffic_manager_azure_endpoint.primary](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/traffic_manager_azure_endpoint) | resource |
+| [azurerm_traffic_manager_azure_endpoint.secondary](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/traffic_manager_azure_endpoint) | resource |
+| [azurerm_traffic_manager_profile.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/traffic_manager_profile) | resource |
 | [azurerm_virtual_network.hub](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [azurerm_virtual_network.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network) | resource |
 | [azurerm_virtual_network_gateway.er](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network_gateway) | resource |
@@ -220,11 +226,14 @@ No modules.
 | <a name="input_appgw_subnet_address_prefix"></a> [appgw\_subnet\_address\_prefix](#input\_appgw\_subnet\_address\_prefix) | Address prefix for the Application Gateway subnet (minimum /24) | `list(string)` | <pre>[<br/>  "10.0.230.0/24"<br/>]</pre> | no |
 | <a name="input_bastion_subnet_prefix"></a> [bastion\_subnet\_prefix](#input\_bastion\_subnet\_prefix) | Address prefix for AzureBastionSubnet (must be /26 or larger) | `list(string)` | <pre>[<br/>  "10.0.250.0/26"<br/>]</pre> | no |
 | <a name="input_custom_private_endpoints"></a> [custom\_private\_endpoints](#input\_custom\_private\_endpoints) | Map of custom private endpoints to create | <pre>map(object({<br/>    resource_id       = string<br/>    subresource_names = list(string)<br/>    manual            = bool<br/>  }))</pre> | `{}` | no |
+| <a name="input_dns_resolver_inbound_subnet_prefix"></a> [dns\_resolver\_inbound\_subnet\_prefix](#input\_dns\_resolver\_inbound\_subnet\_prefix) | Address prefix for the DNS resolver inbound endpoint subnet | `list(string)` | <pre>[<br/>  "10.0.22.0/28"<br/>]</pre> | no |
+| <a name="input_dns_resolver_outbound_subnet_prefix"></a> [dns\_resolver\_outbound\_subnet\_prefix](#input\_dns\_resolver\_outbound\_subnet\_prefix) | Address prefix for the DNS resolver outbound endpoint subnet | `list(string)` | <pre>[<br/>  "10.0.22.16/28"<br/>]</pre> | no |
 | <a name="input_enable_aci_subnet"></a> [enable\_aci\_subnet](#input\_enable\_aci\_subnet) | Create a delegated subnet for Azure Container Instances | `bool` | `false` | no |
 | <a name="input_enable_application_gateway"></a> [enable\_application\_gateway](#input\_enable\_application\_gateway) | Deploy Azure Application Gateway v2 with zone redundancy | `bool` | `false` | no |
 | <a name="input_enable_bastion"></a> [enable\_bastion](#input\_enable\_bastion) | Deploy Azure Bastion for secure jump-host access without public SSH | `bool` | `false` | no |
 | <a name="input_enable_ddos_protection"></a> [enable\_ddos\_protection](#input\_enable\_ddos\_protection) | Enable Azure DDoS Network Protection plan on the VNet | `bool` | `false` | no |
-| <a name="input_enable_er_gateway"></a> [enable\_er\_gateway](#input\_enable\_er\_gateway) | Whether an ExpressRoute gateway is deployed (used to set use\_remote\_gateways) | `bool` | `false` | no |
+| <a name="input_enable_dns_resolver"></a> [enable\_dns\_resolver](#input\_enable\_dns\_resolver) | Deploy Azure DNS Private Resolver with inbound and outbound endpoints | `bool` | `false` | no |
+| <a name="input_enable_er_gateway"></a> [enable\_er\_gateway](#input\_enable\_er\_gateway) | Deploy an ExpressRoute virtual network gateway | `bool` | `false` | no |
 | <a name="input_enable_expressroute"></a> [enable\_expressroute](#input\_enable\_expressroute) | Deploy an ExpressRoute circuit for dedicated private connectivity | `bool` | `false` | no |
 | <a name="input_enable_firewall"></a> [enable\_firewall](#input\_enable\_firewall) | Deploy Azure Firewall into AzureFirewallSubnet for centralized egress control | `bool` | `false` | no |
 | <a name="input_enable_hub_spoke"></a> [enable\_hub\_spoke](#input\_enable\_hub\_spoke) | Enable hub-spoke network topology with VNet peering | `bool` | `false` | no |
@@ -235,6 +244,7 @@ No modules.
 | <a name="input_enable_private_dns"></a> [enable\_private\_dns](#input\_enable\_private\_dns) | Create private DNS zones for AKS and Key Vault and link them to the VNet | `bool` | `false` | no |
 | <a name="input_enable_private_link_service"></a> [enable\_private\_link\_service](#input\_enable\_private\_link\_service) | Expose an internal load balancer as a Private Link service | `bool` | `false` | no |
 | <a name="input_enable_route_table"></a> [enable\_route\_table](#input\_enable\_route\_table) | Create a custom route table for private subnet routing | `bool` | `false` | no |
+| <a name="input_enable_traffic_manager"></a> [enable\_traffic\_manager](#input\_enable\_traffic\_manager) | Deploy an Azure Traffic Manager profile for global load balancing | `bool` | `false` | no |
 | <a name="input_enable_vpn_gateway"></a> [enable\_vpn\_gateway](#input\_enable\_vpn\_gateway) | Deploy a VPN gateway into the GatewaySubnet | `bool` | `false` | no |
 | <a name="input_enable_waf"></a> [enable\_waf](#input\_enable\_waf) | Enable Web Application Firewall policy on the Application Gateway | `bool` | `false` | no |
 | <a name="input_er_authorization_key"></a> [er\_authorization\_key](#input\_er\_authorization\_key) | Authorization key for the ExpressRoute circuit connection | `string` | `""` | no |
@@ -262,6 +272,12 @@ No modules.
 | <a name="input_private_subnet_address_prefixes"></a> [private\_subnet\_address\_prefixes](#input\_private\_subnet\_address\_prefixes) | Address prefixes for the private subnet | `list(string)` | <pre>[<br/>  "10.0.2.0/24"<br/>]</pre> | no |
 | <a name="input_public_subnet_address_prefixes"></a> [public\_subnet\_address\_prefixes](#input\_public\_subnet\_address\_prefixes) | Address prefixes for the public subnet | `list(string)` | <pre>[<br/>  "10.0.1.0/24"<br/>]</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Common tags to apply to all resources | `map(string)` | `{}` | no |
+| <a name="input_tm_dns_relative_name"></a> [tm\_dns\_relative\_name](#input\_tm\_dns\_relative\_name) | Relative DNS name for the Traffic Manager profile (globally unique) | `string` | `""` | no |
+| <a name="input_tm_health_probe_path"></a> [tm\_health\_probe\_path](#input\_tm\_health\_probe\_path) | HTTP path used by Traffic Manager health probes | `string` | `"/health"` | no |
+| <a name="input_tm_primary_endpoint_resource_id"></a> [tm\_primary\_endpoint\_resource\_id](#input\_tm\_primary\_endpoint\_resource\_id) | Azure resource ID of the primary Traffic Manager endpoint | `string` | `""` | no |
+| <a name="input_tm_primary_weight"></a> [tm\_primary\_weight](#input\_tm\_primary\_weight) | Weight for the primary endpoint when using Weighted routing (1–1000) | `number` | `80` | no |
+| <a name="input_tm_routing_method"></a> [tm\_routing\_method](#input\_tm\_routing\_method) | Traffic Manager routing method: Priority, Weighted, Performance, or Geographic | `string` | `"Priority"` | no |
+| <a name="input_tm_secondary_endpoint_resource_id"></a> [tm\_secondary\_endpoint\_resource\_id](#input\_tm\_secondary\_endpoint\_resource\_id) | Azure resource ID of the secondary Traffic Manager endpoint | `string` | `""` | no |
 | <a name="input_vnet_address_space"></a> [vnet\_address\_space](#input\_vnet\_address\_space) | Address space for the virtual network | `list(string)` | <pre>[<br/>  "10.0.0.0/16"<br/>]</pre> | no |
 | <a name="input_vnet_name"></a> [vnet\_name](#input\_vnet\_name) | Name of the virtual network | `string` | n/a | yes |
 | <a name="input_vpn_gateway_sku"></a> [vpn\_gateway\_sku](#input\_vpn\_gateway\_sku) | SKU for the VPN gateway (VpnGw1, VpnGw2, VpnGw3, Basic) | `string` | `"VpnGw1"` | no |
