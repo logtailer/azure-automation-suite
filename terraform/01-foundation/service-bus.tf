@@ -1,8 +1,8 @@
 resource "azurerm_servicebus_namespace" "main" {
   count               = var.enable_service_bus ? 1 : 0
   name                = var.service_bus_namespace_name
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.component.name
+  location            = azurerm_resource_group.component.location
   sku                 = var.service_bus_sku
   capacity            = var.service_bus_sku == "Premium" ? var.service_bus_capacity : 0
   minimum_tls_version = "1.2"
