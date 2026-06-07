@@ -22,6 +22,9 @@ skip-check:
   - CKV2_AZURE_40  # Storage shared key auth — sample velero storage account
   - CKV2_AZURE_41  # Storage SAS expiration — sample velero storage account
   - CKV2_AZURE_47  # Storage blob anonymous access — sample velero storage account
+  - CKV_AZURE_119  # NIC public IP — demo VM, not production
+  - CKV_AZURE_120  # App Gateway WAF — not configured in sample
+  - CKV2_AZURE_31  # Subnet NSG — bastion, DNS resolver, delegated subnets exempt by design
 
 compact: true
 quiet: false

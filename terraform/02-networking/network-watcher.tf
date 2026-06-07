@@ -12,7 +12,7 @@ resource "azurerm_network_watcher_flow_log" "aks_subnet" {
   name                      = "fl-aks-subnet"
   network_watcher_name      = azurerm_network_watcher.main[0].name
   resource_group_name       = var.foundation_resource_group_name
-  network_security_group_id = azurerm_network_security_group.aks.id
+  network_security_group_id = azurerm_network_security_group.private.id
   storage_account_id        = var.flow_log_storage_account_id
   enabled                   = true
   version                   = 2

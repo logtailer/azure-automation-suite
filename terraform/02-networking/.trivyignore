@@ -1,0 +1,3 @@
+# Public NSG rules allow unrestricted ingress — intentional for public subnet
+AZU-0047
+AZU-0050

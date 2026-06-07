@@ -25,7 +25,7 @@ output "aks_subnet_id" {
 
 output "nat_gateway_id" {
   description = "ID of the NAT gateway"
-  value       = azurerm_nat_gateway.main.id
+  value       = var.enable_nat_gateway ? azurerm_nat_gateway.main[0].id : null
 }
 
 output "public_nsg_id" {
