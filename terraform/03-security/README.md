@@ -81,14 +81,15 @@ enable_component_budget    = true  # Cost tracking
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | n/a |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.10.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.76.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
@@ -99,7 +100,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azapi_resource.jit_policy](https://registry.terraform.io/providers/hashicorp/azapi/latest/docs/resources/resource) | resource |
+| [azapi_resource.jit_policy](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) | resource |
 | [azurerm_consumption_budget_resource_group.security_budget](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/consumption_budget_resource_group) | resource |
 | [azurerm_federated_identity_credential.aks_workload](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/federated_identity_credential) | resource |
 | [azurerm_firewall.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/firewall) | resource |
@@ -264,6 +265,7 @@ No modules.
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_tfstate_resource_group_name"></a> [tfstate\_resource\_group\_name](#input\_tfstate\_resource\_group\_name) | Name of the resource group for terraform state storage | `string` | `"terraform-state-rg"` | no |
 | <a name="input_tfstate_storage_account_name"></a> [tfstate\_storage\_account\_name](#input\_tfstate\_storage\_account\_name) | Name of the Azure Storage Account for terraform state | `string` | `"sumittfstatestorage"` | no |
+| <a name="input_tls_certificate_subject"></a> [tls\_certificate\_subject](#input\_tls\_certificate\_subject) | X.509 subject (CN=...) for the self-signed TLS certificate | `string` | `"CN=platform.example.com"` | no |
 | <a name="input_vnet_id"></a> [vnet\_id](#input\_vnet\_id) | VNet ID for private DNS zone link (required if enable\_private\_endpoint is true) | `string` | `""` | no |
 | <a name="input_workload_namespace"></a> [workload\_namespace](#input\_workload\_namespace) | Kubernetes namespace of the service account to federate | `string` | `"default"` | no |
 | <a name="input_workload_service_account"></a> [workload\_service\_account](#input\_workload\_service\_account) | Kubernetes service account name to federate with the managed identity | `string` | `"workload-sa"` | no |
