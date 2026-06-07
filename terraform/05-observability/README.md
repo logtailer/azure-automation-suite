@@ -69,7 +69,7 @@ enable_prometheus_metrics = true  # Enable Prometheus workspace
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.76.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
@@ -82,8 +82,8 @@ No modules.
 |------|------|
 | [azurerm_application_insights.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
 | [azurerm_application_insights.platform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights) | resource |
-| [azurerm_application_insights_smart_detection_rule.failure_anomalies](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_smart_detection_rule) | resource |
 | [azurerm_application_insights_smart_detection_rule.slow_requests](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_smart_detection_rule) | resource |
+| [azurerm_application_insights_smart_detection_rule.slow_server_response](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_smart_detection_rule) | resource |
 | [azurerm_application_insights_web_test.platform_api_ping](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_web_test) | resource |
 | [azurerm_application_insights_workbook.api_health](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_workbook) | resource |
 | [azurerm_application_insights_workbook.cost_overview](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights_workbook) | resource |
@@ -91,7 +91,7 @@ No modules.
 | [azurerm_consumption_budget_resource_group.component_budget](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/consumption_budget_resource_group) | resource |
 | [azurerm_consumption_budget_subscription.platform](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/consumption_budget_subscription) | resource |
 | [azurerm_dashboard_grafana.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dashboard_grafana) | resource |
-| [azurerm_grafana_managed_private_endpoint.prometheus](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/grafana_managed_private_endpoint) | resource |
+| [azurerm_dashboard_grafana_managed_private_endpoint.prometheus](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dashboard_grafana_managed_private_endpoint) | resource |
 | [azurerm_log_analytics_workspace.audit](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_log_analytics_workspace.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
 | [azurerm_monitor_action_group.critical](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_action_group) | resource |
@@ -146,6 +146,7 @@ No modules.
 | [azurerm_role_assignment.grafana_reader](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_resource_group.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [azurerm_subscription.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subscription) | data source |
 | [terraform_remote_state.idp](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/data-sources/remote_state) | data source |
 
 ## Inputs
@@ -170,6 +171,7 @@ No modules.
 | <a name="input_component_name"></a> [component\_name](#input\_component\_name) | Name of the component (used for naming) | `string` | `"observability"` | no |
 | <a name="input_cost_alert_emails"></a> [cost\_alert\_emails](#input\_cost\_alert\_emails) | List of email addresses to receive cost alerts | `list(string)` | `[]` | no |
 | <a name="input_cost_alert_threshold"></a> [cost\_alert\_threshold](#input\_cost\_alert\_threshold) | Cost alert threshold percentage (e.g., 80 for 80%) | `number` | `80` | no |
+| <a name="input_critical_action_group_id"></a> [critical\_action\_group\_id](#input\_critical\_action\_group\_id) | Resource ID of the action group for critical-severity alerts | `string` | `""` | no |
 | <a name="input_critical_alert_emails"></a> [critical\_alert\_emails](#input\_critical\_alert\_emails) | Map of name => email address for critical alert action group receivers | `map(string)` | `{}` | no |
 | <a name="input_enable_aks_alerts"></a> [enable\_aks\_alerts](#input\_enable\_aks\_alerts) | Enable metric alerts for AKS node CPU, memory, and failed pods | `bool` | `false` | no |
 | <a name="input_enable_alert_routing"></a> [enable\_alert\_routing](#input\_enable\_alert\_routing) | Create an alert processing rule to route Sev0-1 alerts to the on-call action group | `bool` | `false` | no |
@@ -197,6 +199,7 @@ No modules.
 | <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | Resource ID of the Key Vault to capture diagnostic logs from | `string` | `""` | no |
 | <a name="input_location"></a> [location](#input\_location) | Azure region for the resource group | `string` | n/a | yes |
 | <a name="input_log_analytics_sku"></a> [log\_analytics\_sku](#input\_log\_analytics\_sku) | SKU for Log Analytics workspace | `string` | `"PerGB2018"` | no |
+| <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id) | Resource ID of the Log Analytics workspace for diagnostic settings and alerts | `string` | `""` | no |
 | <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | Name of the Log Analytics workspace | `string` | `"law-monitoring"` | no |
 | <a name="input_log_retention_days"></a> [log\_retention\_days](#input\_log\_retention\_days) | Number of days to retain logs | `number` | `30` | no |
 | <a name="input_monthly_budget_amount"></a> [monthly\_budget\_amount](#input\_monthly\_budget\_amount) | Monthly budget amount in USD for the subscription cost alert | `number` | `1000` | no |
@@ -205,12 +208,13 @@ No modules.
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the resource group for this component | `string` | n/a | yes |
 | <a name="input_slo_error_rate_threshold"></a> [slo\_error\_rate\_threshold](#input\_slo\_error\_rate\_threshold) | Error rate fraction (0–1) that triggers the fast-burn alert | `number` | `0.01` | no |
 | <a name="input_slo_latency_p99_ms"></a> [slo\_latency\_p99\_ms](#input\_slo\_latency\_p99\_ms) | p99 latency threshold in milliseconds for the latency SLO alert | `number` | `500` | no |
-| <a name="input_storage_account_id"></a> [storage\_account\_id](#input\_storage\_account\_id) | Resource ID of the storage account for diagnostic settings | `string` | `""` | no |
+| <a name="input_storage_account_id"></a> [storage\_account\_id](#input\_storage\_account\_id) | Resource ID of the storage account to monitor | `string` | `""` | no |
 | <a name="input_synthetic_monitor_url"></a> [synthetic\_monitor\_url](#input\_synthetic\_monitor\_url) | URL to ping for the synthetic availability monitor | `string` | `"https://api.platform.example.com/health"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_tfstate_resource_group_name"></a> [tfstate\_resource\_group\_name](#input\_tfstate\_resource\_group\_name) | Name of the resource group for terraform state storage | `string` | `"terraform-state-rg"` | no |
 | <a name="input_tfstate_storage_account_name"></a> [tfstate\_storage\_account\_name](#input\_tfstate\_storage\_account\_name) | Name of the Azure Storage Account for terraform state | `string` | `"sumittfstatestorage"` | no |
 | <a name="input_vnet_resource_id"></a> [vnet\_resource\_id](#input\_vnet\_resource\_id) | Resource ID of the VNet to monitor for dropped packets | `string` | `""` | no |
+| <a name="input_warning_action_group_id"></a> [warning\_action\_group\_id](#input\_warning\_action\_group\_id) | Resource ID of the action group for warning-severity alerts | `string` | `""` | no |
 | <a name="input_warning_alert_emails"></a> [warning\_alert\_emails](#input\_warning\_alert\_emails) | Map of name => email address for warning alert action group receivers | `map(string)` | `{}` | no |
 
 ## Outputs
