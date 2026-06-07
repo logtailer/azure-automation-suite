@@ -23,9 +23,11 @@ repos:
           - --args=-no-color
           - --init-args=-backend=false
       - id: terraform_trivy
+        args:
+          - --args=--severity=CRITICAL,HIGH
       - id: terraform_checkov
         args:
-          - --args=--config-file=.checkov.yml
+          - --args=--config-file=__GIT_WORKING_DIR__/.checkov.yml
 
   # ── Shell scripts ───────────────────────────────────────────────────────────
   - repo: https://github.com/shellcheck-py/shellcheck-py

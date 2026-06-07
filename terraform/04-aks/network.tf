@@ -1,4 +1,15 @@
 
+data "terraform_remote_state" "foundation" {
+  backend = "azurerm"
+  config = {
+    resource_group_name  = var.tfstate_resource_group_name
+    storage_account_name = var.tfstate_storage_account_name
+    container_name       = "tfstate"
+    key                  = "01-foundation/terraform.tfstate"
+    use_azuread_auth     = true
+  }
+}
+
 # Fetch network resources from remote state (02-networking/application-network)
 data "terraform_remote_state" "networking" {
   backend = "azurerm"

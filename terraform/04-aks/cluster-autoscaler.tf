@@ -3,7 +3,7 @@ resource "azurerm_monitor_autoscale_setting" "aks_user_pool" {
   name                = "aks-user-pool-autoscale"
   resource_group_name = var.resource_group_name
   location            = var.location
-  target_resource_id  = azurerm_kubernetes_cluster.cluster.agent_pool_profile[0].id
+  target_resource_id  = azurerm_kubernetes_cluster_node_pool.user_node_pool.id
 
   profile {
     name = "default"

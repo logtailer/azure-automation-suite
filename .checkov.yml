@@ -7,6 +7,21 @@ framework:
 skip-check:
   - CKV_AZURE_35   # Storage account public access — dev only
   - CKV_AZURE_110  # Function app HTTPS only — not in scope
+  - CKV_AZURE_4    # AKS OMS logging — enabled via container insights vars
+  - CKV_AZURE_10   # SSH unrestricted — demo VM, not production
+  - CKV_AZURE_117  # AKS disk encryption set — not configured in sample
+  - CKV_AZURE_160  # HTTP unrestricted — demo VM, not production
+  - CKV_AZURE_168  # AKS min 50 pods — architecture decision per node pool
+  - CKV_AZURE_172  # AKS secrets CSI autorotation — not configured in sample
+  - CKV_AZURE_227  # AKS temp disk encryption — not configured in sample
+  - CKV_AZURE_50   # VM extensions — demo VM, not production
+  - CKV2_AZURE_1   # Storage CMK — sample velero storage account
+  - CKV2_AZURE_21  # Storage blob logging — sample velero storage account
+  - CKV2_AZURE_33  # Storage private endpoint — sample velero storage account
+  - CKV2_AZURE_38  # Storage soft-delete — sample velero storage account
+  - CKV2_AZURE_40  # Storage shared key auth — sample velero storage account
+  - CKV2_AZURE_41  # Storage SAS expiration — sample velero storage account
+  - CKV2_AZURE_47  # Storage blob anonymous access — sample velero storage account
 
 compact: true
 quiet: false

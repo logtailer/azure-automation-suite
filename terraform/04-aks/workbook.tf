@@ -1,6 +1,6 @@
 resource "azurerm_application_insights_workbook" "aks_node_health" {
   count               = var.log_analytics_workspace_id != "" ? 1 : 0
-  name                = "a1b2c3d4-aks0-node-0000-health00overview"
+  name                = "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
   resource_group_name = var.resource_group_name
   location            = var.location
   display_name        = "AKS Node Health Overview"

@@ -3,6 +3,14 @@ locals {
   aks_node_pool_2_subnet_id = data.terraform_remote_state.networking.outputs.private_subnet2_id
 }
 
+resource "azurerm_application_security_group" "web_asg" {
+  name                = "${var.resource_group_name}-web-asg"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  tags = var.tags
+}
+
 resource "azurerm_kubernetes_cluster_node_pool" "user_node_pool" {
   name                   = var.usr_node_pool_name
   kubernetes_cluster_id  = azurerm_kubernetes_cluster.cluster.id

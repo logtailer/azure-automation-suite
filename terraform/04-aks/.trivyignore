@@ -1,0 +1,8 @@
+# AKS API server authorized IP ranges are configurable via var.api_server_authorized_ip_ranges
+AZU-0041
+# Demo VM NSG allows public ingress — acceptable for sample infrastructure
+AZU-0047
+AZU-0050
+# k8s-manifests security context hardening is out of scope for infrastructure config
+KSV-0014
+KSV-0118

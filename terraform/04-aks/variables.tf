@@ -56,7 +56,10 @@ variable "dns_service_ip" { type = string }
 variable "ip_versions" { type = list(string) }
 variable "load_balancer_sku" { type = string }
 variable "private_cluster_enabled" { type = bool }
-variable "role_based_access_control_enabled" { type = bool }
+variable "role_based_access_control_enabled" {
+  type    = bool
+  default = true
+}
 variable "azure_policy_enabled" { type = bool }
 variable "local_account_disabled" { type = bool }
 variable "maintenance_window_allowed_day" { type = string }
