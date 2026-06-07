@@ -3,7 +3,7 @@
 # Private DNS Zone for Storage
 resource "azurerm_private_dns_zone" "storage" {
   name                = "privatelink.blob.core.windows.net"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = azurerm_resource_group.network.name
 
   tags = var.tags
 }
@@ -11,7 +11,7 @@ resource "azurerm_private_dns_zone" "storage" {
 # Private DNS Zone for Key Vault
 resource "azurerm_private_dns_zone" "keyvault" {
   name                = "privatelink.vaultcore.azure.net"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = azurerm_resource_group.network.name
 
   tags = var.tags
 }
@@ -19,7 +19,7 @@ resource "azurerm_private_dns_zone" "keyvault" {
 # Private DNS Zone for Container Registry
 resource "azurerm_private_dns_zone" "acr" {
   name                = "privatelink.azurecr.io"
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = azurerm_resource_group.network.name
 
   tags = var.tags
 }
@@ -27,27 +27,27 @@ resource "azurerm_private_dns_zone" "acr" {
 # Link DNS zones to VNet
 resource "azurerm_private_dns_zone_virtual_network_link" "storage" {
   name                  = "storage-link"
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = azurerm_resource_group.network.name
   private_dns_zone_name = azurerm_private_dns_zone.storage.name
-  virtual_network_id    = azurerm_virtual_network.this.id
+  virtual_network_id    = azurerm_virtual_network.core_vpc.id
 
   tags = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "keyvault" {
   name                  = "keyvault-link"
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = azurerm_resource_group.network.name
   private_dns_zone_name = azurerm_private_dns_zone.keyvault.name
-  virtual_network_id    = azurerm_virtual_network.this.id
+  virtual_network_id    = azurerm_virtual_network.core_vpc.id
 
   tags = var.tags
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "acr" {
   name                  = "acr-link"
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = azurerm_resource_group.network.name
   private_dns_zone_name = azurerm_private_dns_zone.acr.name
-  virtual_network_id    = azurerm_virtual_network.this.id
+  virtual_network_id    = azurerm_virtual_network.core_vpc.id
 
   tags = var.tags
 }
@@ -55,8 +55,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "acr" {
 # Subnet for Private Endpoints
 resource "azurerm_subnet" "private_endpoints" {
   name                 = "subnet-private-endpoints"
-  resource_group_name  = azurerm_resource_group.this.name
-  virtual_network_name = azurerm_virtual_network.this.name
+  resource_group_name  = azurerm_resource_group.network.name
+  virtual_network_name = azurerm_virtual_network.core_vpc.name
   address_prefixes     = [var.private_endpoint_subnet_cidr]
 
   private_endpoint_network_policies = "Disabled"
@@ -65,8 +65,8 @@ resource "azurerm_subnet" "private_endpoints" {
 # Network Security Group for Private Endpoints
 resource "azurerm_network_security_group" "private_endpoints" {
   name                = "nsg-private-endpoints"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.network.location
+  resource_group_name = azurerm_resource_group.network.name
 
   # Allow inbound from VNet
   security_rule {
