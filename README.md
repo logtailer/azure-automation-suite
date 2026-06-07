@@ -88,6 +88,19 @@ terraform/
 - **Service Principal** with Contributor + Storage Blob Data Contributor roles
 - **Azure Storage Account** for remote state management
 
+## 🔩 Local Development Setup
+
+After cloning, run these two commands once to enable the shared git hooks:
+
+```bash
+git config core.hooksPath scripts/hooks
+pip install pre-commit && pre-commit install
+```
+
+The hooks provide:
+- **pre-commit** — Terraform fmt/validate, Trivy, Checkov, shellcheck, yamllint
+- **pre-push** — auto `git pull --rebase` before every push so pushes never get rejected for being behind
+
 ## 🔧 Configuration
 
 Each module contains:
