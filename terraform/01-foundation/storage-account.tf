@@ -1,8 +1,8 @@
 resource "azurerm_storage_account" "platform" {
   count                             = var.enable_platform_storage ? 1 : 0
   name                              = var.platform_storage_account_name
-  resource_group_name               = azurerm_resource_group.main.name
-  location                          = azurerm_resource_group.main.location
+  resource_group_name               = azurerm_resource_group.component.name
+  location                          = azurerm_resource_group.component.location
   account_tier                      = "Standard"
   account_replication_type          = var.platform_storage_replication
   min_tls_version                   = "TLS1_2"
