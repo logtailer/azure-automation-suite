@@ -295,3 +295,13 @@ variable "vm_image_version" {
   type        = string
   default     = "latest"
 }
+
+variable "tfstate_resource_group_name" {
+  description = "Resource group containing the Terraform state storage account"
+  type        = string
+}
+
+variable "tfstate_storage_account_name" {
+  description = "Storage account name used for Terraform remote state"
+  type        = string
+}

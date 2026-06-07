@@ -414,6 +414,12 @@ variable "enable_tls_certificate" {
   default     = false
 }
 
+variable "tls_certificate_subject" {
+  description = "X.509 subject (CN=...) for the self-signed TLS certificate"
+  type        = string
+  default     = "CN=platform.example.com"
+}
+
 variable "aks_oidc_issuer_url" {
   description = "OIDC issuer URL from the AKS cluster for federated identity binding"
   type        = string

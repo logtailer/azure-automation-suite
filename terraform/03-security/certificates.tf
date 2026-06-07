@@ -34,7 +34,7 @@ resource "azurerm_key_vault_certificate" "platform_tls" {
         "cRLSign", "dataEncipherment", "digitalSignature",
         "keyAgreement", "keyCertSign", "keyEncipherment",
       ]
-      subject            = "CN=platform.example.com"
+      subject            = var.tls_certificate_subject
       validity_in_months = 12
     }
   }

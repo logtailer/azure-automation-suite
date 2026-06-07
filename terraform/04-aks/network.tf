@@ -3,10 +3,11 @@
 data "terraform_remote_state" "networking" {
   backend = "azurerm"
   config = {
-    resource_group_name  = "<networking-tfstate-rg>"      # TODO: update to actual RG
-    storage_account_name = "<networking-tfstate-storage>" # TODO: update to actual storage
+    resource_group_name  = var.tfstate_resource_group_name
+    storage_account_name = var.tfstate_storage_account_name
     container_name       = "tfstate"
-    key                  = "02-networking/application-network/terraform.tfstate"
+    key                  = "02-networking/terraform.tfstate"
+    use_azuread_auth     = true
   }
 }
 
