@@ -1,8 +1,8 @@
 resource "azurerm_eventgrid_topic" "platform" {
   count               = var.enable_event_grid ? 1 : 0
   name                = "egt-platform-${var.environment}"
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.component.name
+  location            = azurerm_resource_group.component.location
   input_schema        = "CloudEventSchemaV1_0"
 
   identity {
