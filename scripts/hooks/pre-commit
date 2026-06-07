@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Delegates to the pre-commit framework. Run `pre-commit install` after cloning.
+if command -v pre-commit > /dev/null; then
+    exec pre-commit hook-impl \
+        --config=.pre-commit-config.yaml \
+        --hook-type=pre-commit \
+        --hook-dir "$(git rev-parse --absolute-git-dir)/hooks" \
+        -- "$@"
+else
+    echo "pre-commit not found. Run: pip install pre-commit && pre-commit install" >&2
+    exit 1
+fi
