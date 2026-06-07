@@ -1,7 +1,7 @@
 resource "azurerm_cdn_frontdoor_profile" "main" {
   count               = var.enable_front_door ? 1 : 0
   name                = "afd-${var.resource_group_name}"
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = azurerm_resource_group.component.name
   sku_name            = var.front_door_sku
   tags                = local.common_tags
 }
