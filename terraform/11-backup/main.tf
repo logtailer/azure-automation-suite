@@ -11,11 +11,7 @@ terraform {
 }
 
 provider "azurerm" {
-  features {
-    recovery_services_vault {
-      purge_protection_enabled = true
-    }
-  }
+  features {}
 }
 
 data "azurerm_resource_group" "foundation" {

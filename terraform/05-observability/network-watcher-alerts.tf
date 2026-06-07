@@ -18,7 +18,7 @@ resource "azurerm_monitor_metric_alert" "vnet_dropped_packets" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.warning[0].id
+    action_group_id = azurerm_monitor_action_group.warning.id
   }
 }
 
@@ -42,6 +42,6 @@ resource "azurerm_monitor_metric_alert" "appgw_unhealthy_hosts" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical[0].id
+    action_group_id = azurerm_monitor_action_group.critical.id
   }
 }

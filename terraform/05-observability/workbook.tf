@@ -1,5 +1,5 @@
 resource "azurerm_application_insights_workbook" "platform_overview" {
-  name                = "550f9e53-1234-4567-abcd-platform-overview"
+  name                = "550f9e53-1234-4567-abcd-ef0123456789"
   resource_group_name = data.azurerm_resource_group.main.name
   location            = data.azurerm_resource_group.main.location
   display_name        = "Platform Overview"

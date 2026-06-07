@@ -1,6 +1,6 @@
 resource "azurerm_application_insights_workbook" "api_health" {
   count               = var.enable_workbooks ? 1 : 0
-  name                = "workbook-api-health"
+  name                = "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
   resource_group_name = var.resource_group_name
   location            = var.location
   display_name        = "API Health Overview"
@@ -48,7 +48,7 @@ resource "azurerm_application_insights_workbook" "api_health" {
 
 resource "azurerm_application_insights_workbook" "cost_overview" {
   count               = var.enable_workbooks ? 1 : 0
-  name                = "workbook-cost-overview"
+  name                = "b2c3d4e5-f6a7-8901-bcde-f12345678901"
   resource_group_name = var.resource_group_name
   location            = var.location
   display_name        = "Platform Cost Overview"

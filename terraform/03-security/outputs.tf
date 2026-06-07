@@ -15,7 +15,7 @@ output "key_vault_name" {
 
 output "ssh_public_key_secret_id" {
   description = "ID of the SSH public key secret in Key Vault"
-  value       = azurerm_key_vault_secret.ssh_public_key.id
+  value       = var.ssh_public_key != "" ? azurerm_key_vault_secret.ssh_public_key[0].id : null
 }
 
 # Managed Identity Outputs

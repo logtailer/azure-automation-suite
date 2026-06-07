@@ -18,6 +18,6 @@ resource "azurerm_monitor_metric_alert" "availability_drop" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.critical[0].id
+    action_group_id = azurerm_monitor_action_group.critical.id
   }
 }

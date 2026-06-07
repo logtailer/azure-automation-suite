@@ -17,9 +17,9 @@ resource "azurerm_application_insights_smart_detection_rule" "slow_requests" {
   enabled                 = true
 }
 
-resource "azurerm_application_insights_smart_detection_rule" "failure_anomalies" {
+resource "azurerm_application_insights_smart_detection_rule" "slow_server_response" {
   count                   = var.enable_app_insights ? 1 : 0
-  name                    = "Failure Anomalies"
+  name                    = "Slow server response time"
   application_insights_id = azurerm_application_insights.platform[0].id
   enabled                 = true
 }

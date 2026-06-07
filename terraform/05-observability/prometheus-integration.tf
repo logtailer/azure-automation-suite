@@ -13,7 +13,7 @@ resource "azurerm_monitor_workspace" "prometheus" {
 }
 
 # Link Grafana to Prometheus workspace
-resource "azurerm_grafana_managed_private_endpoint" "prometheus" {
+resource "azurerm_dashboard_grafana_managed_private_endpoint" "prometheus" {
   count                    = var.enable_prometheus_metrics ? 1 : 0
   grafana_id               = azurerm_dashboard_grafana.main.id
   name                     = "prometheus-endpoint"
