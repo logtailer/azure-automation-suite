@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
+# Guard against recursive invocation: when we push internally below, git
+# invokes this hook again — skip everything on that inner call.
+[[ "${_PREPUSH_DONE:-}" == "1" ]] && exit 0
+export _PREPUSH_DONE=1
+
+set -euo pipefail
 remote="$1"
 branch=$(git symbolic-ref --short HEAD 2>/dev/null) || exit 0
 
-# Nothing to rebase on first push to a new branch
+# First push to a new branch — nothing to rebase against
 if ! git ls-remote --exit-code "$remote" "refs/heads/$branch" &>/dev/null; then
     exit 0
 fi
 
-# Stash any uncommitted changes so rebase can proceed cleanly
+# Stash uncommitted changes so rebase can proceed cleanly
 stashed=false
 if [[ -n "$(git status --porcelain)" ]]; then
     git stash push --include-untracked -m "pre-push auto-stash"
@@ -17,17 +22,17 @@ if [[ -n "$(git status --porcelain)" ]]; then
 fi
 
 restore_stash() {
-    [[ "$stashed" == "true" ]] && git stash pop --index
+    if [[ "$stashed" == "true" ]]; then
+        git stash pop --index
+    fi
 }
 
-# Loop: fetch → check → rebase until local HEAD is on top of remote.
-# This handles the race where someone pushes between our rebase and the
-# actual push attempt, which would otherwise cause a second rejection.
+# Loop: fetch → check → rebase until local HEAD is definitively on top of remote
 while true; do
     git fetch "$remote" "$branch"
 
     if git merge-base --is-ancestor "$remote/$branch" HEAD; then
-        break  # remote is behind or at local HEAD — push will go through
+        break
     fi
 
     echo "pre-push: rebasing on $remote/$branch..."
@@ -39,3 +44,9 @@ while true; do
 done
 
 restore_stash
+
+# Git precomputes the push plan before invoking this hook, so after a rebase
+# the outer push uses a stale remote sha and gets rejected. Fix: push here
+# with the correct post-rebase HEAD. The outer 'git push' then finds
+# "Everything up-to-date" and exits cleanly.
+git push "$remote" "$branch" || true
