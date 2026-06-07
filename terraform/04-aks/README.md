@@ -79,6 +79,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_acr_name"></a> [acr\_name](#input\_acr\_name) | Name of an existing Azure Container Registry to grant AcrPull to the AKS kubelet identity | `string` | `""` | no |
 | <a name="input_acr_resource_group_name"></a> [acr\_resource\_group\_name](#input\_acr\_resource\_group\_name) | Resource group containing the ACR referenced by acr\_name | `string` | `""` | no |
+| <a name="input_admin_username"></a> [admin\_username](#input\_admin\_username) | Administrator username for the jumpbox VM | `string` | `"azureuser"` | no |
 | <a name="input_aks_node_resource_group_name"></a> [aks\_node\_resource\_group\_name](#input\_aks\_node\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_aks_sku_tier"></a> [aks\_sku\_tier](#input\_aks\_sku\_tier) | n/a | `string` | n/a | yes |
 | <a name="input_api_server_authorized_ip_ranges"></a> [api\_server\_authorized\_ip\_ranges](#input\_api\_server\_authorized\_ip\_ranges) | List of CIDR blocks authorized to access the Kubernetes API server | `list(string)` | `[]` | no |
@@ -157,11 +158,13 @@ No modules.
 | <a name="input_node_pool_scaling"></a> [node\_pool\_scaling](#input\_node\_pool\_scaling) | n/a | `bool` | n/a | yes |
 | <a name="input_node_pool_soak_duration"></a> [node\_pool\_soak\_duration](#input\_node\_pool\_soak\_duration) | n/a | `number` | n/a | yes |
 | <a name="input_node_public_ip_enabled"></a> [node\_public\_ip\_enabled](#input\_node\_public\_ip\_enabled) | n/a | `bool` | n/a | yes |
+| <a name="input_os_disk_size"></a> [os\_disk\_size](#input\_os\_disk\_size) | OS disk size in GB for the jumpbox VM | `number` | `128` | no |
 | <a name="input_os_disk_size_gb"></a> [os\_disk\_size\_gb](#input\_os\_disk\_size\_gb) | n/a | `number` | n/a | yes |
 | <a name="input_os_disk_type"></a> [os\_disk\_type](#input\_os\_disk\_type) | n/a | `string` | n/a | yes |
 | <a name="input_outbound_type"></a> [outbound\_type](#input\_outbound\_type) | n/a | `string` | n/a | yes |
 | <a name="input_pod_cidr"></a> [pod\_cidr](#input\_pod\_cidr) | n/a | `string` | n/a | yes |
 | <a name="input_private_cluster_enabled"></a> [private\_cluster\_enabled](#input\_private\_cluster\_enabled) | n/a | `bool` | n/a | yes |
+| <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Project name used for resource tagging | `string` | `"azure-platform"` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_role_based_access_control_enabled"></a> [role\_based\_access\_control\_enabled](#input\_role\_based\_access\_control\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_run_command_enabled"></a> [run\_command\_enabled](#input\_run\_command\_enabled) | n/a | `bool` | n/a | yes |
@@ -174,6 +177,8 @@ No modules.
 | <a name="input_support_plan"></a> [support\_plan](#input\_support\_plan) | n/a | `string` | n/a | yes |
 | <a name="input_sys_node_pool_name"></a> [sys\_node\_pool\_name](#input\_sys\_node\_pool\_name) | n/a | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | n/a | yes |
+| <a name="input_tfstate_resource_group_name"></a> [tfstate\_resource\_group\_name](#input\_tfstate\_resource\_group\_name) | Resource group containing the Terraform state storage account | `string` | n/a | yes |
+| <a name="input_tfstate_storage_account_name"></a> [tfstate\_storage\_account\_name](#input\_tfstate\_storage\_account\_name) | Storage account name used for Terraform remote state | `string` | n/a | yes |
 | <a name="input_usr_node_pool_2_count"></a> [usr\_node\_pool\_2\_count](#input\_usr\_node\_pool\_2\_count) | n/a | `number` | n/a | yes |
 | <a name="input_usr_node_pool_2_max_count"></a> [usr\_node\_pool\_2\_max\_count](#input\_usr\_node\_pool\_2\_max\_count) | n/a | `number` | n/a | yes |
 | <a name="input_usr_node_pool_2_max_pods"></a> [usr\_node\_pool\_2\_max\_pods](#input\_usr\_node\_pool\_2\_max\_pods) | n/a | `number` | n/a | yes |
@@ -200,6 +205,11 @@ No modules.
 | <a name="input_usr_node_pool_vm_size"></a> [usr\_node\_pool\_vm\_size](#input\_usr\_node\_pool\_vm\_size) | n/a | `string` | n/a | yes |
 | <a name="input_usr_node_pool_vnet_subnet_id"></a> [usr\_node\_pool\_vnet\_subnet\_id](#input\_usr\_node\_pool\_vnet\_subnet\_id) | n/a | `string` | n/a | yes |
 | <a name="input_vertical_pod_autoscaler_enabled"></a> [vertical\_pod\_autoscaler\_enabled](#input\_vertical\_pod\_autoscaler\_enabled) | n/a | `bool` | n/a | yes |
+| <a name="input_vm_image_offer"></a> [vm\_image\_offer](#input\_vm\_image\_offer) | Offer of the jumpbox VM image | `string` | `"0001-com-ubuntu-server-jammy"` | no |
+| <a name="input_vm_image_publisher"></a> [vm\_image\_publisher](#input\_vm\_image\_publisher) | Publisher of the jumpbox VM image | `string` | `"Canonical"` | no |
+| <a name="input_vm_image_sku"></a> [vm\_image\_sku](#input\_vm\_image\_sku) | SKU of the jumpbox VM image | `string` | `"22_04-lts-gen2"` | no |
+| <a name="input_vm_image_version"></a> [vm\_image\_version](#input\_vm\_image\_version) | Version of the jumpbox VM image | `string` | `"latest"` | no |
+| <a name="input_vm_name"></a> [vm\_name](#input\_vm\_name) | Name suffix for the jumpbox VM | `string` | `"jumpbox"` | no |
 | <a name="input_vm_size"></a> [vm\_size](#input\_vm\_size) | n/a | `string` | n/a | yes |
 | <a name="input_vnet_subnet_id"></a> [vnet\_subnet\_id](#input\_vnet\_subnet\_id) | n/a | `string` | n/a | yes |
 | <a name="input_windows_node_count"></a> [windows\_node\_count](#input\_windows\_node\_count) | Number of Windows nodes in the pool | `number` | `2` | no |
