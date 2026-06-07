@@ -9,8 +9,6 @@ if ! git ls-remote --exit-code "$remote" "refs/heads/$branch" &>/dev/null; then
     exit 0
 fi
 
-echo "pre-push: rebasing on $remote/$branch..."
-
 # Stash any uncommitted changes so rebase can proceed cleanly
 stashed=false
 if [[ -n "$(git status --porcelain)" ]]; then
@@ -18,11 +16,26 @@ if [[ -n "$(git status --porcelain)" ]]; then
     stashed=true
 fi
 
-# Rebase; always restore stash even on failure
-if ! git pull --rebase "$remote" "$branch"; then
+restore_stash() {
     [[ "$stashed" == "true" ]] && git stash pop --index
-    echo "pre-push: rebase failed — resolve conflicts then push again"
-    exit 1
-fi
+}
 
-[[ "$stashed" == "true" ]] && git stash pop --index
+# Loop: fetch → check → rebase until local HEAD is on top of remote.
+# This handles the race where someone pushes between our rebase and the
+# actual push attempt, which would otherwise cause a second rejection.
+while true; do
+    git fetch "$remote" "$branch"
+
+    if git merge-base --is-ancestor "$remote/$branch" HEAD; then
+        break  # remote is behind or at local HEAD — push will go through
+    fi
+
+    echo "pre-push: rebasing on $remote/$branch..."
+    if ! git rebase "$remote/$branch"; then
+        restore_stash
+        echo "pre-push: rebase failed — resolve conflicts then push again"
+        exit 1
+    fi
+done
+
+restore_stash
