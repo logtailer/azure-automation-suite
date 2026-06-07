@@ -35,6 +35,9 @@ override.tf.json
 **/.terraformrc
 **/terraform.rc
 
+# Claude Code local memory — developer-specific, not for version control
+.claude/
+
 # Ignore environment files with credentials
 **/.env
 **/.env.*
