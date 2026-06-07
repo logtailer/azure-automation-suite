@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
-
-# Guard against recursive invocation: when we push internally below, git
-# invokes this hook again — skip everything on that inner call.
-[[ "${_PREPUSH_DONE:-}" == "1" ]] && exit 0
-export _PREPUSH_DONE=1
-
 set -euo pipefail
+
 remote="$1"
 branch=$(git symbolic-ref --short HEAD 2>/dev/null) || exit 0
 
@@ -14,39 +9,30 @@ if ! git ls-remote --exit-code "$remote" "refs/heads/$branch" &>/dev/null; then
     exit 0
 fi
 
-# Stash uncommitted changes so rebase can proceed cleanly
+git fetch "$remote" "$branch"
+
+# Already on top of remote — let git push proceed normally
+if git merge-base --is-ancestor "$remote/$branch" HEAD; then
+    exit 0
+fi
+
+# Remote has new commits: rebase, then ask the user to push again.
+# Doing the push inside this hook causes git to use its pre-hook stale push
+# plan (wrong expected remote SHA), so we rebase here and let the next
+# 'git push' invocation start with a fresh, correct plan.
 stashed=false
 if [[ -n "$(git status --porcelain)" ]]; then
     git stash push --include-untracked -m "pre-push auto-stash"
     stashed=true
 fi
 
-restore_stash() {
-    if [[ "$stashed" == "true" ]]; then
-        git stash pop --index
-    fi
-}
+if ! git rebase "$remote/$branch"; then
+    if [[ "$stashed" == "true" ]]; then git stash pop --index; fi
+    echo "pre-push: rebase failed — resolve conflicts then push again"
+    exit 1
+fi
 
-# Loop: fetch → check → rebase until local HEAD is definitively on top of remote
-while true; do
-    git fetch "$remote" "$branch"
+if [[ "$stashed" == "true" ]]; then git stash pop --index; fi
 
-    if git merge-base --is-ancestor "$remote/$branch" HEAD; then
-        break
-    fi
-
-    echo "pre-push: rebasing on $remote/$branch..."
-    if ! git rebase "$remote/$branch"; then
-        restore_stash
-        echo "pre-push: rebase failed — resolve conflicts then push again"
-        exit 1
-    fi
-done
-
-restore_stash
-
-# Git precomputes the push plan before invoking this hook, so after a rebase
-# the outer push uses a stale remote sha and gets rejected. Fix: push here
-# with the correct post-rebase HEAD. The outer 'git push' then finds
-# "Everything up-to-date" and exits cleanly.
-git push "$remote" "$branch" || true
+echo "pre-push: rebased on $remote/$branch — run 'git push' again to send your commits"
+exit 1
