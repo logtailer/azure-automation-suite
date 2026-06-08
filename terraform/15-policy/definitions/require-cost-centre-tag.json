@@ -1,0 +1,20 @@
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "notIn": [
+          "Microsoft.Resources/subscriptions/resourceGroups",
+          "Microsoft.Network/virtualNetworks/subnets"
+        ]
+      },
+      {
+        "field": "tags['CostCentre']",
+        "exists": "false"
+      }
+    ]
+  },
+  "then": {
+    "effect": "deny"
+  }
+}

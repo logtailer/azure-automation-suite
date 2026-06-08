@@ -52,6 +52,15 @@ resource "azurerm_policy_definition" "require_tags" {
   policy_rule = file("${path.module}/definitions/require-tags.json")
 }
 
+resource "azurerm_policy_definition" "require_cost_centre_tag" {
+  name         = "require-cost-centre-tag"
+  policy_type  = "Custom"
+  mode         = "All"
+  display_name = "Require CostCentre tag on all resources"
+
+  policy_rule = file("${path.module}/definitions/require-cost-centre-tag.json")
+}
+
 resource "azurerm_policy_set_definition" "platform_baseline" {
   name         = "platform-security-baseline"
   policy_type  = "Custom"
@@ -68,6 +77,9 @@ resource "azurerm_policy_set_definition" "platform_baseline" {
   }
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.require_tags.id
+  }
+  policy_definition_reference {
+    policy_definition_id = azurerm_policy_definition.require_cost_centre_tag.id
   }
 }
 
