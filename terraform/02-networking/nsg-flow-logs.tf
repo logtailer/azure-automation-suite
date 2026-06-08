@@ -10,7 +10,7 @@ resource "azurerm_network_watcher_flow_log" "private_subnet" {
 
   retention_policy {
     enabled = true
-    days    = 30
+    days    = 90
   }
 
   traffic_analytics {
