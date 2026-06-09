@@ -25,6 +25,10 @@ skip-check:
   - CKV_AZURE_119  # NIC public IP — demo VM, not production
   - CKV_AZURE_120  # App Gateway WAF — not configured in sample
   - CKV2_AZURE_31  # Subnet NSG — bastion, DNS resolver, delegated subnets exempt by design
+  - CKV2_AZURE_26  # PostgreSQL firewall allow-azure-services rule — intentional for managed services
+  - CKV2_AZURE_56  # MySQL private endpoint — not required in sample
+  - CKV2_AZURE_28  # Container group managed identity — pgbouncer sidecar, not in scope
+  - CKV2_AZURE_57  # PostgreSQL private endpoint — read replica uses delegated subnet by design
 
 compact: true
 quiet: false

@@ -50,7 +50,7 @@ variable "postgresql_version" {
 }
 variable "postgresql_backup_retention_days" {
   type    = number
-  default = 7
+  default = 35
 }
 variable "postgresql_geo_redundant_backup" {
   type    = bool
