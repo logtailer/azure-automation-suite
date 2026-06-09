@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.75.0 |
 
 ## Modules
 
@@ -30,6 +30,7 @@ No modules.
 | [azurerm_policy_definition.deny_ssh_rdp_from_internet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_policy_definition.deny_unapproved_vm_skus](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_policy_definition.deny_unencrypted_disk](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
+| [azurerm_policy_definition.require_cost_centre_tag](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_policy_definition.require_diagnostic_settings](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_policy_definition.require_https_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
 | [azurerm_policy_definition.require_private_endpoint](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition) | resource |
