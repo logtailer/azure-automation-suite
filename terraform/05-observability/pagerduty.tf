@@ -29,7 +29,7 @@ resource "azurerm_monitor_metric_alert" "critical_service_down" {
     metric_name      = "availabilityResults/availabilityPercentage"
     aggregation      = "Average"
     operator         = "LessThan"
-    threshold        = 50
+    threshold        = 99
   }
 
   action {
