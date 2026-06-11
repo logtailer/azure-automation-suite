@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.75.0 |
 
 ## Modules
 
@@ -86,8 +86,8 @@ No modules.
 | <a name="input_postgresql_admin_login"></a> [postgresql\_admin\_login](#input\_postgresql\_admin\_login) | n/a | `string` | `"psqladmin"` | no |
 | <a name="input_postgresql_admin_password"></a> [postgresql\_admin\_password](#input\_postgresql\_admin\_password) | n/a | `string` | `""` | no |
 | <a name="input_postgresql_allowed_ip_ranges"></a> [postgresql\_allowed\_ip\_ranges](#input\_postgresql\_allowed\_ip\_ranges) | Map of named IP ranges allowed to access PostgreSQL (name -> {start, end}) | <pre>map(object({<br/>    start = string<br/>    end   = string<br/>  }))</pre> | `{}` | no |
-| <a name="input_postgresql_backup_retention_days"></a> [postgresql\_backup\_retention\_days](#input\_postgresql\_backup\_retention\_days) | n/a | `number` | `7` | no |
-| <a name="input_postgresql_geo_redundant_backup"></a> [postgresql\_geo\_redundant\_backup](#input\_postgresql\_geo\_redundant\_backup) | n/a | `bool` | `false` | no |
+| <a name="input_postgresql_backup_retention_days"></a> [postgresql\_backup\_retention\_days](#input\_postgresql\_backup\_retention\_days) | n/a | `number` | `35` | no |
+| <a name="input_postgresql_geo_redundant_backup"></a> [postgresql\_geo\_redundant\_backup](#input\_postgresql\_geo\_redundant\_backup) | n/a | `bool` | `true` | no |
 | <a name="input_postgresql_server_name"></a> [postgresql\_server\_name](#input\_postgresql\_server\_name) | n/a | `string` | `""` | no |
 | <a name="input_postgresql_sku_name"></a> [postgresql\_sku\_name](#input\_postgresql\_sku\_name) | n/a | `string` | `"B_Standard_B1ms"` | no |
 | <a name="input_postgresql_storage_mb"></a> [postgresql\_storage\_mb](#input\_postgresql\_storage\_mb) | n/a | `number` | `32768` | no |
