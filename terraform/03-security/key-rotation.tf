@@ -14,7 +14,7 @@ resource "azurerm_key_vault_key" "platform_cmk" {
       time_before_expiry = "P30D"
     }
     expire_after         = "P365D"
-    notify_before_expiry = "P30D"
+    notify_before_expiry = "P45D"
   }
 
   tags = var.tags

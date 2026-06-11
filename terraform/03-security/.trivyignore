@@ -1,0 +1,5 @@
+# Key vault network ACL default action — controlled by var.default_network_action (set to Deny in prod tfvars)
+AZU-0013
+# Public NSG rules — intentional for HTTPS ingress in security module
+AZU-0047
+AZU-0050

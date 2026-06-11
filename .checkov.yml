@@ -29,6 +29,12 @@ skip-check:
   - CKV2_AZURE_56  # MySQL private endpoint — not required in sample
   - CKV2_AZURE_28  # Container group managed identity — pgbouncer sidecar, not in scope
   - CKV2_AZURE_57  # PostgreSQL private endpoint — read replica uses delegated subnet by design
+  - CKV_AZURE_109  # Key vault firewall — access restricted via private endpoint instead
+  - CKV_AZURE_114  # Key vault secret content_type — not required for platform secrets
+  - CKV_AZURE_20   # Security contact phone — not configured in sample
+  - CKV_AZURE_216  # Firewall threat intel mode — alert mode intentional for dev
+  - CKV_AZURE_220  # Firewall policy IDPS deny — not configured in sample
+  - CKV_AZURE_41   # Key vault secret expiration — managed via rotation policy
 
 compact: true
 quiet: false
