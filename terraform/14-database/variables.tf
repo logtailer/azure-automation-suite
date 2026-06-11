@@ -54,7 +54,7 @@ variable "postgresql_backup_retention_days" {
 }
 variable "postgresql_geo_redundant_backup" {
   type    = bool
-  default = false
+  default = true
 }
 
 # MySQL
