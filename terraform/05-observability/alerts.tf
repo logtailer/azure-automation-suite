@@ -26,8 +26,8 @@ resource "azurerm_monitor_metric_alert" "aks_node_health" {
 
   description = "Alert when AKS nodes are not ready"
   severity    = 1
-  frequency   = "PT5M"
-  window_size = "PT15M"
+  frequency   = "PT1M"
+  window_size = "PT5M"
 
   tags = var.tags
 }
@@ -52,8 +52,8 @@ resource "azurerm_monitor_metric_alert" "aks_memory_usage" {
 
   description = "Alert when AKS node memory usage exceeds 85%"
   severity    = 2
-  frequency   = "PT5M"
-  window_size = "PT15M"
+  frequency   = "PT1M"
+  window_size = "PT5M"
 
   tags = var.tags
 }
@@ -78,8 +78,8 @@ resource "azurerm_monitor_metric_alert" "aks_cpu_usage" {
 
   description = "Alert when AKS node CPU usage exceeds 90%"
   severity    = 2
-  frequency   = "PT5M"
-  window_size = "PT15M"
+  frequency   = "PT1M"
+  window_size = "PT5M"
 
   tags = var.tags
 }
@@ -104,8 +104,8 @@ resource "azurerm_monitor_metric_alert" "storage_availability" {
 
   description = "Alert when storage availability drops below 99%"
   severity    = 1
-  frequency   = "PT5M"
-  window_size = "PT15M"
+  frequency   = "PT1M"
+  window_size = "PT5M"
 
   tags = var.tags
 }
@@ -130,8 +130,8 @@ resource "azurerm_monitor_metric_alert" "app_availability" {
 
   description = "Alert when application availability drops below 95%"
   severity    = 1
-  frequency   = "PT5M"
-  window_size = "PT15M"
+  frequency   = "PT1M"
+  window_size = "PT5M"
 
   tags = var.tags
 }
@@ -156,8 +156,8 @@ resource "azurerm_monitor_metric_alert" "response_time" {
 
   description = "Alert when average response time exceeds 5 seconds"
   severity    = 2
-  frequency   = "PT5M"
-  window_size = "PT15M"
+  frequency   = "PT1M"
+  window_size = "PT5M"
 
   tags = var.tags
 }
