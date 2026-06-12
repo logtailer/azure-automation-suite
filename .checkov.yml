@@ -36,6 +36,8 @@ skip-check:
   - CKV_AZURE_220  # Firewall policy IDPS deny — not configured in sample
   - CKV_AZURE_41   # Key vault secret expiration — managed via rotation policy
   - CKV2_AZURE_35  # Recovery vault managed identity — not configured in sample
+  - CKV_AZURE_218  # App gateway TLS protocols — sample uses HTTP listener for lab simplicity
+  - CKV_AZURE_217  # App gateway HTTP listener — sample only, HTTPS enforced in prod tfvars
 
 compact: true
 quiet: false
