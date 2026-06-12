@@ -41,7 +41,7 @@ resource "azurerm_backup_policy_vm" "daily" {
   }
 
   retention_daily {
-    count = 30
+    count = 60
   }
 
   retention_weekly {
@@ -68,7 +68,7 @@ resource "azurerm_backup_policy_file_share" "daily" {
   }
 
   retention_daily {
-    count = 30
+    count = 60
   }
 
   retention_weekly {

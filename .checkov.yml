@@ -35,6 +35,7 @@ skip-check:
   - CKV_AZURE_216  # Firewall threat intel mode — alert mode intentional for dev
   - CKV_AZURE_220  # Firewall policy IDPS deny — not configured in sample
   - CKV_AZURE_41   # Key vault secret expiration — managed via rotation policy
+  - CKV2_AZURE_35  # Recovery vault managed identity — not configured in sample
 
 compact: true
 quiet: false
