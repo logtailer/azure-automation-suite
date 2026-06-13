@@ -128,9 +128,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "runners" {
 
   # Autoscaling configuration (scale to zero)
   auto_scaling_enabled = true
-  min_count           = var.runner_node_min_count # 0
-  max_count           = var.runner_node_max_count # 5
-  node_count          = null                      # Required when auto-scaling
+  min_count            = var.runner_node_min_count # 0
+  max_count            = var.runner_node_max_count # 5
+  node_count           = null                      # Required when auto-scaling
 
   # Node labels and taints for runner workloads only
   node_labels = {

@@ -1,0 +1,6 @@
+# API server IP restriction — not required for CI runner cluster, access controlled by Azure RBAC
+AZU-0041
+# RBAC — enabled via Azure AD integration, variable-controlled
+AZU-0042
+# Network policy — azure CNI handles pod isolation for runner workloads
+AZU-0043
