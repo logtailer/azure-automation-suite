@@ -233,7 +233,7 @@ variable "app_insights_retention_days" {
 variable "app_insights_sampling_percentage" {
   description = "Adaptive sampling percentage for Application Insights (0–100)"
   type        = number
-  default     = 100
+  default     = 25
 }
 
 variable "enable_synthetic_monitor" {
