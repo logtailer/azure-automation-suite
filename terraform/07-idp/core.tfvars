@@ -29,7 +29,7 @@ container_memory = "2.0"
 # PostgreSQL Resources
 postgresql_storage_mb            = 32768
 postgresql_sku_name              = "B_Standard_B1ms"
-postgresql_backup_retention_days = 7
+postgresql_backup_retention_days = 14
 postgresql_geo_redundant_backup  = false
 
 # Azure AD Application
