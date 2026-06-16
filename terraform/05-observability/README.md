@@ -162,7 +162,7 @@ No modules.
 | <a name="input_alert_window_size"></a> [alert\_window\_size](#input\_alert\_window\_size) | Window size for metric alert evaluation (ISO 8601 duration) | `string` | `"PT15M"` | no |
 | <a name="input_apim_resource_id"></a> [apim\_resource\_id](#input\_apim\_resource\_id) | Resource ID of the API Management service for diagnostic settings | `string` | `""` | no |
 | <a name="input_app_insights_retention_days"></a> [app\_insights\_retention\_days](#input\_app\_insights\_retention\_days) | Data retention in days for Application Insights (30–730) | `number` | `90` | no |
-| <a name="input_app_insights_sampling_percentage"></a> [app\_insights\_sampling\_percentage](#input\_app\_insights\_sampling\_percentage) | Adaptive sampling percentage for Application Insights (0–100) | `number` | `100` | no |
+| <a name="input_app_insights_sampling_percentage"></a> [app\_insights\_sampling\_percentage](#input\_app\_insights\_sampling\_percentage) | Adaptive sampling percentage for Application Insights (0–100) | `number` | `25` | no |
 | <a name="input_appgw_resource_id"></a> [appgw\_resource\_id](#input\_appgw\_resource\_id) | Resource ID of the Application Gateway to monitor for unhealthy backend hosts | `string` | `""` | no |
 | <a name="input_application_insights_name"></a> [application\_insights\_name](#input\_application\_insights\_name) | Name of the Application Insights instance | `string` | `"appinsights-monitoring"` | no |
 | <a name="input_audit_log_retention_days"></a> [audit\_log\_retention\_days](#input\_audit\_log\_retention\_days) | Retention in days for the audit Log Analytics workspace | `number` | `365` | no |
