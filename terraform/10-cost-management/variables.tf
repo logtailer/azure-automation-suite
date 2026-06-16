@@ -6,13 +6,13 @@ variable "foundation_resource_group_name" {
 variable "monthly_budget_amount" {
   description = "Monthly budget amount in USD"
   type        = number
-  default     = 1000
+  default     = 200
 }
 
 variable "rg_budget_amount" {
   description = "Resource group budget amount in USD"
   type        = number
-  default     = 500
+  default     = 100
 }
 
 variable "alert_email" {
