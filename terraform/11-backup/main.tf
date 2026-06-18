@@ -45,12 +45,12 @@ resource "azurerm_backup_policy_vm" "daily" {
   }
 
   retention_weekly {
-    count    = 12
+    count    = 4
     weekdays = ["Sunday"]
   }
 
   retention_monthly {
-    count    = 12
+    count    = 3
     weekdays = ["Sunday"]
     weeks    = ["First"]
   }
@@ -72,7 +72,7 @@ resource "azurerm_backup_policy_file_share" "daily" {
   }
 
   retention_weekly {
-    count    = 12
+    count    = 4
     weekdays = ["Sunday"]
   }
 }
