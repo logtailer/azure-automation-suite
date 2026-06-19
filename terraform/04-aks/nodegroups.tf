@@ -43,6 +43,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "user_node_pool" {
     }
     application_security_group_ids = [azurerm_application_security_group.web_asg.id]
   }
+
+  lifecycle {
+    ignore_changes = [node_count]
+  }
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "user_node_pool_2" {
