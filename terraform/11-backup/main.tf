@@ -27,6 +27,10 @@ resource "azurerm_recovery_services_vault" "main" {
   soft_delete_enabled = true
 
   tags = var.tags
+
+  lifecycle {
+    prevent_destroy = false
+  }
 }
 
 # Backup Policy for VMs (daily)
