@@ -9,8 +9,7 @@ overhead:
     cpu: 250m
 scheduling:
   nodeSelector:
-    matchLabels:
-      kata-containers: "true"
+    kata-containers: "true"
   tolerations:
     - key: kata-containers
       operator: Equal
@@ -28,5 +27,4 @@ overhead:
     cpu: 100m
 scheduling:
   nodeSelector:
-    matchLabels:
-      sandbox: gvisor
+    sandbox: gvisor
