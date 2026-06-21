@@ -14,7 +14,7 @@ resource "azurerm_monitor_action_group" "critical" {
   }
 
   dynamic "webhook_receiver" {
-    for_each = var.pagerduty_webhook_url != "" ? toset(["enabled"]) : toset([])
+    for_each = toset(compact([var.pagerduty_webhook_url]))
     content {
       name                    = "pagerduty"
       service_uri             = var.pagerduty_webhook_url
