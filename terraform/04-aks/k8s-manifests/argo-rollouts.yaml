@@ -35,12 +35,12 @@ spec:
               - primary
       steps:
         - setWeight: 10
-        - pause: { duration: 2m }
+        - pause: {duration: 2m}
         - analysis:
             templates:
               - templateName: success-rate
         - setWeight: 30
-        - pause: { duration: 5m }
+        - pause: {duration: 5m}
         - setWeight: 60
-        - pause: { duration: 5m }
+        - pause: {duration: 5m}
         - setWeight: 100

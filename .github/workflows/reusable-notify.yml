@@ -58,6 +58,9 @@ jobs:
           echo "color=$COLOR" >> "$GITHUB_OUTPUT"
           echo "env_suffix=$ENV_SUFFIX" >> "$GITHUB_OUTPUT"
           echo "mention=$MENTION" >> "$GITHUB_OUTPUT"
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          TEXT="$ICON *${{ inputs.workflow_name }}*$ENV_SUFFIX — ${{ inputs.status }}$MENTION\n<$RUN_URL|View run>"
+          echo "text=$TEXT" >> "$GITHUB_OUTPUT"
 
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1
@@ -66,7 +69,7 @@ jobs:
             {
               "attachments": [{
                 "color": "${{ steps.payload.outputs.color }}",
-                "text": "${{ steps.payload.outputs.icon }} *${{ inputs.workflow_name }}*${{ steps.payload.outputs.env_suffix }} — ${{ inputs.status }}${{ steps.payload.outputs.mention }}\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
+                "text": "${{ steps.payload.outputs.text }}"
               }]
             }
         env:
