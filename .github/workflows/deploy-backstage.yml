@@ -27,7 +27,6 @@ jobs:
   terraform:
     name: Deploy Infrastructure
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment || 'dev' }}
     defaults:
       run:
         working-directory: terraform/07-idp
