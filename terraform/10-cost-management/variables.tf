@@ -34,5 +34,5 @@ variable "tags" {
 variable "subscription_budget_amount" {
   description = "Total monthly budget for the subscription in USD"
   type        = number
-  default     = 5000
+  default     = 50
 }
