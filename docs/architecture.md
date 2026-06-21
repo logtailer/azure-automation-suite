@@ -1,10 +1,10 @@
-# 🏗️ Architecture Deep Dive
+#  Architecture Deep Dive
 
 ## Overview
 
 This document provides a comprehensive overview of the Azure DevOps platform architecture, including design decisions, trade-offs, and implementation details.
 
-## 🎯 **Design Principles**
+##  **Design Principles**
 
 ### **1. Security First**
 - Zero-trust network architecture
@@ -32,17 +32,17 @@ This document provides a comprehensive overview of the Azure DevOps platform arc
 
 ---
 
-## 🌐 **Network Architecture**
+##  **Network Architecture**
 
 ### **VNet Design**
 ```
 Production VNet: 10.0.0.0/16
-├── AKS Subnet: 10.0.1.0/24          (Kubernetes nodes)
-├── CI/CD Subnet: 10.0.2.0/24        (Build agents, runners)
-├── Observability: 10.0.3.0/24       (Monitoring tools)
-├── Security Subnet: 10.0.4.0/24     (Security tools, bastion)
-├── Data Subnet: 10.0.5.0/24         (Databases, storage)
-└── Gateway Subnet: 10.0.255.0/27    (VPN/ExpressRoute gateway)
+ AKS Subnet: 10.0.1.0/24          (Kubernetes nodes)
+ CI/CD Subnet: 10.0.2.0/24        (Build agents, runners)
+ Observability: 10.0.3.0/24       (Monitoring tools)
+ Security Subnet: 10.0.4.0/24     (Security tools, bastion)
+ Data Subnet: 10.0.5.0/24         (Databases, storage)
+ Gateway Subnet: 10.0.255.0/27    (VPN/ExpressRoute gateway)
 ```
 
 ### **Security Boundaries**
@@ -59,7 +59,7 @@ Production VNet: 10.0.0.0/16
 
 ---
 
-## ☸️ **Kubernetes Architecture**
+##  **Kubernetes Architecture**
 
 ### **AKS Cluster Design**
 ```yaml
@@ -96,7 +96,7 @@ graph LR
 
 ---
 
-## 🔒 **Security Architecture**
+##  **Security Architecture**
 
 ### **Identity & Access Management**
 ```mermaid
@@ -131,7 +131,7 @@ graph TB
 
 ---
 
-## 📊 **Observability Architecture**
+##  **Observability Architecture**
 
 ### **Monitoring Stack**
 ```mermaid
@@ -177,7 +177,7 @@ graph TB
 
 ---
 
-## 🔄 **CI/CD Architecture**
+##  **CI/CD Architecture**
 
 ### **Pipeline Design**
 ```mermaid
@@ -223,7 +223,7 @@ graph LR
 
 ---
 
-## 💰 **Cost Architecture**
+##  **Cost Architecture**
 
 ### **Cost Optimization Strategies**
 
@@ -274,7 +274,7 @@ Cluster Autoscaler:
 
 ---
 
-## 🚀 **Performance Architecture**
+##  **Performance Architecture**
 
 ### **Scalability Patterns**
 - **Horizontal Pod Autoscaling**: Based on CPU/Memory metrics
@@ -298,7 +298,7 @@ Cluster Autoscaler:
 
 ---
 
-## 📈 **Capacity Planning**
+##  **Capacity Planning**
 
 ### **Growth Projections**
 | Timeline | Users | RPS | Nodes | Storage |
@@ -314,15 +314,15 @@ Cluster Autoscaler:
 
 ---
 
-## 🔧 **Technology Decisions**
+##  **Technology Decisions**
 
 ### **Why AKS over Alternatives?**
 | Criterion | AKS | App Service | Container Instances |
 |-----------|-----|-------------|-------------------|
-| Flexibility | ✅ High | ⚠️ Medium | ❌ Low |
-| Cost (at scale) | ✅ Low | ❌ High | ⚠️ Medium |
-| Operations | ⚠️ Complex | ✅ Simple | ✅ Simple |
-| Ecosystem | ✅ Rich | ⚠️ Limited | ❌ Basic |
+| Flexibility |  High |  Medium |  Low |
+| Cost (at scale) |  Low |  High |  Medium |
+| Operations |  Complex |  Simple |  Simple |
+| Ecosystem |  Rich |  Limited |  Basic |
 
 ### **Why Terraform over ARM/Bicep?**
 - **Multi-cloud capability**: Future AWS/GCP expansion
@@ -338,7 +338,7 @@ Cluster Autoscaler:
 
 ---
 
-## 🎯 **Design Trade-offs**
+##  **Design Trade-offs**
 
 ### **Security vs. Usability**
 - **Chose**: Private subnets with NAT Gateway
@@ -357,7 +357,7 @@ Cluster Autoscaler:
 
 ---
 
-## 📚 **References & Further Reading**
+##  **References & Further Reading**
 
 - [Azure Well-Architected Framework](https://docs.microsoft.com/en-us/azure/architecture/framework/)
 - [AKS Best Practices](https://docs.microsoft.com/en-us/azure/aks/best-practices)

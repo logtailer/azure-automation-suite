@@ -1,8 +1,8 @@
-# 🚀 Deployment Guide
+#  Deployment Guide
 
 This guide provides step-by-step instructions to deploy the Azure DevOps platform from scratch.
 
-## 📋 **Prerequisites**
+##  **Prerequisites**
 
 ### **Required Tools**
 ```bash
@@ -51,7 +51,7 @@ export SUBSCRIPTION_ID="your-subscription-id"
 
 ---
 
-## 🎯 **Deployment Options**
+##  **Deployment Options**
 
 ### **Option 1: One-Click Deployment (Recommended for Demo)**
 ```bash
@@ -71,7 +71,7 @@ Follow the manual steps below for full understanding.
 
 ---
 
-## 📚 **Step-by-Step Deployment**
+##  **Step-by-Step Deployment**
 
 ### **Phase 1: Foundation Setup**
 
@@ -295,7 +295,7 @@ kubectl get services -n default
 
 ---
 
-## 🔧 **Configuration & Customization**
+##  **Configuration & Customization**
 
 ### **Environment-Specific Variables**
 Create environment-specific `.tfvars` files:
@@ -340,7 +340,7 @@ variable "max_count" {
 
 ---
 
-## ✅ **Verification Steps**
+##  **Verification Steps**
 
 ### **Infrastructure Verification**
 ```bash
@@ -392,7 +392,7 @@ curl http://your-app-endpoint/health
 
 ---
 
-## 🚨 **Troubleshooting**
+##  **Troubleshooting**
 
 ### **Common Issues**
 
@@ -438,7 +438,7 @@ kubectl run test-pod --image=busybox --rm -it -- /bin/sh
 
 ---
 
-## 📊 **Post-Deployment Tasks**
+##  **Post-Deployment Tasks**
 
 ### **Security Hardening**
 ```bash
@@ -480,7 +480,7 @@ kubectl apply -f kubernetes/backup/volume-snapshot-classes.yaml
 
 ---
 
-## 💰 **Cost Optimization**
+##  **Cost Optimization**
 
 ### **Immediate Actions**
 ```bash
@@ -508,7 +508,7 @@ az consumption budget create \
 
 ---
 
-## 🔄 **Cleanup**
+##  **Cleanup**
 
 ### **Complete Cleanup**
 ```bash
@@ -541,7 +541,7 @@ kubectl delete namespace argocd
 
 ---
 
-## 📚 **Next Steps**
+##  **Next Steps**
 
 1. **Custom Applications**: Deploy your own applications
 2. **Domain Setup**: Configure custom domains and SSL certificates
@@ -552,7 +552,7 @@ kubectl delete namespace argocd
 
 ---
 
-## 🆘 **Getting Help**
+##  **Getting Help**
 
 - **Documentation**: Check the `/docs` folder for detailed guides
 - **Logs**: Use `kubectl logs` and Azure portal for troubleshooting

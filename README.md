@@ -1,96 +1,89 @@
 [![Terraform Verify](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml/badge.svg)](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml)
+[![Security Scan](https://github.com/logtailer/azure-automation-suite/actions/workflows/security-scan.yml/badge.svg)](https://github.com/logtailer/azure-automation-suite/actions/workflows/security-scan.yml)
 
-# 🚀 Azure Platform Engineering Suite
+# Azure Platform Engineering Suite
 
-[![Terraform Verify](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml/badge.svg)](https://github.com/logtailer/azure-automation-suite/actions/workflows/terraform-verify.yml)
+A production-ready Azure infrastructure platform built with Terraform, covering the full stack from networking to developer tooling. Designed for a single-operator workflow on an Azure Student subscription (~$100 credits).
 
-A production-ready, enterprise-grade Azure infrastructure platform built with modern DevOps and Platform Engineering principles.
+## Architecture
 
-## 🏗️ Platform Architecture
-
-This platform implements a comprehensive **Internal Developer Platform (IDP)** that provides:
-- **Self-Service Infrastructure** via Backstage portal
-- **GitOps Deployments** with monitoring and alerting
-- **Zero-Trust Security** with private networking
-- **Scalable Kubernetes** with AKS and auto-scaling
-
-### 📐 Infrastructure Layers
+15 modules deploy in dependency order, each managing a distinct layer:
 
 ```
-13-Traffic-Manager → Multi-region failover + Health monitoring
-12-AppGateway     → Application Gateway + WAF v2
-11-Backup         → Recovery Services Vault + Backup policies
-10-Cost-Mgmt      → Budget alerts + Cost monitoring
-09-Governance     → Azure Policy + Compliance controls
-08-Artifactory    → JFrog Artifactory + Storage
-07-IDP            → Backstage Developer Portal + PostgreSQL
-06-CI/CD          → Container Registry + Build Agents + Artifacts
-05-Observability  → Log Analytics + App Insights + Dashboards
-04-AKS            → Kubernetes Cluster + Node Pools + Bastion
-03-Security       → Key Vault + Certificates + RBAC Policies
-02-Networking     → VNet + Private DNS + Private Endpoints
-01-Foundation     → Resource Groups + Storage + Core Infrastructure
+01-foundation      Resource groups, storage, ACR, core services
+02-networking      VNet, subnets, NSGs, private DNS, flow logs
+03-security        Key Vault, RBAC, managed identities, Defender
+04-aks             Kubernetes cluster, node pools, autoscaler, Bastion
+05-observability   Log Analytics, App Insights, Grafana, alerts
+06-cicd            ARC runners, ArgoCD, GitHub Actions integration
+07-idp             Backstage developer portal + PostgreSQL backend
+08-artifactory     Nexus repository manager on Container Instances
+09-governance      Azure Policy assignments and compliance controls
+10-cost-management Subscription and resource group budgets
+11-backup          Recovery Services Vault, VM and file share policies
+12-appgateway      Application Gateway with WAF
+13-traffic-manager Multi-region failover and health probing
+14-database        PostgreSQL Flexible Server, MySQL, Redis Cache
+15-policy          Custom policy definitions and initiative assignments
 ```
 
-## 🚀 Quick Start
+## Quick Start — Weekly Test Cycle
+
+Set credentials once in a `.env` file at the repo root (gitignored):
 
 ```bash
-# Clone and navigate
-git clone https://github.com/logtailer/azure-automation-suite.git
-cd azure-automation-suite/terraform
-
-# Deploy foundation layer
-cd 01-foundation
-./deploy.sh core.tfvars
-
-# Deploy networking layer
-cd ../02-networking/application-network
-./deploy.sh dev.tfvars
-
-# Deploy AKS cluster
-cd ../../04-aks
-./deploy.sh core.tfvars
+ARM_CLIENT_ID=<service-principal-app-id>
+ARM_CLIENT_SECRET=<service-principal-secret>
+ARM_SUBSCRIPTION_ID=<your-subscription-id>
+ARM_TENANT_ID=<your-tenant-id>
 ```
 
-## 🏗️ Architecture
+Then deploy, test, and destroy:
 
-This project implements a **production-ready Azure platform** with:
+```bash
+# Deploy all 15 modules in order (~30–60 min, ~$1–2/hour)
+./scripts/deploy-all.sh --auto-approve
 
-- **🔧 Modular Infrastructure**: Sequential deployment layers (foundation → networking → security → compute)
-- **🚀 Kubernetes Platform**: Production AKS with multi-subnet node pools and Azure Bastion access
-- **🔐 Security First**: Zero-trust networking, service principal authentication, private endpoints
-- **📊 Observability Ready**: Structured for comprehensive monitoring and logging
-- **🔄 GitOps Ready**: CI/CD pipelines with Terraform validation and automated deployments
+# ... explore, learn, test ...
 
-## 📁 Project Structure
-
-```
-terraform/
-├── 01-foundation/      # Resource groups, storage accounts, core infra
-├── 02-networking/      # VNets, subnets, NSGs, Private DNS zones
-├── 03-security/        # Key Vault, certificates, RBAC policies
-├── 04-aks/            # AKS clusters, node pools, Bastion host
-├── 05-observability/   # Monitoring, alerting, dashboards
-├── 06-cicd/           # CI/CD infrastructure, build agents
-├── 07-idp/            # Backstage IDP integration
-├── 08-artifactory/    # JFrog Artifactory setup
-├── 09-governance/     # Azure Policy assignments
-├── 10-cost-management/# Budgets and cost alerts
-├── 11-backup/         # Recovery Services Vault
-├── 12-appgateway/     # Application Gateway with WAF
-└── 13-traffic-manager/# Multi-region traffic routing
+# Tear everything down to preserve credits
+./scripts/destroy-all.sh --auto-approve
 ```
 
-## 🛠️ Prerequisites
+All modules use `dev-minimal.tfvars` — pre-configured with the cheapest SKUs, expensive features (Firewall, VPN Gateway, Defender, NAT Gateway) disabled, and budgets set conservatively for a $100 student subscription.
 
-- **Azure CLI** with valid subscription
-- **Terraform** >= 1.6.0
-- **Service Principal** with Contributor + Storage Blob Data Contributor roles
-- **Azure Storage Account** for remote state management
+## First-Time Setup
 
-## 🔩 Local Development Setup
+**1. Bootstrap remote state** (run once before anything else):
 
-After cloning, run these two commands once to enable the shared git hooks:
+```bash
+cd terraform/01-foundation
+bash bootstrap.sh dev
+```
+
+This creates the Azure Storage Account used for all Terraform state.
+
+**2. Set GitHub secrets** for CI/CD workflows:
+
+| Secret | Value |
+|---|---|
+| `ARM_CLIENT_ID` | Service principal app ID |
+| `ARM_CLIENT_SECRET` | Service principal secret |
+| `ARM_SUBSCRIPTION_ID` | Azure subscription ID |
+| `ARM_TENANT_ID` | Azure tenant ID |
+| `TF_STATE_STORAGE_ACCOUNT` | `sumittfstatestorage` |
+| `TF_STATE_RESOURCE_GROUP` | `terraform-state-rg` |
+
+**3. Replace placeholder values** in `dev-minimal.tfvars`:
+
+- `06-cicd`: `github_token`, `github_webhook_secret`, `github_repository_owner`
+- `07-idp`: `github_token`, `github_client_id`, `github_client_secret`, `db_admin_password`
+- `09-governance`: `subscription_id`
+- `14-database`: `postgresql_admin_password`
+
+## Local Development Setup
+
+After cloning, run once to enable shared git hooks:
 
 ```bash
 git config core.hooksPath scripts/hooks
@@ -98,63 +91,49 @@ pip install pre-commit && pre-commit install
 ```
 
 The hooks provide:
-- **pre-commit** — Terraform fmt/validate, Trivy, Checkov, shellcheck, yamllint
-- **pre-push** — auto `git pull --rebase` before every push so pushes never get rejected for being behind
+- **pre-commit** — `terraform fmt`, `terraform validate`, Trivy (CRITICAL/HIGH only), Checkov, shellcheck, yamllint
+- **pre-push** — auto-rebases on the remote branch if it has moved; exits with a message to re-run `git push` so the push succeeds cleanly
 
-## 🔧 Configuration
+## Module Deployment (individual)
 
-Each module contains:
-- `deploy.sh` - Automated deployment script with error handling
-- `backend.hcl` - Remote state configuration
-- `core.tfvars` - Environment-agnostic variables
-- `.env` - Service principal credentials (gitignored)
+Each module has its own `deploy.sh` if you want to deploy a single layer:
 
-## 📈 Features
+```bash
+cd terraform/04-aks
+./deploy.sh dev-minimal.tfvars
+```
 
-### Infrastructure
-- ✅ **Multi-region ready** with configurable locations
-- ✅ **Auto-scaling AKS** with system and user node pools
-- ✅ **Secure networking** with private/public subnet separation
-- ✅ **State isolation** per module for parallel development
+## Cost Profile (dev-minimal)
 
-### DevOps
-- ✅ **GitHub Actions** for Terraform validation
-- ✅ **Automated testing** with format and validation checks
-- ✅ **Robust deployment** scripts with backend migration handling
-- ✅ **Environment promotion** with variable file separation
+| Resource | Monthly est. | Notes |
+|---|---|---|
+| VNet, NSGs, subnets | Free | |
+| Storage (state + logs) | ~$1 | LRS |
+| Key Vault | ~$0.50 | |
+| ACR Basic | ~$5 | |
+| Log Analytics | ~$2–5 | 30-day retention, low ingestion |
+| App Insights | ~$1 | 10% sampling |
+| AKS (2× B2s nodes) | ~$3/day | Spin up, use, destroy |
+| PostgreSQL B1ms | ~$12/month | Burstable |
 
-### Security
-- ✅ **Service Principal** authentication
-- ✅ **Network Security Groups** with least-privilege rules
-- ✅ **Azure Bastion** for secure VM access
-- ✅ **Private endpoints** for storage and key vault access
+**Total for a 2-hour weekly session:** ~$1–2. Budget alerts fire at 50%, 80%, 100% of $20/month.
 
-## 🎯 Roadmap
+## Prerequisites
 
-- [ ] Complete security module (Key Vault, RBAC policies)
-- [ ] Implement observability stack (Prometheus, Grafana)
-- [ ] Add CI/CD module (Azure DevOps, GitHub Actions runners)
-- [ ] Integrate identity provider (Azure AD, OIDC)
-- [ ] Add application deployment examples
-- [ ] Implement disaster recovery and backup strategies
+- Azure CLI ≥ 2.55
+- Terraform ≥ 1.6
+- Service principal with Contributor + Storage Blob Data Contributor roles
 
-## 📚 Documentation
+## Repository Structure
 
-- [Architecture Guide](docs/architecture.md) - Detailed system design and decisions
-- [Deployment Guide](docs/deployment-guide.md) - Step-by-step deployment instructions
-- [Module Organization](terraform/ORGANIZATION.md) - Infrastructure module breakdown
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-module`
-3. Make changes and test with `terraform validate`
-4. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-**Built with ❤️ for enterprise Azure platform engineering**
+```
+.
+ scripts/
+    deploy-all.sh       # Deploy all modules in order
+    destroy-all.sh      # Destroy in reverse order
+    hooks/              # Shared git hooks (pre-commit, pre-push)
+ terraform/
+    01-foundation/ … 15-policy/
+    ORGANIZATION.md     # Module dependency notes
+ .github/workflows/      # CI: validate, security scan, drift detection
+```

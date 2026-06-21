@@ -129,28 +129,28 @@ cost_alert_emails       = ["your-email@example.com"]
 ### Before Refactoring
 ```
 07-idp/
-├── main.tf (with backend block ❌)
-├── variables.tf (missing component_name ❌)
-├── outputs.tf
-├── backend.hcl (incorrect values ❌)
-├── core.tfvars (wrong naming ❌)
-├── dev.tfvars (wrong naming ❌)
-├── deploy.sh (simple 4-line script ❌)
-└── deploy-backstage.sh (complex deployment)
+ main.tf (with backend block )
+ variables.tf (missing component_name )
+ outputs.tf
+ backend.hcl (incorrect values )
+ core.tfvars (wrong naming )
+ dev.tfvars (wrong naming )
+ deploy.sh (simple 4-line script )
+ deploy-backstage.sh (complex deployment)
 ```
 
 ### After Refactoring
 ```
 07-idp/
-├── main.tf (NO backend block ✅)
-├── variables.tf (includes component_name ✅)
-├── outputs.tf
-├── backend.hcl (matches foundation ✅)
-├── core.tfvars (correct naming ✅)
-├── dev.tfvars (correct naming ✅)
-├── deploy.sh (matches foundation pattern ✅)
-├── deploy-backstage.sh (enhanced deployment)
-└── cost-monitoring.tf (NEW ✅)
+ main.tf (NO backend block )
+ variables.tf (includes component_name )
+ outputs.tf
+ backend.hcl (matches foundation )
+ core.tfvars (correct naming )
+ dev.tfvars (correct naming )
+ deploy.sh (matches foundation pattern )
+ deploy-backstage.sh (enhanced deployment)
+ cost-monitoring.tf (NEW )
 ```
 
 ---
@@ -159,21 +159,21 @@ cost_alert_emails       = ["your-email@example.com"]
 
 | Aspect | Before | After | Status |
 |--------|--------|-------|--------|
-| Backend block in main.tf | ❌ Had `backend "azurerm" {}` | ✅ Removed | Aligned |
-| Variable naming | ❌ `tfstate_resource_group` | ✅ `tfstate_resource_group_name` | Aligned |
-| Component name variable | ❌ Missing | ✅ Added with default `"idp"` | Aligned |
-| Resource group naming | ❌ `rg-platform-dev-centralindia` | ✅ `azure-platform-dev-rg` | Aligned |
-| Backend configuration | ❌ Different values | ✅ Matches foundation | Aligned |
-| Tags structure | ⚠️ Extra tags | ✅ Minimal standard tags | Aligned |
-| Cost monitoring | ❌ None | ✅ Component budget tracking | Aligned |
-| Deploy script | ⚠️ Simple version | ✅ Robust foundation pattern | Aligned |
-| Location format | ❌ `centralindia` | ✅ `Central India` | Aligned |
+| Backend block in main.tf |  Had `backend "azurerm" {}` |  Removed | Aligned |
+| Variable naming |  `tfstate_resource_group` |  `tfstate_resource_group_name` | Aligned |
+| Component name variable |  Missing |  Added with default `"idp"` | Aligned |
+| Resource group naming |  `rg-platform-dev-centralindia` |  `azure-platform-dev-rg` | Aligned |
+| Backend configuration |  Different values |  Matches foundation | Aligned |
+| Tags structure |  Extra tags |  Minimal standard tags | Aligned |
+| Cost monitoring |  None |  Component budget tracking | Aligned |
+| Deploy script |  Simple version |  Robust foundation pattern | Aligned |
+| Location format |  `centralindia` |  `Central India` | Aligned |
 
 ---
 
 ## Breaking Changes
 
-### ⚠️ State File Migration Required
+###  State File Migration Required
 
 The backend configuration changed:
 - **Old:** `container_name = "tfstate"`, `key = "07-idp/terraform.tfstate"`
@@ -184,7 +184,7 @@ The backend configuration changed:
 2. Run `terraform init -migrate-state` to migrate from old backend to new
 3. Alternatively, run `./deploy.sh dev.tfvars` which handles migration automatically
 
-### ⚠️ Deployment Command Changed
+###  Deployment Command Changed
 
 **Old:**
 ```bash
@@ -235,8 +235,8 @@ All modules now follow the same patterns:
 
 All changes have been validated:
 ```bash
-✅ terraform fmt     # Formatting is correct
-✅ terraform validate # Configuration is valid
+ terraform fmt     # Formatting is correct
+ terraform validate # Configuration is valid
 ```
 
 ---

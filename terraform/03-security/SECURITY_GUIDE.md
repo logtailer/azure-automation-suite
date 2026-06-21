@@ -136,10 +136,10 @@ kubelet_identity {
 ## Compliance
 
 ### Azure Policy Compliance
-- ✅ CIS Microsoft Azure Foundations Benchmark
-- ✅ Azure Security Benchmark
-- ✅ NIST SP 800-53
-- ✅ ISO 27001
+-  CIS Microsoft Azure Foundations Benchmark
+-  Azure Security Benchmark
+-  NIST SP 800-53
+-  ISO 27001
 
 ### Audit Requirements
 All Key Vault operations logged to Log Analytics:

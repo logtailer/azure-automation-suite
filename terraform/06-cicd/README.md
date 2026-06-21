@@ -15,13 +15,13 @@ Deploys self-hosted GitHub runners on Azure Kubernetes Service (AKS) with ArgoCD
 
 ```
 AKS Cluster (aks-cicd-dev)
-├── System Node Pool (1x B2s, always-on)
-├── Runner Node Pool (0-5x D2s_v3, scale-to-zero)
-├── actions-runner-system namespace
-│   ├── ARC Controller
-│   └── Runner Scale Set (repository-level)
-└── argocd namespace
-    └── ArgoCD Server (LoadBalancer)
+ System Node Pool (1x B2s, always-on)
+ Runner Node Pool (0-5x D2s_v3, scale-to-zero)
+ actions-runner-system namespace
+    ARC Controller
+    Runner Scale Set (repository-level)
+ argocd namespace
+     ArgoCD Server (LoadBalancer)
 ```
 
 ## Prerequisites

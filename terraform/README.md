@@ -19,21 +19,21 @@ The platform consists of the following components:
 
 ```
 terraform/
-├── backend/                    # Terraform state backend setup
-├── core/                      # Core networking infrastructure
-├── identity/                  # Identity provider configuration
-├── cicd/                      # CI/CD infrastructure
-├── artifact/                  # Container registry and artifact storage
-├── observability/             # Monitoring and logging
-├── developer-platform/        # Internal developer platform
-├── aks/                       # Kubernetes cluster
-├── security/                  # Security and governance
-├── data/                      # Databases and data services
-├── app/                       # Application deployment
-├── modules/                   # Reusable Terraform modules
-└── environments/              # Environment-specific configurations
-    ├── dev/
-    └── prod/
+ backend/                    # Terraform state backend setup
+ core/                      # Core networking infrastructure
+ identity/                  # Identity provider configuration
+ cicd/                      # CI/CD infrastructure
+ artifact/                  # Container registry and artifact storage
+ observability/             # Monitoring and logging
+ developer-platform/        # Internal developer platform
+ aks/                       # Kubernetes cluster
+ security/                  # Security and governance
+ data/                      # Databases and data services
+ app/                       # Application deployment
+ modules/                   # Reusable Terraform modules
+ environments/              # Environment-specific configurations
+     dev/
+     prod/
 ```
 
 ## Getting Started

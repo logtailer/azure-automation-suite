@@ -13,14 +13,14 @@ This module creates the core networking infrastructure for the Azure DevOps plat
 
 ```
 Azure DevOps Platform VNet (10.0.0.0/16)
-├── Public Subnet (10.0.1.0/24)
-│   ├── Application Gateway
-│   └── Load Balancers
-├── Private Subnet (10.0.2.0/24)
-│   ├── Private endpoints
-│   └── Backend services
-└── AKS Subnet (10.0.10.0/23)
-    └── Kubernetes cluster nodes
+ Public Subnet (10.0.1.0/24)
+    Application Gateway
+    Load Balancers
+ Private Subnet (10.0.2.0/24)
+    Private endpoints
+    Backend services
+ AKS Subnet (10.0.10.0/23)
+     Kubernetes cluster nodes
 ```
 
 ## Usage

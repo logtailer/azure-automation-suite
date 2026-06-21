@@ -31,9 +31,9 @@
 
 | Requirement | Implementation | Status |
 |-------------|---------------|--------|
-| Data at rest encryption | Azure managed keys (storage, Key Vault) | ✅ |
-| Data in transit encryption | HTTPS-only policy enforced | ✅ |
-| Data classification tagging | `DataClassification` tag on all resources | ✅ |
-| Right to erasure | Soft-delete + configurable retention | ✅ |
-| Audit logging | Azure Monitor + Log Analytics | ✅ |
-| Data residency | `allowed_locations` policy restricts to approved regions | ✅ |
+| Data at rest encryption | Azure managed keys (storage, Key Vault) |  |
+| Data in transit encryption | HTTPS-only policy enforced |  |
+| Data classification tagging | `DataClassification` tag on all resources |  |
+| Right to erasure | Soft-delete + configurable retention |  |
+| Audit logging | Azure Monitor + Log Analytics |  |
+| Data residency | `allowed_locations` policy restricts to approved regions |  |

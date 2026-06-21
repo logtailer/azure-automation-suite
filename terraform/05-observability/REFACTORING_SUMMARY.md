@@ -140,8 +140,8 @@ Enhanced and refactored the 05-observability module in two phases:
 
 All changes validated:
 ```bash
-✅ terraform fmt
-✅ terraform validate (requires init)
+ terraform fmt
+ terraform validate (requires init)
 ```
 
 ---

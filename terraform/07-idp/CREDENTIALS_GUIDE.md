@@ -22,26 +22,26 @@ The Backstage deployment requires several credentials:
 ### How Credentials Flow
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                  DEPLOYMENT WORKFLOW                         │
-└─────────────────────────────────────────────────────────────┘
+
+                  DEPLOYMENT WORKFLOW
+
 
 1. INFRASTRUCTURE DEPLOYMENT (Terraform)
-   ├── Generate PostgreSQL password → Store in Terraform state
-   ├── Create PostgreSQL server with credentials
-   ├── Create Azure AD app → Auto-generate client secret
-   ├── Create ACR → Enable managed identity auth
-   └── Output: DB credentials, ACR URL, AD app details
+    Generate PostgreSQL password → Store in Terraform state
+    Create PostgreSQL server with credentials
+    Create Azure AD app → Auto-generate client secret
+    Create ACR → Enable managed identity auth
+    Output: DB credentials, ACR URL, AD app details
 
 2. BUILD BACKSTAGE IMAGE
-   ├── Use outputs from step 1
-   ├── Build Docker image with app-config.yaml
-   └── Push to ACR (using managed identity)
+    Use outputs from step 1
+    Build Docker image with app-config.yaml
+    Push to ACR (using managed identity)
 
 3. DEPLOY BACKSTAGE CONTAINER
-   ├── Pull image from ACR
-   ├── Inject credentials as environment variables
-   └── Container connects to PostgreSQL using injected credentials
+    Pull image from ACR
+    Inject credentials as environment variables
+    Container connects to PostgreSQL using injected credentials
 ```
 
 ---
@@ -287,20 +287,20 @@ set -euo pipefail
 ENVIRONMENT="${1:-dev}"
 TFVARS_FILE="${ENVIRONMENT}.tfvars"
 
-echo "🚀 Deploying Backstage to environment: $ENVIRONMENT"
+echo " Deploying Backstage to environment: $ENVIRONMENT"
 
 # Step 1: Check prerequisites
-echo "📋 Checking prerequisites..."
+echo " Checking prerequisites..."
 command -v az >/dev/null 2>&1 || { echo "Azure CLI required"; exit 1; }
 command -v terraform >/dev/null 2>&1 || { echo "Terraform required"; exit 1; }
 command -v docker >/dev/null 2>&1 || { echo "Docker required"; exit 1; }
 
 # Step 2: Source credentials
 if [ -f ".env.${ENVIRONMENT}" ]; then
-  echo "🔐 Loading credentials from .env.${ENVIRONMENT}"
+  echo " Loading credentials from .env.${ENVIRONMENT}"
   source ".env.${ENVIRONMENT}"
 else
-  echo "⚠️  No .env.${ENVIRONMENT} file found"
+  echo "  No .env.${ENVIRONMENT} file found"
   echo "Please set the following environment variables:"
   echo "  TF_VAR_db_admin_password"
   echo "  TF_VAR_github_token"
@@ -310,7 +310,7 @@ else
 fi
 
 # Step 3: Deploy infrastructure
-echo "🏗️  Deploying infrastructure with Terraform..."
+echo "  Deploying infrastructure with Terraform..."
 cd terraform/07-idp
 
 terraform init -backend-config=backend.hcl
@@ -318,20 +318,20 @@ terraform plan -var-file="${TFVARS_FILE}" -out=tfplan
 terraform apply tfplan
 
 # Step 4: Capture outputs
-echo "📤 Capturing Terraform outputs..."
+echo " Capturing Terraform outputs..."
 ACR_LOGIN_SERVER=$(terraform output -raw acr_login_server)
 ACR_NAME=$(terraform output -raw container_registry_name)
 POSTGRES_HOST=$(terraform output -raw postgresql_server_fqdn)
 POSTGRES_USER="backstage_admin"
 CONTAINER_FQDN=$(terraform output -raw container_fqdn)
 
-echo "✅ Infrastructure deployed successfully"
+echo " Infrastructure deployed successfully"
 echo "   ACR: $ACR_LOGIN_SERVER"
 echo "   PostgreSQL: $POSTGRES_HOST"
 echo "   Container URL: http://${CONTAINER_FQDN}:7007"
 
 # Step 5: Build and push Backstage image
-echo "🐳 Building Backstage Docker image..."
+echo " Building Backstage Docker image..."
 cd ../../backstage  # Adjust path to your Backstage app
 
 # Login to ACR using managed identity
@@ -341,11 +341,11 @@ az acr login --name "$ACR_NAME"
 docker build -t "${ACR_LOGIN_SERVER}/backstage:latest" .
 
 # Push image
-echo "📦 Pushing image to ACR..."
+echo " Pushing image to ACR..."
 docker push "${ACR_LOGIN_SERVER}/backstage:latest"
 
 # Step 6: Restart container to pick up new image
-echo "🔄 Restarting container instance..."
+echo " Restarting container instance..."
 RESOURCE_GROUP="rg-platform-${ENVIRONMENT}-centralindia"
 CONTAINER_GROUP="ci-backstage-${ENVIRONMENT}"
 
@@ -353,23 +353,23 @@ az container restart \
   --name "$CONTAINER_GROUP" \
   --resource-group "$RESOURCE_GROUP"
 
-echo "⏳ Waiting for container to become healthy..."
+echo " Waiting for container to become healthy..."
 sleep 30
 
 # Step 7: Verify deployment
-echo "🔍 Verifying deployment..."
+echo " Verifying deployment..."
 BACKSTAGE_URL="http://${CONTAINER_FQDN}:7007"
 
 if curl -sf "${BACKSTAGE_URL}/healthcheck" >/dev/null; then
-  echo "✅ Backstage is healthy and running!"
-  echo "🌐 Access Backstage at: $BACKSTAGE_URL"
+  echo " Backstage is healthy and running!"
+  echo " Access Backstage at: $BACKSTAGE_URL"
 else
-  echo "⚠️  Backstage health check failed. Check container logs:"
+  echo "  Backstage health check failed. Check container logs:"
   echo "   az container logs --name $CONTAINER_GROUP --resource-group $RESOURCE_GROUP"
 fi
 
 echo ""
-echo "🎉 Deployment complete!"
+echo " Deployment complete!"
 ```
 
 Make it executable:
@@ -386,7 +386,7 @@ Run deployment:
 
 ## Security Best Practices
 
-### ✅ DO
+###  DO
 
 1. **Use Azure Key Vault for Production**
    ```bash
@@ -425,7 +425,7 @@ Run deployment:
    # Terraform state is encrypted in Azure Storage
    ```
 
-### ❌ DON'T
+###  DON'T
 
 1. **Never commit secrets to Git**
    - Use `.gitignore` for `.env*` files
