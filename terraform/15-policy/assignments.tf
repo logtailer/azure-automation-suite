@@ -12,7 +12,7 @@ resource "azurerm_management_group_policy_assignment" "baseline" {
   enforce              = var.enforce_policies
 
   dynamic "non_compliance_message" {
-    for_each = var.non_compliance_message != "" ? [1] : []
+    for_each = var.non_compliance_message != "" ? toset(["enabled"]) : toset([])
     content {
       content = var.non_compliance_message
     }

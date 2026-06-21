@@ -8,7 +8,7 @@ overhead:
     memory: 160Mi
     cpu: 250m
 scheduling:
-  nodeClassSelector:
+  nodeSelector:
     matchLabels:
       kata-containers: "true"
   tolerations:
@@ -27,6 +27,6 @@ overhead:
     memory: 80Mi
     cpu: 100m
 scheduling:
-  nodeClassSelector:
+  nodeSelector:
     matchLabels:
       sandbox: gvisor

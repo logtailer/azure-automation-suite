@@ -14,7 +14,7 @@ resource "azurerm_api_management" "main" {
   virtual_network_type = var.apim_vnet_type
 
   dynamic "virtual_network_configuration" {
-    for_each = var.apim_vnet_type != "None" ? [1] : []
+    for_each = var.apim_vnet_type != "None" ? toset(["enabled"]) : toset([])
     content {
       subnet_id = var.apim_subnet_id
     }

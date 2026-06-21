@@ -26,7 +26,7 @@ resource "azurerm_virtual_network" "main" {
   resource_group_name = data.azurerm_resource_group.foundation.name
 
   dynamic "ddos_protection_plan" {
-    for_each = var.enable_ddos_protection ? [1] : []
+    for_each = var.enable_ddos_protection ? toset(["enabled"]) : toset([])
     content {
       id     = azurerm_network_ddos_protection_plan.main[0].id
       enable = true
