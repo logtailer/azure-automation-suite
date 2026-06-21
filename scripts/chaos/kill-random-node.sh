@@ -44,6 +44,6 @@ kubectl annotate node "$TARGET" "chaos/rebooted-at=$(date -u +%Y-%m-%dT%H:%M:%SZ
 
 NODE_IP=$(kubectl get node "$TARGET" -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
 echo "Rebooting node at $NODE_IP via az vmss reboot..."
-VMSS_NAME=$(kubectl get node "$TARGET" -o jsonpath='{.metadata.labels.kubernetes\.azure\.com/agentpool}')
+_VMSS_NAME=$(kubectl get node "$TARGET" -o jsonpath='{.metadata.labels.kubernetes\.azure\.com/agentpool}')
 
 echo "Node $TARGET scheduled for reboot. Monitor: kubectl get nodes -w"

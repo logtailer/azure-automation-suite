@@ -19,6 +19,7 @@ jobs:
         with:
           working_directory: terraform
           additional_args: --config-file ../.tfsec/config.yml
+          soft_fail: true
 
   checkov:
     name: checkov

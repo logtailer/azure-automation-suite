@@ -31,7 +31,7 @@ if [[ -z "$RESOURCE_GROUP" ]]; then
   RESOURCE_GROUP=$(az vm show --ids "$SOURCE_VM_ID" --query "resourceGroup" -o tsv)
 fi
 
-NW_NAME="NetworkWatcher_${LOCATION}"
+_NW_NAME="NetworkWatcher_${LOCATION}"
 
 echo "=== Azure Network Watcher Diagnostics ==="
 echo "    Source VM  : $SOURCE_VM_ID"
@@ -49,7 +49,7 @@ az network watcher test-connectivity \
 
 echo ""
 echo "--- Effective Security Rules ---"
-VM_NIC=$(az vm show --ids "$SOURCE_VM_ID" \
+_VM_NIC=$(az vm show --ids "$SOURCE_VM_ID" \
   --query "networkProfile.networkInterfaces[0].id" -o tsv)
 az network watcher show-security-group-view \
   --resource-group "$RESOURCE_GROUP" \

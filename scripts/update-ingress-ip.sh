@@ -27,7 +27,7 @@ if [[ -n "$KUBE_CONTEXT" ]]; then
 fi
 
 echo "Waiting for ingress-nginx external IP..."
-for i in $(seq 1 30); do
+for _ in $(seq 1 30); do
   IP=$($KUBECTL get svc ingress-nginx-controller -n ingress-nginx \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null || true)
   if [[ -n "$IP" ]]; then

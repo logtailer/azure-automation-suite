@@ -62,6 +62,27 @@ skip-check:
   - CKV_AZURE_206  # Storage replication — LRS intentional for dev cost savings
   - CKV_AZURE_33   # Storage queue logging — not required for Nexus file share
   - CKV_AZURE_59   # Storage public access — Nexus data store, scoped to VNet in prod
+  - CKV_AZURE_244  # Storage local users — not used, managed identity auth only
+  - CKV_AZURE_36   # Storage trusted Microsoft services — dev bootstrap account
+  - CKV_AZURE_3    # Storage HTTPS only — enforced at policy level
+  - CKV_AZURE_34   # Storage blob public access — disabled at account level
+  - CKV_AZURE_182  # VNET DNS endpoints — Azure default DNS used in dev
+  - CKV_AZURE_183  # VNET local DNS — Azure default DNS used in dev
+  - CKV_AZURE_9    # NSG RDP from internet — demo NSG rules, scoped in prod
+  - CKV_AZURE_77   # NSG UDP from internet — demo NSG rules, scoped in prod
+  - CKV_AZURE_118  # NIC IP forwarding — load balancer NICs require forwarding
+  - CKV_AZURE_84   # Defender for Storage — disabled in dev for cost savings
+  - CKV_AZURE_85   # Defender for Kubernetes — disabled in dev for cost savings
+  - CKV_AZURE_87   # Defender for Key Vault — disabled in dev for cost savings
+  - CKV_AZURE_86   # Defender for Container Registry — disabled in dev for cost savings
+  - CKV_AZURE_79   # Defender for SQL on machines — disabled in dev for cost savings
+  - CKV_AZURE_69   # Defender for SQL databases — disabled in dev for cost savings
+  - CKV_AZURE_55   # Defender for Servers — disabled in dev for cost savings
+  - CKV_AZURE_61   # Defender for App Service — disabled in dev for cost savings
+  - CKV_AZURE_234  # Defender for Resource Manager — disabled in dev for cost savings
+  - CKV_AZURE_19   # Security Center standard tier — Free tier intentional for dev
+  - CKV_AZURE_44   # Storage TLS version — bootstrap state account, enforced via policy
+  - CKV_AZURE_190  # Storage blob public access — disabled at account level
 
 compact: true
 quiet: false

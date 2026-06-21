@@ -15,10 +15,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-KUBECTL="kubectl"
 FLUX="flux"
 if [[ -n "$CONTEXT" ]]; then
-  KUBECTL="kubectl --context $CONTEXT"
   FLUX="flux --context $CONTEXT"
 fi
 

@@ -34,7 +34,7 @@ EOF
 echo "Publishing CloudEvent to: $TOPIC_ENDPOINT"
 echo "Event ID: $EVENT_ID"
 
-RESPONSE=$(curl -sf -X POST "$TOPIC_ENDPOINT/events" \
+_RESPONSE=$(curl -sf -X POST "$TOPIC_ENDPOINT/events" \
   -H "aeg-sas-key: $TOPIC_KEY" \
   -H "Content-Type: application/cloudevents-batch+json" \
   -d "$PAYLOAD" \

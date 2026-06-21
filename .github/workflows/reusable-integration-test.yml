@@ -38,7 +38,6 @@ jobs:
   test:
     name: Integration tests (${{ inputs.environment }})
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     timeout-minutes: ${{ inputs.timeout_minutes }}
     outputs:
       result: ${{ steps.run.outcome }}

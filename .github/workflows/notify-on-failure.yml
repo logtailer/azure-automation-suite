@@ -3,11 +3,10 @@ name: Notify on Workflow Failure
 on:
   workflow_run:
     workflows:
-      - "Terraform CI"
-      - "Deploy to AKS"
-      - "Security Scanning"
-      - "Load Tests"
+      - "Verify"
+      - "Security Scan"
       - "Chaos Engineering Tests"
+      - "Terraform Drift Detection"
     types:
       - completed
 
@@ -20,6 +19,9 @@ jobs:
     name: Send failure notification
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'failure'
+    env:
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Build notification payload
@@ -35,7 +37,7 @@ jobs:
           echo "actor=$ACTOR"       >> "$GITHUB_OUTPUT"
 
       - name: Send Teams notification
-        if: secrets.TEAMS_WEBHOOK_URL != ''
+        if: env.TEAMS_WEBHOOK_URL != ''
         run: |
           curl -s -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}" \
             -H "Content-Type: application/json" \
@@ -44,7 +46,7 @@ jobs:
               "@context": "http://schema.org/extensions",
               "themeColor": "FF0000",
               "summary": "Workflow failed",
-              "title": "❌ Workflow Failed: ${{ steps.payload.outputs.workflow }}",
+              "title": "Workflow Failed: ${{ steps.payload.outputs.workflow }}",
               "sections": [{
                 "facts": [
                   { "name": "Branch", "value": "${{ steps.payload.outputs.branch }}" },
@@ -60,12 +62,12 @@ jobs:
             }'
 
       - name: Send Slack notification
-        if: secrets.SLACK_WEBHOOK_URL != ''
+        if: env.SLACK_WEBHOOK_URL != ''
         run: |
           curl -s -X POST "${{ secrets.SLACK_WEBHOOK_URL }}" \
             -H "Content-Type: application/json" \
             -d '{
-              "text": ":x: *${{ steps.payload.outputs.workflow }}* failed on `${{ steps.payload.outputs.branch }}`",
+              "text": "*${{ steps.payload.outputs.workflow }}* failed on `${{ steps.payload.outputs.branch }}`",
               "attachments": [{
                 "color": "danger",
                 "fields": [
