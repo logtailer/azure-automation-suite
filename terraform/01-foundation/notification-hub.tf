@@ -17,7 +17,7 @@ resource "azurerm_notification_hub" "main" {
   location            = var.location
 
   dynamic "apns_credential" {
-    for_each = var.apns_bundle_id != "" ? toset(["enabled"]) : toset([])
+    for_each = var.apns_bundle_id != "" ? { enabled = true } : {}
     content {
       application_mode = var.apns_production ? "Production" : "Sandbox"
       bundle_id        = var.apns_bundle_id
@@ -28,7 +28,7 @@ resource "azurerm_notification_hub" "main" {
   }
 
   dynamic "gcm_credential" {
-    for_each = var.gcm_api_key != "" ? toset(["enabled"]) : toset([])
+    for_each = var.gcm_api_key != "" ? { enabled = true } : {}
     content {
       api_key = var.gcm_api_key
     }

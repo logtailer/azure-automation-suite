@@ -69,7 +69,8 @@ jobs:
         with:
           payload: |
             {
-              "text": ":rotating_light: *Terraform drift detected* in `${{ matrix.module }}` (`${{ matrix.environment }}`). See run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              "text": "*Drift detected* in `${{ matrix.module }}` (`${{ matrix.environment }}`).
+                Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DRIFT_WEBHOOK }}
