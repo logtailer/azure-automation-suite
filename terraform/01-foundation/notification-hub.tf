@@ -17,10 +17,10 @@ resource "azurerm_notification_hub" "main" {
   location            = var.location
 
   dynamic "apns_credential" {
-    for_each = var.apns_bundle_id != "" ? { enabled = true } : {}
+    for_each = var.apns_bundle_id != "" ? [var.apns_bundle_id] : []
     content {
       application_mode = var.apns_production ? "Production" : "Sandbox"
-      bundle_id        = var.apns_bundle_id
+      bundle_id        = apns_credential.value
       key_id           = var.apns_key_id
       team_id          = var.apns_team_id
       token            = var.apns_token
@@ -28,9 +28,9 @@ resource "azurerm_notification_hub" "main" {
   }
 
   dynamic "gcm_credential" {
-    for_each = var.gcm_api_key != "" ? { enabled = true } : {}
+    for_each = var.gcm_api_key != "" ? [var.gcm_api_key] : []
     content {
-      api_key = var.gcm_api_key
+      api_key = gcm_credential.value
     }
   }
 
