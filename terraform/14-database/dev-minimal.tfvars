@@ -9,7 +9,7 @@ postgresql_admin_password        = "REPLACE_ME_strong_password_123!"
 postgresql_sku_name              = "B_Standard_B1ms"
 postgresql_storage_mb            = 32768
 postgresql_version               = "15"
-postgresql_backup_retention_days = 35
+postgresql_backup_retention_days = 7
 postgresql_geo_redundant_backup  = false
 postgresql_allowed_ip_ranges     = []
 
@@ -29,8 +29,8 @@ allow_azure_services = true
 # Alerts
 enable_db_alerts           = false
 enable_database            = true
-db_backup_retention_days   = 35
-db_backup_storage_alert_gb = 50
+db_backup_retention_days   = 7
+db_backup_storage_alert_gb = 20
 
 log_analytics_workspace_id = ""
 
