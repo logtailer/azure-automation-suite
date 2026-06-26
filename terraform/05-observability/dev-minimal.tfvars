@@ -6,16 +6,16 @@ component_name      = "observability"
 tfstate_resource_group_name  = "terraform-state-rg"
 tfstate_storage_account_name = "sumittfstatestorage"
 
-# Log Analytics — 30-day retention keeps costs low
+# Log Analytics — 14-day retention keeps costs low
 log_analytics_workspace_name = "law-dev-platform"
 log_analytics_sku            = "PerGB2018"
-log_retention_days           = 30
+log_retention_days           = 14
 
 # App Insights — low sampling to reduce ingestion
 application_insights_name        = "appi-dev-platform"
 enable_app_insights              = true
-app_insights_retention_days      = 30
-app_insights_sampling_percentage = 10
+app_insights_retention_days      = 14
+app_insights_sampling_percentage = 5
 
 # Action group
 action_group_name = "ag-dev-platform"
