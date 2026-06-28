@@ -57,14 +57,14 @@ enable_kv_public_block_policy = false
 enable_mfa_alerts             = false
 
 # Keep audit logging (Log Analytics is cheap)
-enable_audit_logging       = false
+enable_audit_logging       = true
 log_analytics_workspace_id = ""
 
 # Security contact
 security_contact_email       = "anandsumit2000@gmail.com"
 security_contact_phone       = ""
 alert_notifications_enabled  = true
-alerts_to_admins_enabled     = false
+alerts_to_admins_enabled     = true
 auto_provision_log_analytics = false
 
 # Budget
