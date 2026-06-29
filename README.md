@@ -74,7 +74,13 @@ This creates the Azure Storage Account used for all Terraform state.
 | `TF_STATE_STORAGE_ACCOUNT` | `sumittfstatestorage` |
 | `TF_STATE_RESOURCE_GROUP` | `terraform-state-rg` |
 
-**3. Replace placeholder values** in `dev-minimal.tfvars`:
+**3. Replace placeholder values** across all `dev-minimal.tfvars`:
+
+```bash
+./configure.sh
+```
+
+This interactive script patches every tfvars file in one pass (location, emails, credentials, passwords, SSH key). Alternatively, edit manually:
 
 - `06-cicd`: `github_token`, `github_webhook_secret`, `github_repository_owner`
 - `07-idp`: `github_token`, `github_client_id`, `github_client_secret`, `db_admin_password`
@@ -111,8 +117,8 @@ cd terraform/04-aks
 | Storage (state + logs) | ~$1 | LRS |
 | Key Vault | ~$0.50 | |
 | ACR Basic | ~$5 | |
-| Log Analytics | ~$2–5 | 30-day retention, low ingestion |
-| App Insights | ~$1 | 10% sampling |
+| Log Analytics | ~$1–3 | 14-day retention, low ingestion |
+| App Insights | ~$0.50 | 5% sampling |
 | AKS (2× B2s nodes) | ~$3/day | Spin up, use, destroy |
 | PostgreSQL B1ms | ~$12/month | Burstable |
 
